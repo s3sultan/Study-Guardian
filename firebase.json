@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": ".",
-    "ignore": ["firebase.json", "README.md", "database.rules.json"],
+    "ignore": ["firebase.json", "README.md", "database.rules.json", ".git/**", ".firebase/**"],
     "headers": [
       {
         "source": "**",
