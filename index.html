@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>Study Guardian Mobile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section id="update-banner" hidden><span>يوجد تحديث جديد للأداة.</span><button id="refresh-app">تحديث الصفحة</button></section>
+    <section class="top-area"><div class="brand"><img src="smart-guardian-logo.svg" alt="Smart Guardian — الحارس الذكي — © sultan alharbi"></div><section class="prayer-widget"><details class="prayer-settings"><summary aria-label="إعدادات مواقيت الصلاة" title="اضغط لإعداد مواقيت الصلاة"><div><strong id="prayer-title">الصلاة القادمة</strong><p id="prayer-countdown">مواقيت الصلاة غير مفعّلة.</p></div></summary><div class="prayer-settings-content"><label>المدينة<input id="prayer-city" placeholder="مثال: Riyadh"></label><label>الدولة<input id="prayer-country" placeholder="مثال: Saudi Arabia"></label><button id="use-location" type="button" class="secondary">استخدام موقعي الحالي</button><label class="check"><input id="prayer-enabled" type="checkbox"> تفعيل تنبيه الصلاة أثناء فتح الصفحة فقط</label><button id="update-prayers" type="button">تحديث المواقيت</button><details class="manual-prayers"><summary>تعديل المواقيت يدويًا</summary><p>عدّل الوقت الذي تريده، ثم احفظ. يمكنك الرجوع للمواقيت التلقائية في أي وقت.</p><div class="manual-prayer-grid"><label>الفجر<input id="manual-fajr" type="time"></label><label>الظهر<input id="manual-dhuhr" type="time"></label><label>العصر<input id="manual-asr" type="time"></label><label>المغرب<input id="manual-maghrib" type="time"></label><label>العشاء<input id="manual-isha" type="time"></label></div><button id="save-manual-prayers" type="button" class="secondary">حفظ التعديل اليدوي</button><button id="reset-manual-prayers" type="button" class="secondary">العودة للمواقيت التلقائية</button></details><p id="prayer-status">اختر مدينتك أو استخدم موقعك ثم فعّل التنبيه عند رغبتك.</p><div id="prayer-times" hidden></div></div></details></section></section>
+    <section class="quote" aria-live="polite"><strong id="quote-text">فَإِنَّ مَعَ الْعُسْرِ يُسْرًا</strong><span id="quote-translation" hidden></span><small id="quote-reference" class="quote-reference" hidden></small></section>
+    <div class="quote-nav" aria-label="التنقل بين العبارات"><button id="previous-quote" type="button" aria-label="العبارة السابقة">→</button><button id="next-quote" type="button" aria-label="العبارة التالية">←</button></div>
+
+    <section class="feature-map" aria-label="خريطة خصائص الحارس الذكي">
+    <details class="panel">
+      <summary><span class="nav-title">متابعة التحضير بالاسم</span></summary>
+      <div class="panel-content">
+      <label>اسمك أو بدائل النطق<input id="listen-names" placeholder="سلطان، Sultan، Soltan"></label>
+      <p class="hint">اكتب البدائل بفواصل، وليس بمسافة: سلطان، Sultan، Soltan. المسافات قبل أو بعد الاسم لا تؤثر.</p>
+      <button id="listen" type="button">🎧 بدء متابعة الاسم</button>
+      <p id="listen-status"></p>
+      <p id="heard">آخر ما سمعه: —</p>
+      <section class="schedule">
+        <strong>مؤقت بدء الاستماع</strong>
+        <div class="time-row"><label>يبدأ<input id="listen-start" type="time"></label><label>ينتهي<input id="listen-end" type="time"></label></div>
+        <label class="check"><input id="listen-daily" type="checkbox"> تكرار الجدول يوميًا</label>
+        <label class="check"><input id="stop-alarm" type="checkbox" checked> تنبيه صوتي عند إيقاف المتابعة</label>
+        <p id="schedule-status">الجدول غير مفعّل.</p>
+      </section>
+      </div>
+    </details>
+
+    <details class="panel screen-monitor-panel">
+      <summary><span class="nav-title">⌖ مراقبة المنطقة المطلوبة</span></summary>
+      <div class="panel-content">
+        <p class="hint">اضغط البدء، ثم اختر <b>تبويب المحاضرة</b> من نافذة Chrome. اسحب فوق المعاينة لتحديد شريط الاستبيان أو المنطقة التي تريد مراقبتها. لا تُرسل أي صورة إلى الإنترنت؛ المقارنة تتم داخل جهازك فقط.</p>
+        <div id="screen-preview-wrap" class="screen-preview-wrap" hidden>
+          <video id="screen-preview" muted playsinline></video>
+          <div id="screen-selection" class="screen-selection" hidden></div>
+          <p class="screen-selection-hint">اسحب لتحديد منطقة المتابعة — أو اتركها كما هي لمراقبة التبويب كاملًا.</p>
+        </div>
+        <label>حساسية التغيّر<input id="screen-sensitivity" type="range" min="6" max="40" value="14"><span id="screen-sensitivity-label">متوازنة</span></label>
+        <button id="start-screen-monitor" type="button">🖥️ بدء مراقبة الاستبيان</button>
+        <button id="stop-screen-monitor" type="button" class="secondary" hidden>إيقاف مراقبة الشاشة</button>
+        <p id="screen-monitor-status">المراقبة متوقفة. تعمل فقط بعد اختيارك لتبويب أو شاشة.</p>
+      </div>
+    </details>
+
+    <details class="panel telegram-panel">
+      <summary><span class="nav-title">ربط Telegram للتنبيه بالجوال</span></summary>
+      <div class="panel-content">
+      <label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label>
+      <label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label>
+      <label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label>
+      <button id="save-telegram" type="button">حفظ الربط</button>
+      <button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button>
+      <label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label>
+      <button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button>
+      <button id="clear-telegram" type="button" class="secondary">مسح الربط</button>
+      <p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p>
+      <details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol><p>اضغط العنوان مرة أخرى لإخفاء الشرح.</p></details>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="nav-title">وضع المجموعة</span></summary>
+      <div class="panel-content">
+      <p id="mode-status" class="mode-status">الحالة الحالية: مستقل</p>
+      <button id="create" class="secondary">إنشاء مجموعة جديدة</button>
+      <label>اسمك المستعار<input id="alias" maxlength="30" placeholder="مثال: Sultan"></label>
+      <label>رمز المجموعة<input id="group-code" dir="ltr" maxlength="40" placeholder="الصق رمز المجموعة"></label>
+      <button id="join">ربط بالمجموعة</button>
+      <button id="copy" class="secondary" hidden>نسخ رمز المجموعة</button>
+      <button id="leave" class="secondary" hidden>الوضع المستقل</button>
+      <p id="group-status"></p>
+      <details class="group-help"><summary>ما تعرف طريقة المجموعة؟ اضغط هنا</summary><ol><li>اكتب اسمًا مستعارًا بسيطًا لك.</li><li>لإنشاء مجموعة: اضغط «إنشاء مجموعة جديدة»؛ سيظهر رمز خاص بها.</li><li>اضغط «نسخ رمز المجموعة» وأرسله لزملائك فقط.</li><li>للانضمام: اكتب اسمك، الصق الرمز، ثم اضغط «ربط بالمجموعة».</li><li>للخروج والعودة لملاحظاتك الخاصة اضغط «الوضع المستقل».</li></ol><p>اضغط العنوان مرة أخرى لإخفاء الشرح.</p></details>
+      </div>
+    </details>
+
+    <details class="panel">
+      <summary><span class="nav-title">ملاحظة سريعة</span></summary>
+      <div class="panel-content">
+      <textarea id="note" rows="4" placeholder="اكتب ملاحظتك هنا"></textarea>
+      <label class="check"><input id="share" type="checkbox"> مشاركة مع المجموعة</label>
+      <button id="save">حفظ الملاحظة</button>
+      <div class="export-actions"><button id="export-notes" type="button" class="secondary">تحميل الملاحظات TXT</button><button id="print-notes" type="button" class="secondary">حفظ كـ PDF</button></div>
+      <section id="notes" aria-live="polite"></section>
+      <p class="hint">يعمل ملف TXT على الجوال والكمبيوتر. خيار PDF يفتح نافذة الطباعة ثم اختر «حفظ كـ PDF».</p>
+      <p id="note-status"></p>
+      </div>
+    </details>
+
+    <details class="panel calculator-panel">
+      <summary><span class="nav-title">حاسبة المعدل</span></summary>
+      <div class="panel-content">
+        <label>نظام المعدل
+          <select id="gpa-scale"><option value="5">من 5</option><option value="4">من 4</option></select>
+        </label>
+        <div id="gpa-courses" class="gpa-courses" aria-live="polite"></div>
+        <button id="add-gpa-course" type="button" class="secondary">+ إضافة مادة</button>
+        <button id="calculate-gpa" type="button">حساب المعدل</button>
+        <p id="gpa-result" class="gpa-result">أضف المواد ثم احسب المعدل.</p>
+        <p class="hint">يُحسب المعدل بحسب الساعات. البيانات محفوظة على هذا الجهاز فقط، ويمكنك حذف أي مادة.</p>
+      </div>
+    </details>
+
+    <details class="panel pdf-study-panel">
+      <summary><span class="nav-title">تظليل نقاط المحاضرة في PDF</span></summary>
+      <div class="panel-content">
+        <p class="hint">ارفع PDF المحاضرة ثم اضغط «تجهيز». عند سماع عبارة مهمة، يبحث الحارس عنها داخل الملف ويضع تظليلًا أصفر على أقرب جملة مطابقة. تتم المعالجة داخل جهازك.</p>
+        <label>ملف المحاضرة PDF<input id="study-pdf" type="file" accept="application/pdf,.pdf"></label>
+        <label class="check"><input id="pdf-auto-highlight" type="checkbox" checked> تظليل العبارات المهمة تلقائيًا عند سماعها</label>
+        <button id="prepare-study-pdf" type="button">تجهيز PDF للتظليل</button>
+        <button id="cancel-study-pdf" type="button" class="secondary" hidden>إلغاء ومسح جلسة PDF</button>
+        <div id="pdf-progress" class="pdf-progress" hidden><span id="pdf-progress-bar"></span></div>
+        <p id="pdf-status">ستُنزّل ملفات التعرف العربي والإنجليزي عند أول تجهيز فقط (تقريبًا 20–30 MB).</p>
+        <p id="pdf-match" class="pdf-match" hidden></p>
+        <button id="pdf-listen" type="button" class="secondary">🎧 بدء الاستماع لعبارات المحاضرة</button>
+        <label>تظليل جملة يدويًا<textarea id="pdf-manual-sentence" rows="2" placeholder="ألصق أو اكتب الجملة المهمة هنا"></textarea></label>
+        <button id="highlight-pdf-sentence" type="button" class="secondary">تحديد الجملة في PDF</button>
+        <button id="download-highlighted-pdf" type="button" hidden>تحميل PDF المظلل</button>
+        <button id="send-highlighted-pdf" type="button" class="secondary" hidden>إرسال PDF المظلل إلى أجهزتي</button>
+        <details class="pdf-sync">
+          <summary>مزامنة هذا الملف بين أجهزتي</summary>
+          <p>ارفعه مرة واحدة، ثم استخدم رمز المزامنة نفسه في أي جهاز لديه ربط Telegram الخاص بك.</p>
+          <label>رمز المزامنة<input id="pdf-sync-code" dir="ltr" autocomplete="off" placeholder="سيظهر تلقائيًا عند إنشاء مزامنة"></label>
+          <button id="create-pdf-sync" type="button" class="secondary">رفع ومزامنة هذا الملف</button>
+          <button id="copy-pdf-sync" type="button" class="secondary" hidden>نسخ رمز المزامنة</button>
+          <button id="open-pdf-sync" type="button" class="secondary">فتح ملف مرتبط بهذا الرمز</button>
+          <button id="leave-pdf-sync" type="button" class="secondary" hidden>فصل هذا الجهاز</button>
+          <p id="pdf-sync-status">المزامنة غير مفعّلة.</p>
+        </details>
+        <p class="hint">زر الإلغاء لا يحذف ملفك الأصلي؛ يمسح فقط نسخة الجلسة والنتائج من الذاكرة.</p>
+      </div>
+    </details>
+
+    <details class="panel wide-panel">
+      <summary><span class="nav-title">اقتراح أو فكرة</span></summary>
+      <div class="panel-content">
+      <textarea id="idea" rows="4" placeholder="اكتب اقتراحك لتطوير Study Guardian"></textarea>
+      <button id="send-idea" type="button">إرسال الاقتراح</button>
+      <section id="idea-reply" class="idea-reply" hidden aria-live="assertive"><strong>ردود إدارة الحارس الذكي</strong><div id="idea-reply-list"></div><a id="more-responses" href="responses.html" hidden>وأكثر من الردود ←</a></section>
+      <p id="idea-status"></p>
+      <p class="hint">يصل الاقتراح إلى لوحة صاحب الأداة فقط. لا تكتب معلومات شخصية حساسة.</p>
+      </div>
+    </details>
+
+    <details class="panel rating-panel">
+      <summary><span class="nav-title">تقييم الأداة</span></summary>
+      <div class="panel-content">
+        <p id="rating-prompt" class="rating-prompt">ما أكثر ميزة أعجبتك في الحارس الذكي؟</p>
+        <div id="rating-stars" class="rating-stars" aria-label="اختر تقييمك من خمس نجوم"><button type="button" data-score="1" aria-label="نجمة واحدة">★</button><button type="button" data-score="2" aria-label="نجمتان">★</button><button type="button" data-score="3" aria-label="ثلاث نجوم">★</button><button type="button" data-score="4" aria-label="أربع نجوم">★</button><button type="button" data-score="5" aria-label="خمس نجوم">★</button></div>
+        <textarea id="rating-comment" rows="3" placeholder="اكتب رأيك أو الميزة التي أفادتك"></textarea>
+        <button id="send-rating" type="button">إرسال التقييم</button>
+        <p id="rating-status"></p>
+      </div>
+    </details>
+
+    <details id="admin-panel" class="admin-panel" hidden aria-live="polite">
+      <summary>لوحة الإدارة</summary>
+      <div class="admin-panel-content"><div class="admin-panel-head"><div><strong>إدارة الاقتراحات والتقييمات</strong><p id="admin-status">تسجيل الدخول مطلوب لعرض الاقتراحات.</p></div><button id="admin-logout" type="button" class="secondary" hidden>خروج الإدارة</button></div>
+      <section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div>
+    </details>
+    </section>
+
+    <footer class="footer-info"><p class="copyright">© sultan alharbi — جميع الحقوق محفوظة</p><div class="admin-login-wrap"><button id="admin-login" type="button" class="admin-login">دخول الإدارة</button><span id="admin-login-status" aria-live="polite"></span></div><p id="designer-prayer" class="designer-prayer" aria-live="polite">اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.</p></footer>
+  </main>
+  <div id="name-toast" role="status" aria-live="assertive" hidden></div>
+  <div id="screen-toast" role="status" aria-live="assertive" hidden></div>
+  <div id="prayer-toast" role="status" aria-live="assertive" hidden></div>
+  <script src="core.js?v=119"></script>
+  <script type="module" src="mobile.js?v=119"></script>
+  <script type="module" src="pdf-feature.js?v=10"></script>
+</body>
+</html>

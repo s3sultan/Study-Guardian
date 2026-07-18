@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 150" role="img" aria-labelledby="title desc">
+  <title id="title">Smart Guardian - الحارس الذكي</title>
+  <desc id="desc">شعار درع ذكي لحارس الدراسة</desc>
+  <rect x="5" y="5" width="610" height="140" rx="28" fill="#1d326a"/>
+  <path d="M75 38 112 53v28c0 22-15 34-37 44-22-10-37-22-37-44V53z" fill="#ffffff"/>
+  <path d="M51 79c1-15 10-24 24-24s23 9 24 24" fill="#2f66ea"/>
+  <path d="M75 53v13" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M48 79h54v8H48z" fill="#2f66ea"/>
+  <path d="M57 87v5c10 7 26 7 36 0v-5" fill="none" stroke="#2f66ea" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="96" cy="92" r="3" fill="#f59e0b"/>
+  <text x="165" y="67" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="43" font-weight="700">Smart Guardian</text>
+  <text x="167" y="103" fill="#dbeafe" font-family="Tahoma, Arial, sans-serif" font-size="29" font-weight="600">الحارس الذكي</text>
+  <text x="167" y="128" fill="#bfdbfe" font-family="Segoe UI, Arial, sans-serif" font-size="13">© sultan alharbi</text>
+</svg>

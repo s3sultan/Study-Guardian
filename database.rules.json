@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "groups": {
+      "$groupId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "pdfSync": {
+      "$syncCode": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "feedback": {
+      ".read": "auth != null && auth.token.email == 's2shug@gmail.com'",
+      "$feedbackId": {
+        ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || data.child('ownerUid').val() == auth.uid)",
+        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('text').isString() && newData.child('text').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
+      }
+    },
+    "ratings": {
+      ".read": "auth != null && auth.token.email == 's2shug@gmail.com'",
+      "$ratingId": {
+        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('score').isNumber() && newData.child('score').val() >= 1 && newData.child('score').val() <= 5 && newData.child('comment').isString() && newData.child('comment').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
+      }
+    }
+  }
+}

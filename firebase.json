@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "README.md", "database.rules.json"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [{"key": "Cache-Control", "value": "no-store, max-age=0, must-revalidate"}]
+      }
+    ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  }
+}
