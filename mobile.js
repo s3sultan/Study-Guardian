@@ -43,6 +43,10 @@ function protectTyping(id, target) { const input = $(id); if (!input) return; in
 function protectAlias() { const input = $("alias"); input.addEventListener("input", () => { if (hasAnimalAlias(input.value)) { input.value = ""; status("group-status", "لا يُسمح باستخدام أسماء الحيوانات كاسم مستعار."); } }); }
 function limitAdminItems() { const cards = [...$("admin-feedback").querySelectorAll(".feedback-card")]; cards.forEach((card, index) => { card.hidden = !adminExpanded && index >= 3; }); $("admin-more").hidden = cards.length <= 3; $("admin-more").textContent = adminExpanded ? "إخفاء الرسائل القديمة" : "أكثر"; }
 function adminStatus(text) { status("admin-status", text); }
+function unreadAdminFeedback() { try { const saved = JSON.parse(localStorage.smartGuardianUnreadFeedback || "[]"); return Array.isArray(saved) ? saved : []; } catch (_) { return []; } }
+function updateAdminMessageBadge() { const badge = $("admin-message-badge"), count = unreadAdminFeedback().length; badge.hidden = !isAdmin(auth.currentUser) || count === 0; $("admin-message-count").textContent = count > 99 ? "99+" : String(count); }
+function addUnreadAdminFeedback(id) { const unread = unreadAdminFeedback(); if (!unread.includes(id)) localStorage.smartGuardianUnreadFeedback = JSON.stringify([id, ...unread].slice(0, 99)); updateAdminMessageBadge(); }
+function readAdminMessages() { localStorage.removeItem("smartGuardianUnreadFeedback"); updateAdminMessageBadge(); $("admin-panel").open = true; $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" }); }
 function showAdminFeedback(id, data, announce = false) {
   if (moderate(`${data.author || ""} ${data.text || ""} ${data.reply || ""}`)) { remove(ref(db, `feedback/${id}`)).catch(() => {}); return; }
   const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove();
@@ -57,14 +61,14 @@ function showAdminFeedback(id, data, announce = false) {
   const deleteReply = document.createElement("button"); deleteReply.type = "button"; deleteReply.className = "delete-item"; deleteReply.textContent = "حذف الرد"; deleteReply.hidden = !data.reply; deleteReply.onclick = async () => { if (!confirm("حذف رد الإدارة فقط؟")) return; try { await update(ref(db, `feedback/${id}`), { reply: null, repliedAt: null }); response.value = ""; deleteReply.hidden = true; } catch (_) { adminStatus("تعذر حذف الرد."); } };
   const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف"; del.onclick = async () => { if (!confirm("حذف هذا الاقتراح نهائيًا؟")) return; await remove(ref(db, `feedback/${id}`)); card.remove(); limitAdminItems(); };
   card.append(title, body, time, response, send, deleteReply, del); $("admin-feedback").prepend(card); limitAdminItems();
-  if (announce) { adminStatus("وصل اقتراح جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "اقتراح جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); }
+  if (announce) { addUnreadAdminFeedback(id); adminStatus("وصل اقتراح جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "اقتراح جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); }
 }
 function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "طالب"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
 async function subscribeAdminFeedback() {
   stopAdminFeedback?.(); adminExpanded = false; $("admin-feedback").replaceChildren();
-  const source = query(ref(db, "feedback"), limitToLast(50)), existing = new Set();
+  const source = query(ref(db, "feedback"), limitToLast(50)), existing = new Set(), startedAt = Date.now();
   try { const snapshot = await get(source); snapshot.forEach(item => existing.add(item.key)); } catch (_) { adminStatus("تعذر تحميل الاقتراحات."); }
-  stopAdminFeedback = onChildAdded(source, item => { const wasAlreadyThere = existing.delete(item.key); showAdminFeedback(item.key, item.val(), !wasAlreadyThere); });
+  stopAdminFeedback = onChildAdded(source, item => { const wasAlreadyThere = existing.delete(item.key), data = item.val(); showAdminFeedback(item.key, data, !wasAlreadyThere && Number(data.createdAt || 0) > startedAt); });
 }
 async function subscribeAdminRatings() { stopAdminRatings?.(); const source = query(ref(db, "ratings"), limitToLast(50)), existing = new Set(); try { const snapshot = await get(source); snapshot.forEach(item => existing.add(item.key)); } catch (_) {} stopAdminRatings = onChildAdded(source, item => { const wasAlreadyThere = existing.delete(item.key); showAdminRating(item.key, item.val(), !wasAlreadyThere); }); }
 const feedbackIds = () => { try { const saved = JSON.parse(localStorage.mobileFeedbackIds || "[]"), legacy = localStorage.mobileFeedbackId; return [...new Set([...(Array.isArray(saved) ? saved : []), ...(legacy ? [legacy] : [])])]; } catch (_) { return localStorage.mobileFeedbackId ? [localStorage.mobileFeedbackId] : []; } };
@@ -88,13 +92,14 @@ async function adminLogin() {
 $("admin-login").onclick = adminLogin;
 $("admin-logout").onclick = () => signOut(auth);
 $("admin-more").onclick = () => { adminExpanded = !adminExpanded; limitAdminItems(); };
+$("admin-message-badge").onclick = readAdminMessages;
 getRedirectResult(auth).then(() => { if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
 onAuthStateChanged(auth, user => {
   const allowed = isAdmin(user);
   $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
   $("admin-login").hidden = allowed;
-  if (allowed) { adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); }
-  else { stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; subscribeOwnFeedback(user); if (user?.email) { adminStatus("هذا الحساب ليس حساب الإدارة المعتمد."); signOut(auth); } }
+  if (allowed) { updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); }
+  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; subscribeOwnFeedback(user); if (user?.email) { adminStatus("هذا الحساب ليس حساب الإدارة المعتمد."); signOut(auth); } }
 });
 const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
 function rotateQuote(index = 0) { const quote = quotes[index % quotes.length]; $("quote-text").textContent = quote[0]; $("quote-translation").textContent = quote[1]; setTimeout(() => rotateQuote(index + 1), 18000); }
