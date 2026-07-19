@@ -269,16 +269,16 @@ function exportNotes() {
 $("export-notes").onclick = exportNotes;
 $("print-notes").onclick = () => { const saved = JSON.parse(localStorage.mobileNotes || "[]"), notes = saved.length ? saved : [...document.querySelectorAll("#notes .note")].map(item => ({ text: item.innerText })); if (!notes.length) return status("note-status", "لا توجد ملاحظات لحفظها."); const page = window.open("", "_blank"); if (!page) return status("note-status", "اسمح بفتح نافذة الطباعة لحفظ PDF."); const rows = notes.map(item => `<article><p>${String(item.text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p><small>${item.createdAt ? new Date(item.createdAt).toLocaleString("ar-SA") : ""}</small></article>`).join(""); page.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>ملاحظات Smart Guardian</title><style>body{font-family:Tahoma,Arial;padding:28px;color:#142449}h1{color:#1d326a}article{padding:12px;border-bottom:1px solid #ddd}small{color:#65718b}</style></head><body><h1>ملاحظات Smart Guardian</h1>${rows}</body></html>`); page.document.close(); page.onload = () => page.print(); };
 $("send-idea").onclick = async () => {
-  const text = $("idea").value.trim();
+  const text = $("idea").value.trim(), typedAuthor = $("idea-author").value.trim(), author = typedAuthor || nickname();
   if (!text) return status("idea-status", "اكتب الاقتراح أولًا.");
-  if (!allowedText(text, "idea-status")) return;
+  if (!allowedText(`${author} ${text}`, "idea-status")) return;
   try {
     if (!auth.currentUser) await signInAnonymously(auth);
     const item = push(ref(db, "feedback"));
-    await set(item, { text, author: nickname(), createdAt: Date.now(), ownerUid: auth.currentUser.uid });
+    await set(item, { text, author, createdAt: Date.now(), ownerUid: auth.currentUser.uid });
     rememberFeedback(item.key); $("idea-reply").hidden = true;
     subscribeOwnFeedback(auth.currentUser);
-    $("idea").value = "";
+    $("idea").value = ""; $("idea-author").value = "";
     status("idea-status", "شكرًا، تم إرسال اقتراحك لصاحب الأداة.");
   } catch (error) { status("idea-status", `تعذر إرسال الاقتراح: ${error.code || "خطأ اتصال"}`); }
 };
@@ -287,7 +287,7 @@ function rotateRatingPrompt(index = 0) { $("rating-prompt").textContent = rating
 function paintStars() { [...$("rating-stars").children].forEach(button => button.classList.toggle("selected", Number(button.dataset.score) <= selectedRating)); }
 $("rating-stars").onclick = event => { const score = Number(event.target.dataset.score); if (!score) return; selectedRating = score; paintStars(); };
 $("send-rating").onclick = async () => { const comment = $("rating-comment").value.trim(), typedAuthor = $("rating-author").value.trim(), author = typedAuthor || nickname(); if (!selectedRating) return status("rating-status", "اختر عدد النجوم أولًا."); if (!allowedText(`${author} ${comment}`, "rating-status")) return; try { if (!auth.currentUser) await signInAnonymously(auth); await set(push(ref(db, "ratings")), { score: selectedRating, comment, author, ownerUid: auth.currentUser.uid, createdAt: Date.now() }); $("rating-comment").value = ""; $("rating-author").value = ""; selectedRating = 0; paintStars(); status("rating-status", "شكرًا لتقييمك ودعمك للأداة."); } catch (error) { status("rating-status", "تعذر إرسال التقييم. حاول مرة أخرى."); } };
-[["alias", "group-status"], ["listen-names", "listen-status"], ["note", "note-status"], ["idea", "idea-status"], ["rating-author", "rating-status"], ["rating-comment", "rating-status"]].forEach(([id, target]) => protectTyping(id, target)); protectAlias();
+[["alias", "group-status"], ["listen-names", "listen-status"], ["note", "note-status"], ["idea-author", "idea-status"], ["idea", "idea-status"], ["rating-author", "rating-status"], ["rating-comment", "rating-status"]].forEach(([id, target]) => protectTyping(id, target)); protectAlias();
 $("alias").value = localStorage.mobileAlias || "";
 $("group-code").value = localStorage.mobileGroup || "";
 if (!window.studyGuardianCoreReady) {
