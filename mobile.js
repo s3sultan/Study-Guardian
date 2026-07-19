@@ -27,6 +27,7 @@ const nickname = () => { const value = $("alias").value.trim(); return value && 
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
+function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
 const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
 const animalAliasTerms = ["كلب", "قط", "قطة", "حصان", "حمار", "بغل", "خنزير", "بقرة", "ثور", "ماعز", "خروف", "كبش", "قرد", "غوريلا", "شمبانزي", "فيل", "زرافة", "ذئب", "ثعلب", "ضبع", "ارنب", "تمساح", "ثعبان", "عقرب", "عنكبوت", "سلحفاة", "سحلية", "قرش", "حوت", "دلفين", "بطريق", "بومة", "ديك", "دجاجة", "بطة", "سمكة", "dog", "cat", "horse", "donkey", "mule", "pig", "cow", "bull", "goat", "sheep", "monkey", "ape", "gorilla", "chimpanzee", "elephant", "giraffe", "wolf", "fox", "hyena", "rabbit", "crocodile", "snake", "scorpion", "spider", "turtle", "lizard", "shark", "whale", "dolphin", "penguin", "owl", "rooster", "chicken", "duck", "fish", "lion", "tiger", "leopard"];
@@ -116,7 +117,7 @@ onAuthStateChanged(auth, async user => {
   $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
   $("admin-login").hidden = allowed;
   $("admin-access-panel").hidden = !owner;
-  if (allowed) { updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
+  if (allowed) { notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
   else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage("تم إرسال طلب دخولك للمشرف الرئيسي. لا تملك صلاحية الإدارة حتى يفعّلك."); }
 });
 const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
@@ -291,7 +292,7 @@ const hideUpdateBanner = () => { updateBanner.hidden = true; updateBanner.style.
 const showUpdateBanner = () => { updateBanner.hidden = false; updateBanner.style.display = "flex"; };
 hideUpdateBanner();
 $("refresh-app").onclick = () => { localStorage.mobileAppVersion = latestVersion || localStorage.mobileAppVersion || "local"; hideUpdateBanner(); location.reload(); };
-if (location.protocol !== "file:") fetch("./version.json?time=" + Date.now(), { cache: "no-store" }).then(response => response.json()).then(data => { latestVersion = data.version; const seen = localStorage.mobileAppVersion; if (seen && seen !== data.version) { showUpdateBanner(); if (isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== data.version) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${data.version}.`); localStorage.smartGuardianUpdateTelegram = data.version; } } if (!seen) localStorage.mobileAppVersion = data.version; }).catch(hideUpdateBanner);
+if (location.protocol !== "file:") fetch("./version.json?time=" + Date.now(), { cache: "no-store" }).then(response => response.json()).then(data => { latestVersion = data.version; const seen = localStorage.mobileAppVersion; if (seen && seen !== data.version) { showUpdateBanner(); notifyOwnerAboutUpdate(); } if (!seen) localStorage.mobileAppVersion = data.version; }).catch(hideUpdateBanner);
 JSON.parse(localStorage.mobileNotes || "[]").reverse().forEach(render);
 if (!window.studyGuardianCoreReady) rotateQuote();
 rotateRatingPrompt();
