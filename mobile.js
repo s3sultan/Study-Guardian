@@ -23,7 +23,7 @@ let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Ma
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
-const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) ? value : "طالب"; };
+const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) && !moderate(value) ? value : "طالب"; };
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
@@ -287,7 +287,7 @@ function rotateRatingPrompt(index = 0) { $("rating-prompt").textContent = rating
 function paintStars() { [...$("rating-stars").children].forEach(button => button.classList.toggle("selected", Number(button.dataset.score) <= selectedRating)); }
 $("rating-stars").onclick = event => { const score = Number(event.target.dataset.score); if (!score) return; selectedRating = score; paintStars(); };
 $("send-rating").onclick = async () => { const comment = $("rating-comment").value.trim(), typedAuthor = $("rating-author").value.trim(), author = typedAuthor || nickname(); if (!selectedRating) return status("rating-status", "اختر عدد النجوم أولًا."); if (!allowedText(`${author} ${comment}`, "rating-status")) return; try { if (!auth.currentUser) await signInAnonymously(auth); await set(push(ref(db, "ratings")), { score: selectedRating, comment, author, ownerUid: auth.currentUser.uid, createdAt: Date.now() }); $("rating-comment").value = ""; $("rating-author").value = ""; selectedRating = 0; paintStars(); status("rating-status", "شكرًا لتقييمك ودعمك للأداة."); } catch (error) { status("rating-status", "تعذر إرسال التقييم. حاول مرة أخرى."); } };
-[["listen-names", "listen-status"], ["note", "note-status"], ["idea", "idea-status"], ["rating-author", "rating-status"], ["rating-comment", "rating-status"]].forEach(([id, target]) => protectTyping(id, target)); protectAlias();
+[["alias", "group-status"], ["listen-names", "listen-status"], ["note", "note-status"], ["idea", "idea-status"], ["rating-author", "rating-status"], ["rating-comment", "rating-status"]].forEach(([id, target]) => protectTyping(id, target)); protectAlias();
 $("alias").value = localStorage.mobileAlias || "";
 $("group-code").value = localStorage.mobileGroup || "";
 if (!window.studyGuardianCoreReady) {
