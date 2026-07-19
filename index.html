@@ -27,6 +27,7 @@
         <strong>مؤقت بدء الاستماع</strong>
         <div class="time-row"><label>يبدأ<input id="listen-start" type="time"></label><label>ينتهي<input id="listen-end" type="time"></label></div>
         <label class="check"><input id="listen-daily" type="checkbox"> تكرار الجدول يوميًا</label>
+        <label class="check"><input id="alerts-follow-schedule" type="checkbox"> تقييد تنبيهات الاسم والمنطقة بهذا الوقت</label>
         <label class="check"><input id="stop-alarm" type="checkbox" checked> تنبيه صوتي عند إيقاف المتابعة</label>
         <p id="schedule-status">الجدول غير مفعّل.</p>
       </section>
@@ -46,22 +47,6 @@
         <button id="start-screen-monitor" type="button">🖥️ بدء مراقبة الاستبيان</button>
         <button id="stop-screen-monitor" type="button" class="secondary" hidden>إيقاف مراقبة الشاشة</button>
         <p id="screen-monitor-status">المراقبة متوقفة. تعمل فقط بعد اختيارك لتبويب أو شاشة.</p>
-      </div>
-    </details>
-
-    <details class="panel telegram-panel">
-      <summary><span class="nav-title">ربط Telegram للتنبيه بالجوال</span></summary>
-      <div class="panel-content">
-      <label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label>
-      <label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label>
-      <label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label>
-      <button id="save-telegram" type="button">حفظ الربط</button>
-      <button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button>
-      <label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label>
-      <button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button>
-      <button id="clear-telegram" type="button" class="secondary">مسح الربط</button>
-      <p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p>
-      <details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol><p>اضغط العنوان مرة أخرى لإخفاء الشرح.</p></details>
       </div>
     </details>
 
@@ -162,6 +147,8 @@
     <details id="admin-panel" class="admin-panel" hidden aria-live="polite">
       <summary>لوحة الإدارة</summary>
       <div class="admin-panel-content"><div class="admin-panel-head"><div><strong>إدارة الاقتراحات والتقييمات</strong><p id="admin-status">تسجيل الدخول مطلوب لعرض الاقتراحات.</p></div><button id="admin-logout" type="button" class="secondary" hidden>خروج الإدارة</button></div>
+      <details class="admin-mobile-link"><summary>ربط الجوال والتنبيهات</summary><div class="panel-content"><label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label><label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label><label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label><button id="save-telegram" type="button">حفظ الربط</button><button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button><label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label><button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button><button id="clear-telegram" type="button" class="secondary">مسح الربط</button><p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p><details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol></details></div></details>
+      <details id="admin-access-panel" class="admin-access-panel" hidden><summary>إدارة المشرفين</summary><div class="admin-access-content"><p>أضف بريد مشرف موثوق. بعد أن يسجل بحسابه Google مرة واحدة، يظهر طلبه هنا لتمنحه صلاحية دائمة أو مؤقتة.</p><label>بريد المشرف<input id="supervisor-email" type="email" autocomplete="off" placeholder="name@example.com"></label><label>مدة الصلاحية<select id="supervisor-duration"><option value="0">دائمة</option><option value="86400000">24 ساعة</option><option value="604800000">أسبوع</option><option value="2592000000">30 يومًا</option></select></label><div class="admin-access-actions"><button id="save-supervisor-email" type="button">حفظ البريد</button><button id="remove-supervisor-email" type="button" class="secondary">إزالة البريد</button></div><p id="supervisor-status"></p><section><strong>طلبات انتظار التفعيل</strong><div id="admin-requests" class="admin-access-list"><p class="hint">لا توجد طلبات حاليًا.</p></div></section><section><strong>المشرفون المفعّلون</strong><div id="admin-members" class="admin-access-list"><p class="hint">لا يوجد مشرفون إضافيون.</p></div></section></div></details>
       <section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div>
     </details>
     </section>
@@ -172,8 +159,8 @@
   <div id="screen-toast" role="status" aria-live="assertive" hidden></div>
   <div id="prayer-toast" role="status" aria-live="assertive" hidden></div>
   <button id="admin-message-badge" type="button" class="admin-message-badge" hidden aria-label="رسائل الاقتراحات الجديدة" title="اقتراحات جديدة"><span aria-hidden="true">💬</span><b id="admin-message-count">0</b></button>
-  <script src="core.js?v=120"></script>
-  <script type="module" src="mobile.js?v=120"></script>
+  <script src="core.js?v=121"></script>
+  <script type="module" src="mobile.js?v=121"></script>
   <script type="module" src="pdf-feature.js?v=10"></script>
 </body>
 </html>

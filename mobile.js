@@ -17,12 +17,16 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const ADMIN_EMAIL = "s2shug@gmail.com";
 const googleProvider = new GoogleAuthProvider();
-let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false;
+let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
+let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null;
+let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map();
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
 const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) ? value : "طالب"; };
-const isAdmin = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
+const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
+const isAdmin = user => isOwner(user) || grantedAdmin;
+const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
 const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
 const animalAliasTerms = ["كلب", "قط", "قطة", "حصان", "حمار", "بغل", "خنزير", "بقرة", "ثور", "ماعز", "خروف", "كبش", "قرد", "غوريلا", "شمبانزي", "فيل", "زرافة", "ذئب", "ثعلب", "ضبع", "ارنب", "تمساح", "ثعبان", "عقرب", "عنكبوت", "سلحفاة", "سحلية", "قرش", "حوت", "دلفين", "بطريق", "بومة", "ديك", "دجاجة", "بطة", "سمكة", "dog", "cat", "horse", "donkey", "mule", "pig", "cow", "bull", "goat", "sheep", "monkey", "ape", "gorilla", "chimpanzee", "elephant", "giraffe", "wolf", "fox", "hyena", "rabbit", "crocodile", "snake", "scorpion", "spider", "turtle", "lizard", "shark", "whale", "dolphin", "penguin", "owl", "rooster", "chicken", "duck", "fish", "lion", "tiger", "leopard"];
@@ -79,6 +83,15 @@ function subscribeOwnFeedback(user) {
   if (!user || isAdmin(user)) return;
   feedbackIds().forEach(id => { const unsubscribe = onValue(ref(db, `feedback/${id}`), item => { if (!item.exists()) return; const data = item.val(), previous = knownReplies.get(id); knownReplies.set(id, data); renderOwnReplies(); if (data.reply && previous?.reply !== data.reply) { status("idea-status", "تم استلام رد الإدارة."); const toast = document.createElement("div"); toast.className = "reply-toast"; toast.textContent = "وصل رد جديد من الإدارة"; document.body.append(toast); setTimeout(() => toast.remove(), 7000); } }); stopOwnFeedback.push(unsubscribe); });
 }
+function accessExpiry(item) { const expiry = Number(item?.expiresAt || 0); return expiry ? `مؤقتة حتى ${new Date(expiry).toLocaleString("ar-SA")}` : "دائمة"; }
+function accessRow(email, note, label, action) { const row = document.createElement("article"), info = document.createElement("div"), title = document.createElement("strong"), small = document.createElement("small"), button = document.createElement("button"); row.className = "admin-access-row"; title.textContent = email || "حساب غير معروف"; small.textContent = note; info.append(title, small); button.type = "button"; button.textContent = label; button.onclick = action; row.append(info, button); return row; }
+function renderAdminAccess() { const requests = $("admin-requests"), members = $("admin-members"); if (!requests || !members) return; requests.replaceChildren(); members.replaceChildren(); const pending = [...adminRequests.entries()].sort((a, b) => Number(b[1].requestedAt || 0) - Number(a[1].requestedAt || 0)); if (!pending.length) requests.innerHTML = '<p class="hint">لا توجد طلبات حاليًا.</p>'; pending.forEach(([uid, request]) => { const policy = adminAllowlist.get(emailKey(request.email)); const text = policy ? `البريد محفوظ — الصلاحية عند التفعيل: ${Number(policy.duration || 0) ? "مؤقتة" : "دائمة"}.` : "غير موجود في قائمة المشرفين الموثوقين."; requests.append(accessRow(request.email, text, policy ? "تفعيل" : "تجاهل", async () => { if (!policy) return remove(ref(db, `adminRequests/${uid}`)); const duration = Number(policy.duration || 0), now = Date.now(); await set(ref(db, `admins/${uid}`), { email: request.email, displayName: request.displayName || "", active: true, grantedAt: now, expiresAt: duration ? now + duration : 0 }); await remove(ref(db, `adminRequests/${uid}`)); status("supervisor-status", "تم تفعيل المشرف بنجاح."); })); }); const active = [...adminMembers.entries()].filter(([, item]) => item?.active && (!item.expiresAt || Number(item.expiresAt) > Date.now())); if (!active.length) members.innerHTML = '<p class="hint">لا يوجد مشرفون إضافيون.</p>'; active.forEach(([uid, member]) => members.append(accessRow(member.email, accessExpiry(member), "إلغاء الصلاحية", async () => { if (!confirm(`إلغاء صلاحية ${member.email}؟`)) return; await remove(ref(db, `admins/${uid}`)); status("supervisor-status", "تم إلغاء صلاحية المشرف."); })));
+}
+function stopAdminAccess() { stopAdminAllowlist?.(); stopAdminRequests?.(); stopAdminMembers?.(); stopAdminAllowlist = stopAdminRequests = stopAdminMembers = null; adminAllowlist = new Map(); adminRequests = new Map(); adminMembers = new Map(); }
+function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValue(ref(db, "adminAllowlist"), snapshot => { adminAllowlist = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminRequests = onValue(ref(db, "adminRequests"), snapshot => { adminRequests = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminMembers = onValue(ref(db, "admins"), snapshot => { adminMembers = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); }
+async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
+$("save-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return status("supervisor-status", "اكتب بريدًا صحيحًا للمشرف."); try { await set(ref(db, `adminAllowlist/${emailKey(email)}`), { email, duration: Number($("supervisor-duration").value || 0), savedAt: Date.now() }); status("supervisor-status", "تم حفظ البريد. يطلب المشرف الدخول بحسابه Google مرة واحدة ثم فعّله من الطلبات."); } catch (_) { status("supervisor-status", "تعذر حفظ بريد المشرف."); } };
+$("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
 function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
 async function adminLogin() {
   if (location.protocol === "file:") return adminLoginMessage("دخول الإدارة يعمل من الرابط المنشور فقط، وليس من الملف المحلي.");
@@ -94,12 +107,17 @@ $("admin-logout").onclick = () => signOut(auth);
 $("admin-more").onclick = () => { adminExpanded = !adminExpanded; limitAdminItems(); };
 $("admin-message-badge").onclick = readAdminMessages;
 getRedirectResult(auth).then(() => { if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
-onAuthStateChanged(auth, user => {
-  const allowed = isAdmin(user);
+onAuthStateChanged(auth, async user => {
+  grantedAdmin = false;
+  if (user && !isOwner(user)) {
+    try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; }
+  }
+  const allowed = isAdmin(user), owner = isOwner(user);
   $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
   $("admin-login").hidden = allowed;
-  if (allowed) { updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); }
-  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; subscribeOwnFeedback(user); if (user?.email) { adminStatus("هذا الحساب ليس حساب الإدارة المعتمد."); signOut(auth); } }
+  $("admin-access-panel").hidden = !owner;
+  if (allowed) { updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
+  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage("تم إرسال طلب دخولك للمشرف الرئيسي. لا تملك صلاحية الإدارة حتى يفعّلك."); }
 });
 const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
 function rotateQuote(index = 0) { const quote = quotes[index % quotes.length]; $("quote-text").textContent = quote[0]; $("quote-translation").textContent = quote[1]; setTimeout(() => rotateQuote(index + 1), 18000); }
@@ -273,7 +291,7 @@ const hideUpdateBanner = () => { updateBanner.hidden = true; updateBanner.style.
 const showUpdateBanner = () => { updateBanner.hidden = false; updateBanner.style.display = "flex"; };
 hideUpdateBanner();
 $("refresh-app").onclick = () => { localStorage.mobileAppVersion = latestVersion || localStorage.mobileAppVersion || "local"; hideUpdateBanner(); location.reload(); };
-if (location.protocol !== "file:") fetch("./version.json?time=" + Date.now(), { cache: "no-store" }).then(response => response.json()).then(data => { latestVersion = data.version; const seen = localStorage.mobileAppVersion; if (seen && seen !== data.version) showUpdateBanner(); if (!seen) localStorage.mobileAppVersion = data.version; }).catch(hideUpdateBanner);
+if (location.protocol !== "file:") fetch("./version.json?time=" + Date.now(), { cache: "no-store" }).then(response => response.json()).then(data => { latestVersion = data.version; const seen = localStorage.mobileAppVersion; if (seen && seen !== data.version) { showUpdateBanner(); if (isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== data.version) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${data.version}.`); localStorage.smartGuardianUpdateTelegram = data.version; } } if (!seen) localStorage.mobileAppVersion = data.version; }).catch(hideUpdateBanner);
 JSON.parse(localStorage.mobileNotes || "[]").reverse().forEach(render);
 if (!window.studyGuardianCoreReady) rotateQuote();
 rotateRatingPrompt();
