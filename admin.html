@@ -10,7 +10,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 const auth = getAuth(initializeApp({ apiKey:"AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek", authDomain:"study-guardian-groups.firebaseapp.com", projectId:"study-guardian-groups", appId:"1:499313905189:web:589c4dfade509c853779cc" })), provider = new GoogleAuthProvider(), status = document.getElementById("status"), login = document.getElementById("login");
-const finish = user => { if (user) location.replace("./?admin=1"); };
+const isGoogleAdminSession = user => Boolean(user && !user.isAnonymous && user.providerData?.some(provider => provider.providerId === "google.com"));
+const finish = user => { if (isGoogleAdminSession(user)) location.replace("./?admin=1"); else { status.textContent = "سجّل بحساب Google الخاص بالإدارة."; login.hidden = false; } };
 onAuthStateChanged(auth, finish); getRedirectResult(auth).then(result => finish(result?.user)).catch(() => status.textContent = "تعذر إكمال تسجيل الدخول. حاول مرة أخرى.");
 login.onclick = async () => { status.textContent = "جارٍ فتح Google…"; try { const result = await signInWithPopup(auth, provider); finish(result.user); } catch (error) { if (matchMedia("(pointer:coarse)").matches) return signInWithRedirect(auth, provider); status.textContent = "اسمح بالنافذة المنبثقة ثم حاول مرة أخرى."; } };
 </script></body></html>
