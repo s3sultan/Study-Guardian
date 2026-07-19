@@ -20,6 +20,7 @@ const googleProvider = new GoogleAuthProvider();
 let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
 let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null;
 let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map(), cardTitleSettings = {};
+let visitorRows = 0, visitorAdjustment = 0;
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
@@ -32,6 +33,15 @@ function applyCardTitles(values = {}) { cardTitleSettings = values || {}; Object
 const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
 const homeRoute = new URLSearchParams(location.search).get("home") === "1";
 const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
+function ensureVisitorUi() {
+  const footer = document.querySelector(".footer-info"), copyright = footer?.querySelector(".copyright");
+  if (footer && copyright && !$("visitor-count")) { const item = document.createElement("p"); item.className = "visitor-counter"; item.innerHTML = 'المستخدمون: <strong id="visitor-count">0</strong>'; copyright.after(item); }
+  const titlePanel = $("admin-card-titles");
+  if (titlePanel && !$("admin-visitor-panel")) { const panel = document.createElement("details"); panel.id = "admin-visitor-panel"; panel.className = "admin-access-panel"; panel.hidden = true; panel.innerHTML = '<summary>إدارة عداد المستخدمين</summary><div class="admin-access-content"><p>العداد يعتمد على الأجهزة أو المتصفحات الفريدة التي زارت الأداة. اكتب الرقم الذي تريد ظهوره، مثل 0 للتصفير أو رقم أقل للتقليل.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div>'; titlePanel.before(panel); }
+}
+function renderVisitorCount() { const total = Math.max(0, visitorRows + visitorAdjustment); if ($("visitor-count")) $("visitor-count").textContent = total.toLocaleString("ar-SA"); if ($("visitor-count-input") && document.activeElement !== $("visitor-count-input")) $("visitor-count-input").value = total; }
+async function registerVisitor(user) { if (!user?.uid) { try { await signInAnonymously(auth); } catch (_) {} return; } if (localStorage.smartGuardianVisitorCounted) return; try { await set(ref(db, `visitors/${user.uid}`), { firstSeen: Date.now() }); localStorage.smartGuardianVisitorCounted = "1"; } catch (_) {} }
+ensureVisitorUi();
 function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
 const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
@@ -104,6 +114,9 @@ $("card-title-key").onchange = () => { const key = $("card-title-key").value; $(
 $("save-card-title").onclick = async () => { const key = $("card-title-key").value, title = $("card-title-value").value.trim(); if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); if (!title) return status("card-title-status", "اكتب اسمًا للمربع أولًا."); try { await set(ref(db, `appSettings/cardTitles/${key}`), title); status("card-title-status", "تم حفظ الاسم ويظهر للمستخدمين مباشرة."); } catch (_) { status("card-title-status", "تعذر حفظ الاسم."); } };
 $("reset-card-title").onclick = async () => { const key = $("card-title-key").value; if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); try { await remove(ref(db, `appSettings/cardTitles/${key}`)); status("card-title-status", "تمت استعادة الاسم الأصلي."); } catch (_) { status("card-title-status", "تعذر استعادة الاسم."); } };
 onValue(ref(db, "appSettings/cardTitles"), snapshot => applyCardTitles(snapshot.val() || {}));
+onValue(ref(db, "visitors"), snapshot => { visitorRows = snapshot.size; renderVisitorCount(); });
+onValue(ref(db, "appSettings/visitorAdjustment"), snapshot => { visitorAdjustment = Number(snapshot.val() || 0); renderVisitorCount(); });
+$("save-visitor-count").onclick = async () => { if (!isOwner(auth.currentUser)) return status("visitor-count-status", "هذه الصلاحية لمالك الأداة فقط."); const target = Math.max(0, Math.floor(Number($("visitor-count-input").value || 0)); try { await set(ref(db, "appSettings/visitorAdjustment"), target - visitorRows); status("visitor-count-status", "تم حفظ الرقم الظاهر للمستخدمين."); } catch (_) { status("visitor-count-status", "تعذر حفظ الرقم."); } };
 function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
 async function adminLogin() {
   if (!adminRoute) { location.href = "./admin.html"; return; }
@@ -130,13 +143,14 @@ async function syncAdminSession(user) {
   $("admin-panel").hidden = !showAdmin; $("admin-logout").hidden = !showAdmin;
   $("admin-login").setAttribute("aria-label", allowed ? "فتح لوحة الإدارة" : "دخول الإدارة");
   $("admin-access-panel").hidden = !owner;
+  $("admin-visitor-panel").hidden = !owner;
   $("admin-card-titles").hidden = !owner;
   document.querySelector(".admin-mobile-link").hidden = !owner;
   if (showAdmin) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
   else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
 }
 getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
-onAuthStateChanged(auth, syncAdminSession);
+onAuthStateChanged(auth, user => { registerVisitor(user); syncAdminSession(user); });
 const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
 function rotateQuote(index = 0) { const quote = quotes[index % quotes.length]; $("quote-text").textContent = quote[0]; $("quote-translation").textContent = quote[1]; setTimeout(() => rotateQuote(index + 1), 18000); }
 const normalize = value => value.toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
