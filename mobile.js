@@ -30,6 +30,7 @@ const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").t
 const defaultCardTitles = { attendance: "متابعة التحضير بالاسم", screenMonitor: "⌖ مراقبة المنطقة المطلوبة", groups: "وضع المجموعة", notes: "ملاحظة سريعة", gpa: "حاسبة المعدل", pdf: "تظليل نقاط المحاضرة في PDF", ideas: "اقتراح أو فكرة", rating: "تقييم الأداة" };
 function applyCardTitles(values = {}) { cardTitleSettings = values || {}; Object.entries(defaultCardTitles).forEach(([key, title]) => { const node = document.querySelector(`[data-card-key="${key}"]`); if (node) node.textContent = String(cardTitleSettings[key] || title); }); const key = $("card-title-key")?.value; if (key) $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; }
 const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
+const homeRoute = new URLSearchParams(location.search).get("home") === "1";
 const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
 function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
@@ -125,12 +126,12 @@ async function syncAdminSession(user) {
   if (user && !isOwner(user)) {
     try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; }
   }
-  const allowed = isAdmin(user), owner = isOwner(user);
-  $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
+  const allowed = isAdmin(user), owner = isOwner(user), showAdmin = allowed && !homeRoute;
+  $("admin-panel").hidden = !showAdmin; $("admin-logout").hidden = !showAdmin;
   $("admin-login").setAttribute("aria-label", allowed ? "فتح لوحة الإدارة" : "دخول الإدارة");
   $("admin-access-panel").hidden = !owner;
   $("admin-card-titles").hidden = !owner;
-  if (allowed) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
+  if (showAdmin) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
   else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
 }
 getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
