@@ -23,7 +23,7 @@ let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Ma
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
-const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) && !moderate(value) ? value : "طالب"; };
+const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) && !moderate(value) ? value : "مستخدم"; };
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
@@ -62,7 +62,7 @@ function showAdminFeedback(id, data, announce = false) {
   const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove();
   const old = document.getElementById(`feedback-${id}`); if (old) old.remove();
   const card = document.createElement("article"); card.className = "feedback-card"; card.id = `feedback-${id}`;
-  const title = document.createElement("strong"); title.textContent = data.author || "طالب";
+  const title = document.createElement("strong"); title.textContent = data.author || "مستخدم";
   const body = document.createElement("p"); body.textContent = data.text || "";
   const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : "";
   const response = document.createElement("textarea"); response.rows = 2; response.placeholder = "اكتب ردك على صاحب الاقتراح"; response.value = data.reply || ""; response.addEventListener("input", () => { const cleaned = cleanText(response.value); if (cleaned !== response.value) { response.value = cleaned; adminStatus("تمت إزالة عبارة غير لائقة من الرد."); } });
@@ -73,7 +73,7 @@ function showAdminFeedback(id, data, announce = false) {
   card.append(title, body, time, response, send, deleteReply, del); $("admin-feedback").prepend(card); limitAdminItems();
   if (announce) { addUnreadAdminFeedback(id); adminStatus("وصل اقتراح جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "اقتراح جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); }
 }
-function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "طالب"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
+function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "مستخدم"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
 async function subscribeAdminFeedback() {
   stopAdminFeedback?.(); adminExpanded = false; $("admin-feedback").replaceChildren();
   const source = query(ref(db, "feedback"), limitToLast(50)), existing = new Set(), startedAt = Date.now();
@@ -213,7 +213,7 @@ function stopListening() { listening = false; clearTimeout(languageTimer); recog
 function render(data) {
   const item = document.createElement("article");
   item.className = "note";
-  item.textContent = `[${data.mode || "مستقل"}] ${data.author || "طالب"}: ${data.text || ""}`;
+  item.textContent = `[${data.mode || "مستقل"}] ${data.author || "مستخدم"}: ${data.text || ""}`;
   const time = document.createElement("small");
   time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : "";
   item.appendChild(time);
@@ -257,7 +257,7 @@ $("save").onclick = async () => {
   } catch (error) { status("note-status", `تعذر الحفظ: ${error.code || "خطأ اتصال"}`); }
 };
 function exportNotes() {
-  const saved = JSON.parse(localStorage.mobileNotes || "[]"), notes = saved.length ? saved.map(item => `[${item.mode || "مستقل"}] ${item.author || "طالب"}: ${item.text || ""}\n${item.createdAt ? new Date(item.createdAt).toLocaleString("ar-SA") : ""}`) : [...document.querySelectorAll("#notes .note")].map(item => item.innerText.trim()).filter(Boolean);
+  const saved = JSON.parse(localStorage.mobileNotes || "[]"), notes = saved.length ? saved.map(item => `[${item.mode || "مستقل"}] ${item.author || "مستخدم"}: ${item.text || ""}\n${item.createdAt ? new Date(item.createdAt).toLocaleString("ar-SA") : ""}`) : [...document.querySelectorAll("#notes .note")].map(item => item.innerText.trim()).filter(Boolean);
   if (!notes.length) return status("note-status", "لا توجد ملاحظات لتصديرها.");
   const text = `Study Guardian Notes\n${new Date().toLocaleString("ar-SA")}\n\n${notes.join("\n\n--------------------\n\n")}`;
   const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
