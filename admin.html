@@ -7,7 +7,7 @@
 </head>
 <body>
   <script>if (location.protocol === "file:") location.replace("https://study-guardian-groups.web.app/admin.html");</script>
-  <header class="page-head"><a class="home" href="./?home=1" aria-label="العودة للرئيسية">⌂</a><strong id="page-title">إدارة الحارس الذكي</strong></header>
+  <header class="page-head"><a class="home" href="./index.html?home=1" aria-label="العودة للرئيسية">⌂</a><strong id="page-title">إدارة الحارس الذكي</strong></header>
   <main id="gate" class="gate"><img src="smart-guardian-logo.svg" alt="Smart Guardian — الحارس الذكي"><h1 id="gate-title">إدارة الحارس الذكي</h1><p id="status">سجّل بحساب Google الخاص بالإدارة.</p><button id="login" type="button">دخول الإدارة</button></main>
   <section id="dashboard" hidden><iframe title="لوحة إدارة الحارس الذكي" src="./?admin=1&embedded=1"></iframe></section>
 <script type="module">
@@ -33,7 +33,7 @@ async function finish(user) {
     if (owner || supervisor) { clearTimeout(redirectTimer); gate.hidden = true; dashboard.hidden = false; pageTitle.textContent = owner ? "إدارة الحارس الذكي" : "إشراف الحارس الذكي"; return; }
     dashboard.hidden = true; gate.hidden = false; login.hidden = true; gateTitle.textContent = "غير مصرح لك بالدخول";
     status.textContent = "ليس لهذا الحساب صلاحية الإدارة أو الإشراف. ستتم إعادتك للرئيسية.";
-    redirectTimer = setTimeout(() => location.replace("./?home=1"), 2200);
+    redirectTimer = setTimeout(() => location.replace("./index.html?home=1"), 2200);
   } catch (_) { if (current !== checkId) return; showLogin(); status.textContent = "تعذر التحقق من صلاحية الحساب. حاول مرة أخرى."; }
 }
 onAuthStateChanged(auth, finish);
