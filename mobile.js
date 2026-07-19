@@ -107,8 +107,7 @@ $("admin-login").onclick = adminLogin;
 $("admin-logout").onclick = () => signOut(auth);
 $("admin-more").onclick = () => { adminExpanded = !adminExpanded; limitAdminItems(); };
 $("admin-message-badge").onclick = readAdminMessages;
-getRedirectResult(auth).then(() => { if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
-onAuthStateChanged(auth, async user => {
+async function syncAdminSession(user) {
   grantedAdmin = false;
   if (user && !isOwner(user)) {
     try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; }
@@ -118,8 +117,10 @@ onAuthStateChanged(auth, async user => {
   $("admin-login").hidden = allowed;
   $("admin-access-panel").hidden = !owner;
   if (allowed) { notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
-  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage("تم إرسال طلب دخولك للمشرف الرئيسي. لا تملك صلاحية الإدارة حتى يفعّلك."); }
-});
+  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
+}
+getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
+onAuthStateChanged(auth, syncAdminSession);
 const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
 function rotateQuote(index = 0) { const quote = quotes[index % quotes.length]; $("quote-text").textContent = quote[0]; $("quote-translation").textContent = quote[1]; setTimeout(() => rotateQuote(index + 1), 18000); }
 const normalize = value => value.toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
