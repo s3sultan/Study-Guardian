@@ -36,6 +36,6 @@ async function finish(user) {
   } catch (_) { if (current !== checkId) return; showLogin(); status.textContent = "تعذر التحقق من صلاحية الحساب. حاول مرة أخرى."; }
 }
 onAuthStateChanged(auth, finish);
-getRedirectResult(auth).then(result => finish(result?.user || auth.currentUser)).catch(() => status.textContent = "تعذر إكمال تسجيل الدخول. حاول مرة أخرى.");
+getRedirectResult(auth).then(result => { if (result?.user) return finish(result.user); }).catch(() => status.textContent = "تعذر إكمال تسجيل الدخول. حاول مرة أخرى.");
 login.onclick = async () => { status.textContent = "جاري فتح Google…"; try { await signOut(auth); if (matchMedia("(pointer:coarse)").matches) return signInWithRedirect(auth, provider); const result = await signInWithPopup(auth, provider); finish(result.user); } catch (_) { status.textContent = "تعذر فتح Google. حاول مرة أخرى."; } };
 </script></body></html>
