@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { getDatabase, ref, push, set, get, onChildAdded, onValue, query, limitToLast, update, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+import { getDatabase, ref, push, set, get, onChildAdded, onValue, onDisconnect, query, limitToLast, update, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
 const config = {
   apiKey: "AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek",
@@ -18,7 +18,7 @@ const db = getDatabase(app);
 const ADMIN_EMAIL = "s2shug@gmail.com";
 const googleProvider = new GoogleAuthProvider();
 let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
-let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null;
+let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null;
 let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map();
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
@@ -27,6 +27,8 @@ const nickname = () => { const value = $("alias").value.trim(); return value && 
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
+const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
+const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
 function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
 const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
@@ -88,6 +90,8 @@ function accessExpiry(item) { const expiry = Number(item?.expiresAt || 0); retur
 function accessRow(email, note, label, action) { const row = document.createElement("article"), info = document.createElement("div"), title = document.createElement("strong"), small = document.createElement("small"), button = document.createElement("button"); row.className = "admin-access-row"; title.textContent = email || "حساب غير معروف"; small.textContent = note; info.append(title, small); button.type = "button"; button.textContent = label; button.onclick = action; row.append(info, button); return row; }
 function renderAdminAccess() { const requests = $("admin-requests"), members = $("admin-members"); if (!requests || !members) return; requests.replaceChildren(); members.replaceChildren(); const pending = [...adminRequests.entries()].sort((a, b) => Number(b[1].requestedAt || 0) - Number(a[1].requestedAt || 0)); if (!pending.length) requests.innerHTML = '<p class="hint">لا توجد طلبات حاليًا.</p>'; pending.forEach(([uid, request]) => { const policy = adminAllowlist.get(emailKey(request.email)); const text = policy ? `البريد محفوظ — الصلاحية عند التفعيل: ${Number(policy.duration || 0) ? "مؤقتة" : "دائمة"}.` : "غير موجود في قائمة المشرفين الموثوقين."; requests.append(accessRow(request.email, text, policy ? "تفعيل" : "تجاهل", async () => { if (!policy) return remove(ref(db, `adminRequests/${uid}`)); const duration = Number(policy.duration || 0), now = Date.now(); await set(ref(db, `admins/${uid}`), { email: request.email, displayName: request.displayName || "", active: true, grantedAt: now, expiresAt: duration ? now + duration : 0 }); await remove(ref(db, `adminRequests/${uid}`)); status("supervisor-status", "تم تفعيل المشرف بنجاح."); })); }); const active = [...adminMembers.entries()].filter(([, item]) => item?.active && (!item.expiresAt || Number(item.expiresAt) > Date.now())); if (!active.length) members.innerHTML = '<p class="hint">لا يوجد مشرفون إضافيون.</p>'; active.forEach(([uid, member]) => members.append(accessRow(member.email, accessExpiry(member), "إلغاء الصلاحية", async () => { if (!confirm(`إلغاء صلاحية ${member.email}؟`)) return; await remove(ref(db, `admins/${uid}`)); status("supervisor-status", "تم إلغاء صلاحية المشرف."); })));
 }
+function stopAdminPresence() { stopAdminSessions?.(); stopAdminSessions = null; if (adminSessionRef) { remove(adminSessionRef).catch(() => {}); adminSessionRef = null; } const indicator = $("admin-device-status"); indicator.hidden = true; indicator.textContent = ""; }
+async function startAdminPresence(user) { stopAdminPresence(); if (!user?.uid) return; adminSessionRef = ref(db, `adminSessions/${user.uid}/${adminSessionId}`); try { await set(adminSessionRef, { startedAt: Date.now(), lastSeen: Date.now() }); await onDisconnect(adminSessionRef).remove(); stopAdminSessions = onValue(ref(db, `adminSessions/${user.uid}`), snapshot => { const sessions = Object.values(snapshot.val() || {}).filter(item => Number(item?.lastSeen || 0) > Date.now() - 120000); const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = sessions.length > 1 ? `● الحساب الإداري مفتوح الآن من ${sessions.length} أجهزة.` : "● لا يوجد جهاز إداري آخر متصل الآن."; }); } catch (_) { const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = "تعذر التحقق من الأجهزة المتصلة."; } }
 function stopAdminAccess() { stopAdminAllowlist?.(); stopAdminRequests?.(); stopAdminMembers?.(); stopAdminAllowlist = stopAdminRequests = stopAdminMembers = null; adminAllowlist = new Map(); adminRequests = new Map(); adminMembers = new Map(); }
 function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValue(ref(db, "adminAllowlist"), snapshot => { adminAllowlist = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminRequests = onValue(ref(db, "adminRequests"), snapshot => { adminRequests = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminMembers = onValue(ref(db, "admins"), snapshot => { adminMembers = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); }
 async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
@@ -95,10 +99,13 @@ $("save-supervisor-email").onclick = async () => { const email = $("supervisor-e
 $("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
 function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
 async function adminLogin() {
+  if (!adminRoute) { location.href = "./admin.html"; return; }
+  if (isAdmin(auth.currentUser)) { $("admin-panel").hidden = false; $("admin-panel").open = true; $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" }); return; }
   if (location.protocol === "file:") return adminLoginMessage("دخول الإدارة يعمل من الرابط المنشور فقط، وليس من الملف المحلي.");
   const mobile = matchMedia("(max-width: 719px), (pointer: coarse)").matches;
   adminLoginMessage(mobile ? "جارٍ الانتقال لتسجيل Google..." : "جارٍ فتح تسجيل Google...");
-  try { if (mobile) return signInWithRedirect(auth, googleProvider); await signInWithPopup(auth, googleProvider); adminLoginMessage(""); } catch (error) {
+  try { const result = await signInWithPopup(auth, googleProvider); if (result?.user) await syncAdminSession(result.user); adminLoginMessage(""); } catch (error) {
+    if (mobile && ["auth/popup-blocked", "auth/cancelled-popup-request", "auth/popup-closed-by-user"].includes(error.code)) return signInWithRedirect(auth, googleProvider);
     const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول.", "auth/popup-blocked": "اسمح للنوافذ المنبثقة ثم حاول مرة أخرى." };
     const text = messages[error.code] || "تعذر تسجيل الدخول. حاول مرة أخرى."; adminStatus(text); adminLoginMessage(text);
   }
@@ -114,10 +121,10 @@ async function syncAdminSession(user) {
   }
   const allowed = isAdmin(user), owner = isOwner(user);
   $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
-  $("admin-login").hidden = allowed;
+  $("admin-login").setAttribute("aria-label", allowed ? "فتح لوحة الإدارة" : "دخول الإدارة");
   $("admin-access-panel").hidden = !owner;
-  if (allowed) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
-  else { $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
+  if (allowed) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
+  else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
 }
 getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
 onAuthStateChanged(auth, syncAdminSession);
