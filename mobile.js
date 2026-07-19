@@ -192,7 +192,8 @@ function listenError(error) {
 }
 
 function ring() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .35; gain.connect(context.destination); for (let i = 0; i < 8; i += 1) { const tone = context.createOscillator(); tone.frequency.value = i % 2 ? 1180 : 880; tone.connect(gain); tone.start(context.currentTime + i * .16); tone.stop(context.currentTime + i * .16 + .1); } setTimeout(() => context.close(), 1500); }
-function alertName() { if (Date.now() - lastAlert < 12000) return; lastAlert = Date.now(); ring(); $("alert").hidden = false; }
+function setGuardianState(kind = "", label = "") { const brand = document.querySelector(".brand"), state = $("guardian-state"); if (!brand || !state) return; brand.classList.remove("is-listening", "is-alert"); if (!kind) { state.hidden = true; state.textContent = ""; return; } brand.classList.add(kind === "alert" ? "is-alert" : "is-listening"); state.textContent = label; state.hidden = false; }
+function alertName() { if (Date.now() - lastAlert < 12000) return; lastAlert = Date.now(); setGuardianState("alert", "تنبيه مهم"); ring(); $("alert").hidden = false; setTimeout(() => listening ? setGuardianState("listening", "الاستماع مفعّل") : setGuardianState(), 8000); }
 function startRecognitionSession() {
   const languages = recognitionLanguages();
   const language = languages[languageIndex % languages.length];
@@ -218,11 +219,11 @@ async function startListening() {
     stream.getTracks().forEach(track => track.stop());
   } catch (error) { starting = false; return status("listen-status", listenError(error)); }
   try {
-    languageIndex = 0; listening = true; startRecognitionSession(); $("listen").textContent = "🎧 إيقاف متابعة الاسم"; status("listen-status", recognitionLanguages().length > 1 ? "تتم متابعة العربية والإنجليزية بالتبديل التلقائي." : "تتم متابعة الاسم من ميكروفون هذا الجهاز."); localStorage.mobileNames = $("listen-names").value;
+    languageIndex = 0; listening = true; startRecognitionSession(); setGuardianState("listening", "الاستماع مفعّل"); $("listen").textContent = "🎧 إيقاف متابعة الاسم"; status("listen-status", recognitionLanguages().length > 1 ? "تتم متابعة العربية والإنجليزية بالتبديل التلقائي." : "تتم متابعة الاسم من ميكروفون هذا الجهاز."); localStorage.mobileNames = $("listen-names").value;
   } catch (error) { listening = false; status("listen-status", listenError(error)); }
   starting = false;
 }
-function stopListening() { listening = false; clearTimeout(languageTimer); recognition?.stop(); $("listen").textContent = "🎧 بدء متابعة الاسم"; status("listen-status", "المتابعة متوقفة."); }
+function stopListening() { listening = false; clearTimeout(languageTimer); recognition?.stop(); setGuardianState(); $("listen").textContent = "🎧 بدء متابعة الاسم"; status("listen-status", "المتابعة متوقفة."); }
 
 function render(data) {
   const item = document.createElement("article");
