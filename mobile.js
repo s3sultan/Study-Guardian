@@ -19,7 +19,7 @@ const ADMIN_EMAIL = "s2shug@gmail.com";
 const googleProvider = new GoogleAuthProvider();
 let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
 let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null;
-let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map();
+let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map(), cardTitleSettings = {};
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
@@ -27,6 +27,8 @@ const nickname = () => { const value = $("alias").value.trim(); return value && 
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
+const defaultCardTitles = { attendance: "متابعة التحضير بالاسم", screenMonitor: "⌖ مراقبة المنطقة المطلوبة", groups: "وضع المجموعة", notes: "ملاحظة سريعة", gpa: "حاسبة المعدل", pdf: "تظليل نقاط المحاضرة في PDF", ideas: "اقتراح أو فكرة", rating: "تقييم الأداة" };
+function applyCardTitles(values = {}) { cardTitleSettings = values || {}; Object.entries(defaultCardTitles).forEach(([key, title]) => { const node = document.querySelector(`[data-card-key="${key}"]`); if (node) node.textContent = String(cardTitleSettings[key] || title); }); const key = $("card-title-key")?.value; if (key) $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; }
 const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
 const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
 function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
@@ -97,6 +99,10 @@ function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValu
 async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
 $("save-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return status("supervisor-status", "اكتب بريدًا صحيحًا للمشرف."); try { await set(ref(db, `adminAllowlist/${emailKey(email)}`), { email, duration: Number($("supervisor-duration").value || 0), savedAt: Date.now() }); status("supervisor-status", "تم حفظ البريد. يطلب المشرف الدخول بحسابه Google مرة واحدة ثم فعّله من الطلبات."); } catch (_) { status("supervisor-status", "تعذر حفظ بريد المشرف."); } };
 $("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
+$("card-title-key").onchange = () => { const key = $("card-title-key").value; $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; };
+$("save-card-title").onclick = async () => { const key = $("card-title-key").value, title = $("card-title-value").value.trim(); if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); if (!title) return status("card-title-status", "اكتب اسمًا للمربع أولًا."); try { await set(ref(db, `appSettings/cardTitles/${key}`), title); status("card-title-status", "تم حفظ الاسم ويظهر للمستخدمين مباشرة."); } catch (_) { status("card-title-status", "تعذر حفظ الاسم."); } };
+$("reset-card-title").onclick = async () => { const key = $("card-title-key").value; if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); try { await remove(ref(db, `appSettings/cardTitles/${key}`)); status("card-title-status", "تمت استعادة الاسم الأصلي."); } catch (_) { status("card-title-status", "تعذر استعادة الاسم."); } };
+onValue(ref(db, "appSettings/cardTitles"), snapshot => applyCardTitles(snapshot.val() || {}));
 function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
 async function adminLogin() {
   if (!adminRoute) { location.href = "./admin.html"; return; }
@@ -123,6 +129,7 @@ async function syncAdminSession(user) {
   $("admin-panel").hidden = !allowed; $("admin-logout").hidden = !allowed;
   $("admin-login").setAttribute("aria-label", allowed ? "فتح لوحة الإدارة" : "دخول الإدارة");
   $("admin-access-panel").hidden = !owner;
+  $("admin-card-titles").hidden = !owner;
   if (allowed) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
   else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
 }

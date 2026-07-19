@@ -17,7 +17,7 @@
 
     <section class="feature-map" aria-label="خريطة خصائص الحارس الذكي">
     <details class="panel">
-      <summary><span class="nav-title">متابعة التحضير بالاسم</span></summary>
+      <summary><span class="nav-title" data-card-key="attendance">متابعة التحضير بالاسم</span></summary>
       <div class="panel-content">
       <label>اسمك أو بدائل النطق<input id="listen-names" placeholder="سلطان، Sultan، Soltan"></label>
       <p class="hint">اكتب البدائل بفواصل، وليس بمسافة: سلطان، Sultan، Soltan. المسافات قبل أو بعد الاسم لا تؤثر.</p>
@@ -36,7 +36,7 @@
     </details>
 
     <details class="panel screen-monitor-panel">
-      <summary><span class="nav-title">⌖ مراقبة المنطقة المطلوبة</span></summary>
+      <summary><span class="nav-title" data-card-key="screenMonitor">⌖ مراقبة المنطقة المطلوبة</span></summary>
       <div class="panel-content">
         <p class="hint">اضغط البدء، ثم اختر <b>تبويب المحاضرة</b> من نافذة Chrome. اسحب فوق المعاينة لتحديد شريط الاستبيان أو المنطقة التي تريد مراقبتها. لا تُرسل أي صورة إلى الإنترنت؛ المقارنة تتم داخل جهازك فقط.</p>
         <div id="screen-preview-wrap" class="screen-preview-wrap" hidden>
@@ -52,7 +52,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title">وضع المجموعة</span></summary>
+      <summary><span class="nav-title" data-card-key="groups">وضع المجموعة</span></summary>
       <div class="panel-content">
       <p id="mode-status" class="mode-status">الحالة الحالية: مستقل</p>
       <button id="create" class="secondary">إنشاء مجموعة جديدة</button>
@@ -67,7 +67,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title">ملاحظة سريعة</span></summary>
+      <summary><span class="nav-title" data-card-key="notes">ملاحظة سريعة</span></summary>
       <div class="panel-content">
       <textarea id="note" rows="4" placeholder="اكتب ملاحظتك هنا"></textarea>
       <label class="check"><input id="share" type="checkbox"> مشاركة مع المجموعة</label>
@@ -80,7 +80,7 @@
     </details>
 
     <details class="panel calculator-panel">
-      <summary><span class="nav-title">حاسبة المعدل</span></summary>
+      <summary><span class="nav-title" data-card-key="gpa">حاسبة المعدل</span></summary>
       <div class="panel-content">
         <label>نظام المعدل
           <select id="gpa-scale"><option value="5">من 5</option><option value="4">من 4</option></select>
@@ -94,7 +94,7 @@
     </details>
 
     <details class="panel pdf-study-panel">
-      <summary><span class="nav-title">تظليل نقاط المحاضرة في PDF</span></summary>
+      <summary><span class="nav-title" data-card-key="pdf">تظليل نقاط المحاضرة في PDF</span></summary>
       <div class="panel-content">
         <p class="hint">ارفع PDF المحاضرة ثم اضغط «تجهيز». عند سماع عبارة مهمة، يبحث الحارس عنها داخل الملف ويضع تظليلًا أصفر على أقرب جملة مطابقة. تتم المعالجة داخل جهازك.</p>
         <label>ملف المحاضرة PDF<input id="study-pdf" type="file" accept="application/pdf,.pdf"></label>
@@ -124,7 +124,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title">اقتراح أو فكرة</span></summary>
+      <summary><span class="nav-title" data-card-key="ideas">اقتراح أو فكرة</span></summary>
       <div class="panel-content">
       <textarea id="idea" rows="4" placeholder="اكتب اقتراحك لتطوير Study Guardian"></textarea>
       <button id="send-idea" type="button">إرسال الاقتراح</button>
@@ -135,7 +135,7 @@
     </details>
 
     <details class="panel rating-panel">
-      <summary><span class="nav-title">تقييم الأداة</span></summary>
+      <summary><span class="nav-title" data-card-key="rating">تقييم الأداة</span></summary>
       <div class="panel-content">
         <p id="rating-prompt" class="rating-prompt">ما أكثر ميزة أعجبتك في الحارس الذكي؟</p>
         <div id="rating-stars" class="rating-stars" aria-label="اختر تقييمك من خمس نجوم"><button type="button" data-score="1" aria-label="نجمة واحدة">★</button><button type="button" data-score="2" aria-label="نجمتان">★</button><button type="button" data-score="3" aria-label="ثلاث نجوم">★</button><button type="button" data-score="4" aria-label="أربع نجوم">★</button><button type="button" data-score="5" aria-label="خمس نجوم">★</button></div>
@@ -150,6 +150,7 @@
       <div class="admin-panel-content"><div class="admin-panel-head"><div><strong>إدارة الاقتراحات والتقييمات</strong><p id="admin-status">تسجيل الدخول مطلوب لعرض الاقتراحات.</p><p id="admin-device-status" class="admin-device-status" hidden></p></div><button id="admin-logout" type="button" class="secondary" hidden>خروج الإدارة</button></div>
       <details class="admin-mobile-link"><summary>ربط الجوال والتنبيهات</summary><div class="panel-content"><label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label><label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label><label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label><button id="save-telegram" type="button">حفظ الربط</button><button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button><label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label><button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button><button id="clear-telegram" type="button" class="secondary">مسح الربط</button><p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p><details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol></details></div></details>
       <details id="admin-access-panel" class="admin-access-panel" hidden><summary>إدارة المشرفين</summary><div class="admin-access-content"><p>أضف بريد مشرف موثوق. بعد أن يسجل بحسابه Google مرة واحدة، يظهر طلبه هنا لتمنحه صلاحية دائمة أو مؤقتة.</p><label>بريد المشرف<input id="supervisor-email" type="email" autocomplete="off" placeholder="name@example.com"></label><label>مدة الصلاحية<select id="supervisor-duration"><option value="0">دائمة</option><option value="86400000">24 ساعة</option><option value="604800000">أسبوع</option><option value="2592000000">30 يومًا</option></select></label><div class="admin-access-actions"><button id="save-supervisor-email" type="button">حفظ البريد</button><button id="remove-supervisor-email" type="button" class="secondary">إزالة البريد</button></div><p id="supervisor-status"></p><section><strong>طلبات انتظار التفعيل</strong><div id="admin-requests" class="admin-access-list"><p class="hint">لا توجد طلبات حاليًا.</p></div></section><section><strong>المشرفون المفعّلون</strong><div id="admin-members" class="admin-access-list"><p class="hint">لا يوجد مشرفون إضافيون.</p></div></section></div></details>
+      <details id="admin-card-titles" class="admin-access-panel" hidden><summary>تعديل أسماء المربعات</summary><div class="admin-access-content"><p>اختر مربعًا ثم اكتب الاسم الذي تريده. يظهر التعديل مباشرة لجميع المستخدمين.</p><label>المربع<select id="card-title-key"><option value="attendance">متابعة التحضير بالاسم</option><option value="screenMonitor">مراقبة المنطقة المطلوبة</option><option value="groups">وضع المجموعة</option><option value="notes">ملاحظة سريعة</option><option value="gpa">حاسبة المعدل</option><option value="pdf">تظليل نقاط المحاضرة في PDF</option><option value="ideas">اقتراح أو فكرة</option><option value="rating">تقييم الأداة</option></select></label><label>الاسم الجديد<input id="card-title-value" maxlength="60" placeholder="مثال: حاسبة الجامعة"></label><div class="admin-access-actions"><button id="save-card-title" type="button">حفظ الاسم</button><button id="reset-card-title" type="button" class="secondary">استعادة الاسم الأصلي</button></div><p id="card-title-status"></p></div></details>
       <section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div>
     </details>
     </section>
@@ -160,8 +161,8 @@
   <div id="screen-toast" role="status" aria-live="assertive" hidden></div>
   <div id="prayer-toast" role="status" aria-live="assertive" hidden></div>
   <button id="admin-message-badge" type="button" class="admin-message-badge" hidden aria-label="رسائل الاقتراحات الجديدة" title="اقتراحات جديدة"><span aria-hidden="true">💬</span><b id="admin-message-count">0</b></button>
-  <script src="core.js?v=130"></script>
-  <script type="module" src="mobile.js?v=130"></script>
+  <script src="core.js?v=131"></script>
+  <script type="module" src="mobile.js?v=131"></script>
   <script type="module" src="pdf-feature.js?v=10"></script>
 </body>
 </html>

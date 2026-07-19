@@ -19,6 +19,10 @@
         "$sessionId": { ".write": "auth != null && auth.uid == $uid" }
       }
     },
+    "appSettings": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email == 's2shug@gmail.com'"
+    },
     "feedback": {
       ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
       "$feedbackId": {
