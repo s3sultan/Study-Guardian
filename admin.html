@@ -20,7 +20,7 @@ const status = document.getElementById("status"), login = document.getElementByI
 const ADMIN_EMAIL = "s2shug@gmail.com";
 let checkId = 0, redirectTimer;
 provider.setCustomParameters({ prompt: "select_account" });
-const isGoogleSession = user => Boolean(user && !user.isAnonymous && user.providerData?.some(item => item.providerId === "google.com"));
+const isGoogleSession = user => Boolean(user && !user.isAnonymous && user.email);
 const showLogin = () => { clearTimeout(redirectTimer); dashboard.hidden = true; gate.hidden = false; pageTitle.textContent = "إدارة الحارس الذكي"; gateTitle.textContent = "إدارة الحارس الذكي"; login.hidden = false; login.textContent = "دخول الإدارة"; };
 const hasSupervisorAccess = async user => { const grant = (await get(ref(db, `admins/${user.uid}`))).val(); return Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); };
 async function finish(user) {
@@ -38,5 +38,18 @@ async function finish(user) {
 }
 onAuthStateChanged(auth, finish);
 getRedirectResult(auth).then(result => { if (result?.user) return finish(result.user); }).catch(() => status.textContent = "تعذر إكمال تسجيل الدخول. حاول مرة أخرى.");
-login.onclick = async () => { status.textContent = "جاري فتح Google…"; try { await signOut(auth); if (matchMedia("(pointer:coarse)").matches) return signInWithRedirect(auth, provider); const result = await signInWithPopup(auth, provider); finish(result.user); } catch (_) { status.textContent = "تعذر فتح Google. حاول مرة أخرى."; } };
+login.onclick = async () => {
+  status.textContent = "جاري فتح Google…";
+  try {
+    const result = await signInWithPopup(auth, provider);
+    return finish(result.user);
+  } catch (error) {
+    const redirectErrors = ["auth/popup-blocked", "auth/popup-closed-by-user", "auth/cancelled-popup-request", "auth/operation-not-supported-in-this-environment"];
+    if (redirectErrors.includes(error?.code)) {
+      status.textContent = "سيتم المتابعة عبر Google…";
+      try { await signOut(auth); return signInWithRedirect(auth, provider); } catch (_) {}
+    }
+    status.textContent = "تعذر فتح Google. حاول مرة أخرى.";
+  }
+};
 </script></body></html>
