@@ -1,23 +1,351 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
-  <title>Study Guardian Mobile</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0714">
+<title>Smart Guardian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Smart Guardian — الحارس الذكي — هوية 2026: "Neural Aurora" — نظام عصبي داكن يعكس الذكاء والحماية. */
+
+:root{
+  --bg:#f6f4fb; --bg-soft:#eeeaf9; --surface:#ffffff; --surface-2:#f1eefb; --surface-3:#e9e4f7;
+  --border:rgba(20,10,45,.10); --border-soft:rgba(20,10,45,.06); --border-strong:rgba(20,10,45,.20);
+  --ink:#150f2c; --ink-dim:#4b4470; --muted:#7d759c;
+  --v:#6f5cf2; --v-soft:rgba(111,92,242,.12);
+  --c:#0891b2; --c-soft:rgba(8,145,178,.12);
+  --m:#d63e93; --m-soft:rgba(214,62,147,.12);
+  --gold:#b8790a; --gold-soft:rgba(184,121,10,.13);
+  --ok:#0a9169; --ok-soft:rgba(10,145,105,.12);
+  --bad:#d92e4d; --bad-soft:rgba(217,46,77,.12);
+  --aurora:linear-gradient(120deg,#7c6bff,#33e0ff 55%,#ff5fae);
+  --font-display:'Almarai',"Segoe UI",Tahoma,sans-serif;
+  --font-body:'Tajawal',Tahoma,Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --r-lg:26px; --r-md:18px; --r-sm:13px;
+  --glow-v:0 0 0 1px rgba(111,92,242,.32), 0 10px 26px rgba(111,92,242,.14);
+  --glow-c:0 0 0 1px rgba(8,145,178,.3), 0 10px 26px rgba(8,145,178,.12);
+  --shadow-sm:0 4px 14px rgba(20,10,45,.08);
+  --shadow-md:0 16px 36px rgba(20,10,45,.10);
+  --shadow-lg:0 30px 60px rgba(20,10,45,.18);
+}
+:root[data-theme="dark"]{
+  --bg:#0a0714; --bg-soft:#0e0a1e; --surface:#150f2c; --surface-2:#1c1442; --surface-3:#221a52;
+  --border:rgba(255,255,255,.10); --border-soft:rgba(255,255,255,.06); --border-strong:rgba(255,255,255,.18);
+  --ink:#f3f1fb; --ink-dim:#c7c1e6; --muted:#8c85ad;
+  --v:#7c6bff; --v-soft:rgba(124,107,255,.16); --c:#33e0ff; --c-soft:rgba(51,224,255,.14);
+  --m:#ff5fae; --m-soft:rgba(255,95,174,.15); --gold:#ffbd59; --gold-soft:rgba(255,189,89,.15);
+  --ok:#31e6b0; --ok-soft:rgba(49,230,176,.14); --bad:#ff5470; --bad-soft:rgba(255,84,112,.15);
+  --shadow-sm:0 4px 14px rgba(3,2,10,.35); --shadow-md:0 16px 40px rgba(3,2,10,.45); --shadow-lg:0 30px 70px rgba(2,1,8,.6);
+  --glow-v:0 0 0 1px rgba(124,107,255,.35), 0 10px 32px rgba(124,107,255,.16);
+  --glow-c:0 0 0 1px rgba(51,224,255,.32), 0 10px 32px rgba(51,224,255,.14);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme]){
+    --bg:#0a0714; --bg-soft:#0e0a1e; --surface:#150f2c; --surface-2:#1c1442; --surface-3:#221a52;
+    --border:rgba(255,255,255,.10); --border-soft:rgba(255,255,255,.06); --border-strong:rgba(255,255,255,.18);
+    --ink:#f3f1fb; --ink-dim:#c7c1e6; --muted:#8c85ad;
+    --v:#7c6bff; --v-soft:rgba(124,107,255,.16); --c:#33e0ff; --c-soft:rgba(51,224,255,.14);
+    --m:#ff5fae; --m-soft:rgba(255,95,174,.15); --gold:#ffbd59; --gold-soft:rgba(255,189,89,.15);
+    --ok:#31e6b0; --ok-soft:rgba(49,230,176,.14); --bad:#ff5470; --bad-soft:rgba(255,84,112,.15);
+    --shadow-sm:0 4px 14px rgba(3,2,10,.35); --shadow-md:0 16px 40px rgba(3,2,10,.45); --shadow-lg:0 30px 70px rgba(2,1,8,.6);
+    --glow-v:0 0 0 1px rgba(124,107,255,.35), 0 10px 32px rgba(124,107,255,.16);
+    --glow-c:0 0 0 1px rgba(51,224,255,.32), 0 10px 32px rgba(51,224,255,.14);
+  }
+}
+/* الهيدر والتذييل يبقيان بهوية Aurora الداكنة الثابتة في كل الأوضاع (توقيع العلامة) */
+.top-area,.quote,.quote-nav,.footer-info{
+  --bg-soft:#0e0a1e; --surface:#150f2c; --surface-2:#1c1442;
+  --border:rgba(255,255,255,.10); --border-soft:rgba(255,255,255,.06); --border-strong:rgba(255,255,255,.18);
+  --ink:#f3f1fb; --ink-dim:#c7c1e6; --muted:#8c85ad;
+  --v:#7c6bff; --c:#33e0ff; --m:#ff5fae; --gold:#ffbd59; --ok:#31e6b0; --bad:#ff5470;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{min-width:320px;margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font-body),Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.brand,.prayer-settings strong,.quote strong,.panel-card-text .nav-title,.admin-panel-head strong,.gate h1{font-family:var(--font-display)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;transition:transform .12s ease,background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease}
+button:active{transform:scale(.97)}
+main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+#update-banner{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 14px;padding:11px 16px;border-radius:var(--r-sm);background:var(--gold-soft);color:var(--gold);border:1px solid rgba(255,189,89,.3);font-size:13px;font-weight:700}
+#update-banner[hidden]{display:none!important}
+#update-banner button{width:auto;margin:0;padding:7px 13px;border:0;border-radius:8px;background:var(--gold);color:#231404;font-size:12px;font-weight:800}
+
+/* ---------- الرأس (Hero) — شبكة عصبية متوهجة متحركة ---------- */
+.top-area{position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:stretch;overflow:hidden;border-radius:var(--r-lg) var(--r-lg) 0 0;background:radial-gradient(1200px 640px at 8% -20%,rgba(124,107,255,.30),transparent 60%),radial-gradient(900px 560px at 100% 120%,rgba(51,224,255,.22),transparent 60%),var(--bg-soft);box-shadow:var(--shadow-lg);isolation:isolate}
+.top-area::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.6px);background-size:26px 26px;opacity:.35;pointer-events:none;mix-blend-mode:screen}
+.top-area::after{content:"";position:absolute;inset:-40% -10%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,95,174,.16) 60deg,transparent 140deg,rgba(51,224,255,.16) 220deg,transparent 320deg);animation:sg-spin 26s linear infinite;pointer-events:none}
+@keyframes sg-spin{to{transform:rotate(360deg)}}
+
+.brand{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:112px;padding:14px;border:2px solid transparent;border-radius:999px;background:transparent;cursor:pointer;transition:border-color .3s ease,box-shadow .3s ease}
+.brand img{display:block;width:76px;height:76px;flex:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(124,107,255,.55));transition:filter .2s ease,transform .15s ease;animation:sg-intro-glow 2.2s ease-out 1,sg-breathe 3.6s ease-in-out infinite 2.2s}
+@keyframes sg-intro-glow{0%{transform:scale(.9);filter:drop-shadow(0 0 4px rgba(124,107,255,0))}35%{transform:scale(1.08);filter:drop-shadow(0 0 34px rgba(51,224,255,.85))}100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(124,107,255,.45))}}
+@keyframes sg-breathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(124,107,255,.45))}50%{transform:scale(1.035);filter:drop-shadow(0 0 20px rgba(51,224,255,.5))}}
+.brand-activity{position:absolute;top:10px;left:10px;width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--c-soft);opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
+.brand.is-listening .brand-activity{opacity:1;transform:scale(1);animation:sg-activity-blink 1.4s ease-in-out infinite}
+.brand.is-alert .brand-activity{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
+@keyframes sg-activity-blink{0%,100%{opacity:1}50%{opacity:.35}}
+.brand:hover img{transform:scale(1.08)}
+.brand.is-listening{border-color:var(--c);box-shadow:0 0 0 5px var(--c-soft)}
+.brand.is-alert{border-color:var(--bad);box-shadow:0 0 0 6px var(--bad-soft);animation:sg-alert-ring 1s ease-in-out infinite}
+.brand.is-alert img{animation:sg-alert-pulse .9s ease-in-out infinite}
+@keyframes sg-alert-ring{0%,100%{box-shadow:0 0 0 4px var(--bad-soft)}50%{box-shadow:0 0 0 9px var(--bad-soft)}}
+@keyframes sg-alert-pulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px var(--bad))}50%{transform:scale(1.08);filter:drop-shadow(0 0 22px var(--bad))}}
+#guardian-state{position:absolute;right:24px;bottom:9px;padding:4px 11px;border-radius:999px;background:#050318ea;color:var(--c);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.03em;border:1px solid var(--c-soft);box-shadow:0 0 14px rgba(51,224,255,.25)}
+.brand.is-listening img{filter:drop-shadow(0 0 10px var(--c)) drop-shadow(0 0 22px rgba(51,224,255,.7))}
+.brand.is-alert img{filter:drop-shadow(0 0 10px var(--bad)) drop-shadow(0 0 22px rgba(255,84,112,.7))}
+.brand.is-listening #guardian-state{color:var(--c)}
+.brand.is-alert #guardian-state{color:var(--bad)}
+
+.prayer-widget{position:relative;z-index:1;display:grid;align-items:center;min-height:112px;padding:18px 30px;border-right:1px solid var(--border-soft);color:var(--ink)}
+.prayer-settings{position:relative;margin:0}
+.prayer-settings>summary{list-style:none;cursor:pointer}.prayer-settings>summary::-webkit-details-marker{display:none}
+.prayer-settings>summary>div{display:grid;align-content:center;gap:6px;min-height:74px;text-align:center}
+.prayer-settings strong{font-size:clamp(20px,2.4vw,28px);font-weight:800;color:var(--gold)}.prayer-settings p{margin:0;color:var(--ink-dim);font-size:14px}
+.prayer-settings-content{position:absolute;z-index:10;top:calc(100% + 15px);right:0;width:min(420px,calc(100vw - 40px));padding:18px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg)}
+.prayer-settings-content label{display:block;margin:10px 0 0;color:var(--muted);font-size:13px}.prayer-settings-content button{width:100%;margin-top:10px}.prayer-settings-content #prayer-status{color:var(--muted);font-size:12px}.prayer-settings-content #prayer-times{max-height:180px;overflow:auto;margin-top:10px;padding:10px;border-radius:8px;background:var(--surface-2);font-size:13px}
+.manual-prayers{margin-top:12px;padding-top:11px;border-top:1px solid var(--border-soft)}.manual-prayers summary{color:var(--c);font-size:13px;font-weight:800;cursor:pointer}.manual-prayers p{margin:8px 0 0;color:var(--muted);font-size:11px;line-height:1.55}.manual-prayer-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.manual-prayer-grid label{margin:8px 0 0}.manual-prayer-grid input{width:100%;margin-top:4px;padding:8px;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);color:var(--ink)}.manual-prayers button.secondary{background:transparent;color:var(--c);border:1px solid var(--c-soft)}
+
+.quote{min-height:78px;margin:0;padding:14px 54px;border:0;border-radius:0;background:var(--bg-soft);color:var(--ink);text-align:center;display:grid;place-content:center;gap:5px;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+.quote strong{font-size:clamp(16px,1.7vw,19px);line-height:1.8;font-weight:700;color:var(--ink)}.quote span{color:var(--muted);font-size:clamp(14px,1.5vw,17px);font-weight:500}.quote-reference{color:var(--muted);font-size:11px}
+.quote.is-verse{background:var(--gold-soft);border-color:rgba(184,121,10,.25)}.quote.is-verse strong{font-family:var(--font-display);font-size:clamp(22px,2.8vw,32px);font-weight:800;line-height:2;color:var(--gold)}.quote.is-verse .quote-reference{color:var(--gold);font-weight:700;opacity:.85}
+.quote.is-prayer{background:var(--ok-soft);border-color:rgba(10,145,105,.25)}.quote.is-prayer strong{color:var(--ok);font-size:clamp(18px,2vw,23px)}.quote.is-prayer .quote-reference{color:var(--ok)}
+.quote.is-hikam strong{font-size:clamp(16px,1.7vw,19px);color:var(--v)}.quote.is-hikam span{font-size:clamp(16px,1.7vw,19px);color:var(--muted);font-style:italic}
+.quote.is-verse span,.quote.is-prayer span{display:none}
+.quote-nav{display:flex;justify-content:center;gap:8px;margin:0;padding:9px 0 15px;background:var(--bg-soft);border-radius:0 0 var(--r-lg) var(--r-lg)}.quote-nav button{width:30px;height:28px;padding:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font-size:15px}.quote-nav button:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+
+/* ---------- شبكة المزايا — Bento غير متماثلة ---------- */
+.feature-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0 26px;align-items:start}
+.panel{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:var(--r-md);background:linear-gradient(180deg,var(--surface),var(--surface) 60%,var(--bg-soft));box-shadow:var(--shadow-sm);transition:box-shadow .2s ease,border-color .2s ease,transform .15s ease}
+.panel:hover{box-shadow:var(--shadow-md);border-color:var(--border-strong);transform:translateY(-1px)}
+.panel[open]{grid-column:auto;box-shadow:var(--shadow-md)}.wide-panel{grid-column:1/-1}
+
+.panel summary{display:flex;align-items:center;gap:9px;min-height:57px;padding:16px 18px;border-bottom:1px solid var(--border-soft);color:var(--ink);font-weight:800;cursor:pointer;list-style:none}
+.panel summary::-webkit-details-marker{display:none}
+.panel summary::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--v);box-shadow:0 0 0 4px var(--v-soft)}
+.panel:nth-child(2) summary::before{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
+.panel:nth-child(5) summary::before,.panel:nth-child(8) summary::before{background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+
+.panel-content{padding:16px 18px 18px;animation:open-card .28s cubic-bezier(.22,.9,.35,1)}
+.panel label{display:block;margin-top:11px;color:var(--muted);font-size:13px}
+.panel input,.panel textarea,.panel select{display:block;width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s}
+.panel input::placeholder,.panel textarea::placeholder{color:var(--muted)}
+.panel input:focus,.panel textarea:focus,.panel select:focus{border-color:var(--c);box-shadow:var(--glow-c)}
+.panel textarea{min-height:92px;resize:vertical}
+.panel .check{display:flex;align-items:center;gap:8px}.panel .check input{width:auto;margin:0;accent-color:var(--v)}
+.panel button{width:100%;margin-top:10px;padding:11px 12px;border:0;border-radius:var(--r-sm);background:var(--aurora);color:#0a0714;font-size:14px;font-weight:800;box-shadow:var(--glow-v)}
+.panel button:hover{filter:brightness(1.08)}
+.panel .secondary{border:1px solid var(--border);background:transparent;color:var(--ink);box-shadow:none}.panel .secondary:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+.panel #save,.panel #update-prayers{background:var(--gold);color:#241404;box-shadow:0 8px 22px rgba(255,189,89,.28)}.panel #save:hover,.panel #update-prayers:hover{filter:brightness(1.06)}
+.panel #send-idea{background:var(--surface-3);color:var(--ink);box-shadow:none;border:1px solid var(--border)}.panel #send-idea:hover{border-color:var(--c);color:var(--c)}
+
+.hint,#listen-status,#telegram-status,#group-status,#note-status,#idea-status,#schedule-status,#screen-monitor-status{min-height:19px;margin:9px 0 0;color:var(--muted);font-size:12px;line-height:1.65}
+.mode-status,#heard{margin:10px 0 0;padding:10px;border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink-dim);font-size:13px;overflow-wrap:anywhere;border:1px solid var(--border-soft)}
+.schedule{margin-top:12px;padding:12px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--border-soft)}.schedule strong{color:var(--ink-dim);font-size:13px}
+.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.group-help,.telegram-help{margin-top:13px;padding-top:10px;border-top:1px solid var(--border-soft);color:var(--muted);font-size:12px;line-height:1.7}
+.group-help summary,.telegram-help summary{color:var(--c);font-weight:700;cursor:pointer}
+.group-help ol,.telegram-help ol{padding-right:20px}
+.export-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.export-actions button{font-size:12px}
+.note{margin-top:8px;padding:10px;border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink-dim);border:1px solid var(--border-soft)}.note small{display:block;margin-top:5px;color:var(--muted)}
+.note .note-text{display:block;white-space:pre-wrap;overflow-wrap:anywhere}
+.note-actions{display:flex;gap:8px;margin-top:8px}.note-actions button{width:auto!important;margin:0!important;padding:6px 12px!important;font-size:12px!important}
+.note-edit{display:grid;gap:6px;margin-top:4px}.note-edit textarea{width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);resize:vertical}.note-edit button{width:auto!important;margin:0!important;padding:6px 12px!important;font-size:12px!important;display:inline-block}
+
+.screen-monitor-panel{border-color:rgba(255,84,112,.28)}.screen-preview-wrap{position:relative;overflow:hidden;margin-top:12px;border:1px solid rgba(255,84,112,.3);border-radius:var(--r-sm);background:#050318;touch-action:none}.screen-preview-wrap video{display:block;width:100%;max-height:260px;object-fit:contain}.screen-selection{position:absolute;border:2px solid var(--gold);background:rgba(255,189,89,.16);box-shadow:0 0 0 999px rgba(3,2,10,.55);pointer-events:none}.screen-selection-hint{margin:0;padding:8px 10px;background:#050318;color:var(--ink-dim);font-size:11px;text-align:center}.screen-monitor-panel input[type="range"]{padding:0;accent-color:var(--bad)}.screen-monitor-panel label span{display:inline-block;margin-top:5px;color:var(--bad);font-size:12px;font-weight:700}
+
+.calculator-panel{border-color:rgba(255,189,89,.25)}.calculator-panel select{display:block;width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink)}.gpa-courses{display:grid;gap:8px;margin-top:13px}.gpa-course{display:grid;grid-template-columns:minmax(105px,1.4fr) 76px minmax(108px,1fr) 38px;gap:7px;align-items:end;padding:10px;border:1px solid var(--border-soft);border-radius:var(--r-sm);background:var(--surface-2)}.gpa-course label{margin:0!important;font-size:11px!important}.gpa-course input,.gpa-course select{padding:8px!important}.gpa-course button{width:38px!important;height:38px;margin:0!important;padding:0!important;background:var(--bad-soft)!important;color:var(--bad)!important;border:1px solid rgba(255,84,112,.3)!important;box-shadow:none!important}.gpa-result{margin:12px 0 0;padding:12px;border-radius:var(--r-sm);background:var(--gold-soft);color:var(--gold);font-weight:800;text-align:center;border:1px solid rgba(255,189,89,.25)}.calculator-panel #calculate-gpa{background:var(--gold);color:#241404;box-shadow:0 8px 22px rgba(255,189,89,.28)}.calculator-panel #calculate-gpa:hover{filter:brightness(1.06)}
+
+.pdf-study-panel{border-color:rgba(111,92,242,.25)}.pdf-study-panel #prepare-study-pdf{background:var(--v);color:#fff;box-shadow:0 8px 22px rgba(111,92,242,.28)}.pdf-study-panel #prepare-study-pdf:hover{filter:brightness(1.08)}.pdf-progress{height:10px;margin-top:13px;overflow:hidden;border-radius:999px;background:var(--surface-2)}.pdf-progress span{display:block;width:0;height:100%;border-radius:inherit;background:var(--aurora);transition:width .25s ease}.pdf-match{margin:10px 0 0;padding:10px;border-radius:var(--r-sm);background:var(--v-soft);color:var(--v);font-size:13px;font-weight:700;border:1px solid rgba(111,92,242,.25)}.pdf-study-panel #download-highlighted-pdf{background:var(--ok);color:#062018;box-shadow:0 8px 22px rgba(49,230,176,.28)}
+.pdf-sync{margin-top:15px;padding-top:12px;border-top:1px solid rgba(255,95,174,.2);color:var(--muted);font-size:12px}.pdf-sync summary{color:var(--m);font-weight:800;cursor:pointer}.pdf-sync p{margin:8px 0}.pdf-sync #pdf-sync-status{min-height:19px;color:var(--muted);line-height:1.6}
+
+.idea-reply{margin-top:14px;padding:14px;border:1px solid rgba(49,230,176,.28);border-radius:var(--r-sm);background:var(--ok-soft);color:var(--ok);box-shadow:none}.idea-reply strong{display:block;font-size:15px}.idea-reply-item{padding:10px 0;border-bottom:1px solid rgba(49,230,176,.2)}.idea-reply-item:last-child{border-bottom:0}.idea-reply-item p{margin:0;white-space:pre-wrap;font-size:15px;line-height:1.7;color:var(--ink)}.idea-reply-item small{display:block;margin-top:4px;color:var(--ok);font-size:11px}.idea-reply a{display:inline-block;margin-top:12px;color:var(--ok);font-size:13px;font-weight:800;text-decoration:none}
+.reply-toast{position:fixed;z-index:120;top:16px;left:50%;width:min(calc(100% - 28px),440px);transform:translateX(-50%);padding:15px 18px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--ok);color:var(--ink);text-align:center;font-size:16px;font-weight:800;box-shadow:var(--shadow-lg);animation:admin-pop .25s ease}
+
+.responses-page{background:var(--bg)}.responses-main{width:min(100%,800px);min-height:100vh;margin:auto;padding:28px 20px}.responses-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px;border-radius:var(--r-md);background:var(--bg-soft);border:1px solid var(--border);color:var(--ink);box-shadow:var(--shadow-md)}.responses-header strong{font-size:14px;color:var(--gold)}.responses-header h1{margin:4px 0;font-size:25px;font-family:var(--font-display)}.responses-header p{margin:0;color:var(--ink-dim);font-size:12px}.responses-header button{width:auto;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-weight:800}.responses-header button:hover{border-color:var(--c);color:var(--c)}.all-responses{display:grid;gap:12px;margin-top:18px}.response-card{padding:16px;border:1px solid rgba(49,230,176,.28);border-radius:var(--r-sm);background:var(--ok-soft);color:var(--ok);box-shadow:none}.response-card strong{font-size:15px}.response-card p{margin:8px 0;white-space:pre-wrap;font-size:16px;line-height:1.75;color:var(--ink)}.response-card small{color:var(--ok);font-size:11px}
+@media (max-width:560px){.responses-main{padding:16px 14px}.responses-header{align-items:flex-start;flex-direction:column}.responses-header button{width:100%}}
+
+.rating-prompt{min-height:25px;margin:0 0 10px;color:var(--ink-dim);font-weight:700;font-size:14px}.rating-stars{display:flex;gap:7px;direction:ltr}.rating-stars button{width:auto!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;color:var(--border-strong)!important;font-size:34px!important;line-height:1!important;box-shadow:none!important}.rating-stars button.selected{color:var(--gold)!important;text-shadow:0 0 14px rgba(255,189,89,.6)}
+.rating-admin-card{border-color:rgba(255,189,89,.3);background:var(--gold-soft)}.delete-item{background:var(--bad-soft)!important;color:var(--bad)!important;border:1px solid rgba(255,84,112,.3)!important;box-shadow:none!important}
+
+/* ---------- الشعار وحالة الدخول ---------- */
+.footer-info{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 22px;margin:10px -16px 0;padding:22px 36px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--bg-soft);color:var(--ink-dim);font-size:12px;border-top:1px solid var(--border-soft)}
+.footer-info{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 22px;margin:10px -16px 0;padding:26px 40px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--bg-soft);color:var(--ink-dim);font-size:13.5px;border-top:1px solid var(--border-soft)}
+.footer-info p{margin:0}
+.footer-center{display:flex;flex-direction:column;align-items:center;gap:5px;flex:none}
+.visitor-counter{padding:8px 16px!important;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);white-space:nowrap;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700}.visitor-counter strong{color:var(--gold);font-size:15px}
+.heartbeat{color:var(--bad);font-size:15px;display:inline-block;animation:sg-heartbeat 1.3s ease-in-out infinite}
+@keyframes sg-heartbeat{0%,100%{transform:scale(1)}20%{transform:scale(1.35)}40%{transform:scale(1)}60%{transform:scale(1.25)}80%{transform:scale(1)}}
+.designer-prayer{text-align:left;flex:1;min-width:240px;font-size:12.5px;line-height:1.7}.copyright{white-space:nowrap;text-align:right;flex:1;min-width:180px;font-size:13px}
+
+.theme-switch{position:fixed;z-index:130;left:18px;bottom:18px;display:flex;gap:4px;padding:5px;border-radius:999px;background:#150f2c;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 26px rgba(3,2,10,.4)}
+.theme-switch button{width:32px;height:32px;padding:0;margin:0;border:0;border-radius:50%;background:transparent;color:#c7c1e6;font-size:15px;display:grid;place-items:center;box-shadow:none!important}
+.theme-switch button.active{background:var(--aurora);color:#0a0714}
+
+.admin-login-wrap{display:grid;justify-items:center;gap:4px}
+.admin-login{width:auto;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:12px;font-weight:700}.admin-login:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+.admin-login-status{max-width:260px;color:var(--gold);text-align:center;font-size:10px;line-height:1.4}
+
+.admin-panel{grid-column:1/-1;border:1px solid var(--border);border-radius:var(--r-md);background:linear-gradient(160deg,var(--surface),var(--bg-soft));box-shadow:var(--shadow-sm)}
+.admin-panel>summary{padding:16px 18px;color:var(--ink);font-size:17px;font-weight:800;cursor:pointer}
+.admin-panel-content{padding:0 18px 18px}
+.admin-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border-soft);padding-bottom:11px}
+.admin-panel-head strong{color:var(--ink);font-size:18px}.admin-panel-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.admin-panel .secondary{width:auto;margin:0;padding:8px 13px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink);font-weight:700;box-shadow:none}.admin-panel .secondary:hover{border-color:var(--c);color:var(--c)}
+.admin-feedback{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
+.feedback-card{padding:14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);box-shadow:none}
+.feedback-card strong{color:var(--c)}.feedback-card p{margin:7px 0;white-space:pre-wrap;color:var(--ink)}.feedback-card small{display:block;color:var(--muted);font-size:11px}
+.feedback-card textarea{width:100%;margin-top:10px;padding:9px;border:1px solid var(--border);border-radius:var(--r-sm);resize:vertical;background:var(--surface);color:var(--ink)}
+.feedback-card button{width:100%;margin-top:8px;padding:9px;border:0;border-radius:var(--r-sm);background:var(--aurora);color:#0a0714;font-weight:700}.feedback-card button:hover{filter:brightness(1.08)}
+.admin-more{width:100%;margin-top:14px;padding:11px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink);font-weight:800}.admin-more:hover{border-color:var(--c);color:var(--c)}
+.admin-toast{position:fixed;z-index:110;right:16px;bottom:18px;max-width:min(360px,calc(100% - 32px));padding:14px 18px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--ok);color:var(--ink);font-weight:800;box-shadow:var(--shadow-lg);animation:admin-pop .25s ease}
+.admin-mobile-link,.admin-access-panel{margin-top:14px;padding:0;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)}
+.admin-mobile-link>summary,.admin-access-panel>summary{padding:13px;color:var(--ink);font-weight:800;cursor:pointer}
+.admin-mobile-link .panel-content,.admin-access-content{padding:0 13px 14px}
+.admin-access-content>p{color:var(--muted);font-size:12px;line-height:1.7}
+.admin-access-content label{display:block;margin-top:10px;font-size:13px;color:var(--ink-dim)}
+.admin-access-content input,.admin-access-content select{display:block;width:100%;margin-top:5px;padding:9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink)}
+.admin-access-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}.admin-access-actions button{margin:0!important}
+.admin-access-list{display:grid;gap:8px;margin-top:8px}
+.admin-access-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--border-soft);border-radius:var(--r-sm);background:var(--surface)}
+.admin-access-row div{min-width:0}.admin-access-row strong{display:block;overflow-wrap:anywhere;color:var(--ink);font-size:13px}.admin-access-row small{color:var(--muted);font-size:11px}
+.admin-access-row button{flex:none;width:auto;margin:0!important;padding:7px 10px!important}
+.admin-access-content section{margin-top:14px;padding-top:11px;border-top:1px solid var(--border-soft)}.admin-access-content section>strong{font-size:13px;color:var(--ink)}
+@keyframes admin-pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.admin-device-status{color:var(--ok)!important;font-weight:800}
+
+html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width:none;padding:0}html.admin-embedded #update-banner,html.admin-embedded .top-area,html.admin-embedded .quote,html.admin-embedded .quote-nav,html.admin-embedded .feature-map>.panel,html.admin-embedded .footer-info{display:none!important}html.admin-embedded .feature-map{display:block;margin:0}html.admin-embedded .admin-panel{margin:0;border-radius:0;box-shadow:none;border:0}html.admin-embedded .admin-panel>summary{display:none}html.admin-embedded .admin-panel-content{padding:16px}
+
+.admin-message-badge{position:fixed;z-index:115;right:18px;bottom:18px;display:flex;align-items:center;gap:7px;width:auto;padding:12px 14px;border:1px solid var(--border-strong);border-radius:999px;background:var(--surface);color:var(--c);font-size:20px;box-shadow:var(--glow-c);cursor:pointer}.admin-message-badge b{display:grid;min-width:22px;height:22px;place-items:center;padding:0 4px;border-radius:999px;background:var(--c);color:#04222b;font-size:12px;line-height:1;font-family:Arial,sans-serif}.admin-message-badge:hover{transform:translateY(-2px)}
+
+#name-toast,#screen-toast,#prayer-toast{position:fixed;z-index:100;top:14px;left:50%;width:min(calc(100% - 28px),520px);transform:translateX(-50%);padding:14px 18px;border-radius:var(--r-sm);color:#fff;text-align:center;font-weight:800;line-height:1.6;box-shadow:var(--shadow-lg);pointer-events:none;border:1px solid rgba(255,255,255,.15)}#name-toast{background:var(--bad)}#screen-toast{background:#c2294a}#prayer-toast{background:var(--ok);color:#062018}
+
+@keyframes open-card{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:none}}
+
+@media (max-width:719px){
+  main{padding:18px 14px 0}
+  .top-area{grid-template-columns:1.16fr .84fr;border-radius:20px 20px 0 0}
+  .brand{min-height:98px;padding:10px}.brand img{width:62px;height:62px}
+  .prayer-widget{min-height:98px;padding:10px}
+  .prayer-settings>summary>div{min-height:72px;text-align:center}.prayer-settings strong{font-size:16px}.prayer-settings p{font-size:11px;line-height:1.5}
+  .prayer-settings-content{right:auto;left:0;width:min(430px,calc(100vw - 28px))}
+  .quote{min-height:70px;padding:10px 24px}.quote strong{font-size:17px}.quote.is-verse strong{font-size:21px}
+  .quote-nav{padding:8px 0 13px;border-radius:0 0 20px 20px}
+  .feature-map{grid-template-columns:1fr;gap:12px;margin-top:16px}.wide-panel{grid-column:auto}
+  .panel summary{min-height:53px;padding:14px}.panel-content{padding:14px}
+  .gpa-course{grid-template-columns:1fr 66px 1fr 35px;gap:5px;padding:8px}
+  .footer-info{display:grid;justify-items:center;gap:8px;margin:0 -14px;padding:18px 14px;text-align:center;border-radius:20px 20px 0 0}.designer-prayer{text-align:center}.copyright{white-space:normal;text-align:center}
+  .time-row{gap:8px}
+}
+
+/* التصميم المعتمد لسطح المكتب: Bento غير متماثل + أيقونات SVG بروح الشبكة العصبية */
+.hero-copy{display:none}
+.panel-icon{display:none}
+.panel-card-text{display:contents}
+
+.panel-icon::before{content:"";display:block;width:100%;height:100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:52%;mask-size:52%}
+.panel:nth-child(1) .panel-icon{background:var(--v-soft)}.panel:nth-child(1) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14v3M8 10v9M12 5v14M16 9v10M20 12v6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14v3M8 10v9M12 5v14M16 9v10M20 12v6'/%3E%3C/svg%3E")}
+.panel:nth-child(2) .panel-icon{background:var(--bad-soft)}.panel:nth-child(2) .panel-icon::before{background-color:var(--bad);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='13' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='13' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E")}
+.panel:nth-child(3) .panel-icon{background:var(--v-soft)}.panel:nth-child(3) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='2.3'/%3E%3Ccircle cx='18' cy='6' r='2.3'/%3E%3Ccircle cx='12' cy='18' r='2.3'/%3E%3Cpath d='M6 8.3 12 15.7M18 8.3 12 15.7M8.3 6h7.4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='2.3'/%3E%3Ccircle cx='18' cy='6' r='2.3'/%3E%3Ccircle cx='12' cy='18' r='2.3'/%3E%3Cpath d='M6 8.3 12 15.7M18 8.3 12 15.7M8.3 6h7.4'/%3E%3C/svg%3E")}
+.panel:nth-child(4) .panel-icon{background:var(--v-soft)}.panel:nth-child(4) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E")}
+.panel:nth-child(5) .panel-icon{background:var(--gold-soft)}.panel:nth-child(5) .panel-icon::before{background-color:var(--gold);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 16l5-5 4 3 8-9'/%3E%3Cpath d='M15 5h5v5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 16l5-5 4 3 8-9'/%3E%3Cpath d='M15 5h5v5'/%3E%3C/svg%3E")}
+.panel:nth-child(6) .panel-icon{background:var(--v-soft)}.panel:nth-child(6) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E")}
+.panel:nth-child(7) .panel-icon{background:var(--v-soft)}.panel:nth-child(7) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 2l1.8 4.8L18 8.6l-4.2 1.8L12 15l-1.8-4.6L6 8.6l4.2-1.8Z'/%3E%3Cpath d='M12 17v4M9.5 21h5' stroke-linecap='round'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 2l1.8 4.8L18 8.6l-4.2 1.8L12 15l-1.8-4.6L6 8.6l4.2-1.8Z'/%3E%3Cpath d='M12 17v4M9.5 21h5' stroke-linecap='round'/%3E%3C/svg%3E")}
+.panel:nth-child(8) .panel-icon{background:var(--gold-soft)}.panel:nth-child(8) .panel-icon::before{background-color:var(--gold);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E")}
+
+@media (min-width:720px){
+  main{width:min(100%,1510px);padding:14px 16px 0}
+  .top-area{grid-template-columns:34% 44% 22%;min-height:158px;border-radius:var(--r-lg)}
+  .brand{grid-column:1;min-height:158px;padding:0 26px}
+  .brand img{width:96px;height:96px}
+  #guardian-state{right:26px;bottom:18px;z-index:2}
+
+  .hero-copy{grid-column:2;display:grid;align-content:center;justify-items:center;padding:24px;text-align:center;position:relative;z-index:1}
+  .hero-copy h1{margin:0;font-size:clamp(24px,2.6vw,38px);line-height:1.25;font-weight:800;background:var(--aurora);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy h1 i{padding:0 8px;font-style:normal}
+  .hero-copy p{margin:10px 0 7px;font-size:clamp(14px,1.3vw,18px);font-weight:700;color:var(--ink-dim)}
+  .hero-copy small{max-width:560px;color:var(--muted);font-size:12.5px}
+
+  .prayer-widget{grid-column:3;grid-row:1;min-height:158px;margin:16px 16px 16px 0;padding:0;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-md)}
+  .prayer-settings{height:100%}.prayer-settings>summary>div{position:relative;gap:2px;min-height:126px;padding:18px 16px;text-align:center}
+  .prayer-settings>summary b{position:absolute;top:16px;right:18px;color:var(--c);font-size:22px}
+  .prayer-settings>summary span{font-size:12.5px;color:var(--muted)}.prayer-settings strong{font-size:29px}.prayer-settings p{color:var(--ink-dim);font-size:14px}
+  .prayer-settings em{margin-top:6px;padding-top:7px;border-top:1px solid var(--border-soft);color:var(--c);font-size:11px;font-style:normal;font-weight:800}
+
+  .quote{min-height:64px;margin-top:14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);box-shadow:none}.quote strong{font-size:19px}.quote span{color:var(--muted)}.quote.is-verse strong{font-size:32px}.quote.is-hikam strong,.quote.is-hikam span{font-size:18px}
+  .quote-nav{margin-top:-2px;background:transparent;border-radius:0}.quote-nav button{border-color:var(--border);background:var(--surface);color:var(--c)}
+
+  .feature-map{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-flow:dense;gap:14px;margin-top:14px;align-items:start}
+  .panel{border-radius:var(--r-md);grid-column:span 3}
+  .panel:nth-child(3),.panel:nth-child(4),.panel:nth-child(5){grid-column:span 2}
+  .rating-panel{grid-column:span 6}.rating-panel summary{max-width:640px;margin:0 auto}
+  .panel summary{position:relative;min-height:106px;padding:18px 18px;border:0;align-items:center;gap:15px;font-size:16.5px}
+  .panel summary::before{content:"";order:3;flex:none;width:26px;height:26px;background:none;box-shadow:none;border:1px solid var(--border);border-radius:50%;position:relative}
+  .panel summary::after{content:"⌄";position:absolute;left:18px;top:50%;transform:translateY(-50%) rotate(0deg);transition:transform .25s ease;width:26px;height:26px;display:grid;place-items:center;font-size:15px;color:var(--muted)}
+  .panel-icon{display:block;order:-1;flex:none;width:46px;height:46px;border-radius:14px}
+  .panel-card-text{display:grid;gap:5px;min-width:0}.panel-card-text .nav-title{font-size:16.5px;line-height:1.35;font-weight:800}.panel-card-text small{color:var(--muted);font-size:12px;font-weight:400;line-height:1.55}
+
+  .panel[open]{grid-column:1/-1}.panel[open] summary{min-height:60px;border-bottom:1px solid var(--border-soft)}.panel[open] summary::after{transform:translateY(-50%) rotate(180deg)}
+  .panel[open] .panel-icon{width:36px;height:36px;border-radius:10px}.panel[open] .panel-icon::before{-webkit-mask-size:56%;mask-size:56%}
+  .panel[open] .panel-card-text{display:flex;align-items:center;gap:10px}.panel[open] .panel-card-text small{display:none}
+  .panel-content{min-height:245px;padding:24px}
+
+  .footer-info{display:flex;margin:10px -16px 0;padding:24px 36px;border-radius:var(--r-lg) var(--r-lg) 0 0}
+}
+@media (max-width:719px){
+  .hero-copy{display:none}
+  .panel summary{gap:10px}
+  .panel-icon{display:block;order:-1;flex:none;width:34px;height:34px;border-radius:10px}
+  .panel-icon::before{-webkit-mask-size:56%;mask-size:56%}
+  .panel-card-text{display:grid;gap:2px}.panel-card-text small{color:var(--muted);font-size:11px;font-weight:400}
+  .panel summary::before{display:none}
+}
+
+</style>
 </head>
 <body>
-  <script>if (location.protocol === 'file:') location.replace('https://study-guardian-groups.web.app/?home=1'); if (new URLSearchParams(location.search).get('embedded') === '1') document.documentElement.classList.add('admin-embedded');</script>
+<script>if (new URLSearchParams(location.search).get('embedded') === '1') document.documentElement.classList.add('admin-embedded');</script>
   <main>
     <section id="update-banner" hidden><span>يوجد تحديث جديد للأداة.</span><button id="refresh-app">تحديث الصفحة</button></section>
-    <section class="top-area"><button id="admin-login" type="button" class="brand" aria-label="دخول الإدارة"><img src="smart-guardian-official.png" alt="Smart Guardian — الحارس الذكي — © sultan alharbi"><span id="guardian-state" hidden></span></button><section class="prayer-widget"><details class="prayer-settings"><summary aria-label="إعدادات مواقيت الصلاة" title="اضغط لإعداد مواقيت الصلاة"><div><strong id="prayer-title">الصلاة القادمة</strong><p id="prayer-countdown">مواقيت الصلاة غير مفعّلة.</p></div></summary><div class="prayer-settings-content"><label>المدينة<input id="prayer-city" placeholder="مثال: Riyadh"></label><label>الدولة<input id="prayer-country" placeholder="مثال: Saudi Arabia"></label><button id="use-location" type="button" class="secondary">استخدام موقعي الحالي</button><label class="check"><input id="prayer-enabled" type="checkbox"> تفعيل تنبيه الصلاة أثناء فتح الصفحة فقط</label><button id="update-prayers" type="button">تحديث المواقيت</button><details class="manual-prayers"><summary>تعديل المواقيت يدويًا</summary><p>عدّل الوقت الذي تريده، ثم احفظ. يمكنك الرجوع للمواقيت التلقائية في أي وقت.</p><div class="manual-prayer-grid"><label>الفجر<input id="manual-fajr" type="time"></label><label>الظهر<input id="manual-dhuhr" type="time"></label><label>العصر<input id="manual-asr" type="time"></label><label>المغرب<input id="manual-maghrib" type="time"></label><label>العشاء<input id="manual-isha" type="time"></label></div><button id="save-manual-prayers" type="button" class="secondary">حفظ التعديل اليدوي</button><button id="reset-manual-prayers" type="button" class="secondary">العودة للمواقيت التلقائية</button></details><p id="prayer-status">اختر مدينتك أو استخدم موقعك ثم فعّل التنبيه عند رغبتك.</p><div id="prayer-times" hidden></div></div></details></section></section>
+    <section class="top-area"><button id="admin-login" type="button" class="brand" aria-label="دخول الإدارة"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Smart Guardian mark">
+  <defs>
+    <linearGradient id="sg-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#150f2c"/>
+      <stop offset="1" stop-color="#0a0714"/>
+    </linearGradient>
+    <linearGradient id="sg-aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c6bff"/>
+      <stop offset=".55" stop-color="#33e0ff"/>
+      <stop offset="1" stop-color="#ff5fae"/>
+    </linearGradient>
+    <radialGradient id="sg-glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0" stop-color="#33e0ff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#33e0ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="1" y="1" width="98" height="98" rx="24" fill="url(#sg-bg)"/>
+  <circle cx="50" cy="42" r="34" fill="url(#sg-glow)"/>
+  <path d="M50 18 L76 29 V50 C76 67 65 78 50 84 C35 78 24 67 24 50 V29 Z"
+        fill="none" stroke="url(#sg-aurora)" stroke-width="4" stroke-linejoin="round"/>
+  <g stroke="url(#sg-aurora)" stroke-width="2" opacity=".8">
+    <path d="M37 57 L50 45 L64 40"/>
+  </g>
+  <circle cx="37" cy="57" r="4.2" fill="#0a0714" stroke="#33e0ff" stroke-width="2.4"/>
+  <circle cx="50" cy="45" r="3.4" fill="#0a0714" stroke="#7c6bff" stroke-width="2.4"/>
+  <circle cx="64" cy="40" r="4.6" fill="#0a0714" stroke="#ff5fae" stroke-width="2.4"/>
+  <circle cx="64" cy="40" r="1.6" fill="#ff5fae"/>
+</svg><span class="brand-activity" aria-hidden="true"></span><span id="guardian-state" hidden></span></button><section class="hero-copy"><h1>Smart Guardian <i>|</i> الحارس الذكي</h1><p>ذكاء يحمي · تنظيم يطور · مستقبل أفضل</p><small>منصة ذكية تساعد الطلاب على تنظيم دراستهم ومتابعة مهامهم وتعزيز إنتاجيتهم.</small></section><section class="prayer-widget"><details class="prayer-settings"><summary aria-label="إعدادات مواقيت الصلاة" title="اضغط لإعداد مواقيت الصلاة"><div><span>الصلاة القادمة</span><strong id="prayer-title">الصلاة القادمة</strong><p id="prayer-countdown">مواقيت الصلاة غير مفعّلة.</p><em>عرض جميع أوقات الصلاة</em></div></summary><div class="prayer-settings-content"><label>المدينة<input id="prayer-city" placeholder="مثال: Riyadh"></label><label>الدولة<input id="prayer-country" placeholder="مثال: Saudi Arabia"></label><button id="use-location" type="button" class="secondary">استخدام موقعي الحالي</button><label class="check"><input id="prayer-enabled" type="checkbox"> تفعيل تنبيه الصلاة أثناء فتح الصفحة فقط</label><button id="update-prayers" type="button">تحديث المواقيت</button><details class="manual-prayers"><summary>تعديل المواقيت يدويًا</summary><p>عدّل الوقت الذي تريده، ثم احفظ. يمكنك الرجوع للمواقيت التلقائية في أي وقت.</p><div class="manual-prayer-grid"><label>الفجر<input id="manual-fajr" type="time"></label><label>الظهر<input id="manual-dhuhr" type="time"></label><label>العصر<input id="manual-asr" type="time"></label><label>المغرب<input id="manual-maghrib" type="time"></label><label>العشاء<input id="manual-isha" type="time"></label></div><button id="save-manual-prayers" type="button" class="secondary">حفظ التعديل اليدوي</button><button id="reset-manual-prayers" type="button" class="secondary">العودة للمواقيت التلقائية</button></details><p id="prayer-status">اختر مدينتك أو استخدم موقعك ثم فعّل التنبيه عند رغبتك.</p><div id="prayer-times" hidden></div></div></details></section></section>
     <section class="quote" aria-live="polite"><strong id="quote-text">فَإِنَّ مَعَ الْعُسْرِ يُسْرًا</strong><span id="quote-translation" hidden></span><small id="quote-reference" class="quote-reference" hidden></small></section>
     <div class="quote-nav" aria-label="التنقل بين العبارات"><button id="previous-quote" type="button" aria-label="العبارة السابقة">→</button><button id="next-quote" type="button" aria-label="العبارة التالية">←</button></div>
 
     <section class="feature-map" aria-label="خريطة خصائص الحارس الذكي">
     <details class="panel">
-      <summary><span class="nav-title" data-card-key="attendance">متابعة التحضير بالاسم</span></summary>
+      <summary><span class="panel-icon">♙</span><span class="panel-card-text"><span class="nav-title" data-card-key="attendance">متابعة سماع اسمك للتحضير</span><small>تابع تحضير أعضائك بدقة بالاسم والتفاصيل.</small></span></summary>
       <div class="panel-content">
       <label>اسمك أو بدائل النطق<input id="listen-names" placeholder="سلطان، Sultan، Soltan"></label>
       <p class="hint">اكتب البدائل بفواصل، وليس بمسافة: سلطان، Sultan، Soltan. المسافات قبل أو بعد الاسم لا تؤثر.</p>
@@ -36,7 +364,7 @@
     </details>
 
     <details class="panel screen-monitor-panel">
-      <summary><span class="nav-title" data-card-key="screenMonitor">⌖ مراقبة المنطقة المطلوبة</span></summary>
+      <summary><span class="panel-icon">⌖</span><span class="panel-card-text"><span class="nav-title" data-card-key="screenMonitor">مراقبة أي تغيير بالشاشة</span><small>حدّد الجزء المطلوب من الشاشة لتنبيهات فورية.</small></span></summary>
       <div class="panel-content">
         <p class="hint">اضغط البدء، ثم اختر <b>تبويب المحاضرة</b> من نافذة Chrome. اسحب فوق المعاينة لتحديد شريط الاستبيان أو المنطقة التي تريد مراقبتها. لا تُرسل أي صورة إلى الإنترنت؛ المقارنة تتم داخل جهازك فقط.</p>
         <div id="screen-preview-wrap" class="screen-preview-wrap" hidden>
@@ -52,7 +380,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title" data-card-key="groups">وضع المجموعة</span></summary>
+      <summary><span class="panel-icon">♟</span><span class="panel-card-text"><span class="nav-title" data-card-key="groups">وضع المجموعة</span><small>أنشئ مجموعات وشارك المهام والملاحظات.</small></span></summary>
       <div class="panel-content">
       <p id="mode-status" class="mode-status">الحالة الحالية: مستقل</p>
       <button id="create" class="secondary">إنشاء مجموعة جديدة</button>
@@ -67,7 +395,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title" data-card-key="notes">ملاحظة سريعة</span></summary>
+      <summary><span class="panel-icon">✎</span><span class="panel-card-text"><span class="nav-title" data-card-key="notes">ملاحظة سريعة</span><small>سجل ملاحظتك في أي وقت ومن أي مكان.</small></span></summary>
       <div class="panel-content">
       <textarea id="note" rows="4" placeholder="اكتب ملاحظتك هنا"></textarea>
       <label class="check"><input id="share" type="checkbox"> مشاركة مع المجموعة</label>
@@ -80,7 +408,7 @@
     </details>
 
     <details class="panel calculator-panel">
-      <summary><span class="nav-title" data-card-key="gpa">حاسبة المعدل</span></summary>
+      <summary><span class="panel-icon">★</span><span class="panel-card-text"><span class="nav-title" data-card-key="gpa">حاسبة المعدل</span><small>احسب معدلك من 4 أو 5 بسهولة.</small></span></summary>
       <div class="panel-content">
         <label>نظام المعدل
           <select id="gpa-scale"><option value="5">من 5</option><option value="4">من 4</option></select>
@@ -94,7 +422,7 @@
     </details>
 
     <details class="panel pdf-study-panel">
-      <summary><span class="nav-title" data-card-key="pdf">تظليل نقاط المحاضرة في PDF</span></summary>
+      <summary><span class="panel-icon">▧</span><span class="panel-card-text"><span class="nav-title" data-card-key="pdf">تظليل نقاط المحاضرة في PDF</span><small>ارفع كتابك واستخرج النقاط المهمة واحفظها.</small></span></summary>
       <div class="panel-content">
         <p class="hint">ارفع PDF المحاضرة ثم اضغط «تجهيز». عند سماع عبارة مهمة، يبحث الحارس عنها داخل الملف ويضع تظليلًا أصفر على أقرب جملة مطابقة. تتم المعالجة داخل جهازك.</p>
         <label>ملف المحاضرة PDF<input id="study-pdf" type="file" accept="application/pdf,.pdf"></label>
@@ -124,7 +452,7 @@
     </details>
 
     <details class="panel">
-      <summary><span class="nav-title" data-card-key="ideas">اقتراح أو فكرة</span></summary>
+      <summary><span class="panel-icon">☼</span><span class="panel-card-text"><span class="nav-title" data-card-key="ideas">اقتراح أو فكرة</span><small>شاركنا اقتراحك لتجعل الأداة أفضل.</small></span></summary>
       <div class="panel-content">
       <label>اسم صاحب الاقتراح <small>اختياري</small><input id="idea-author" maxlength="30" autocomplete="name" placeholder="اتركه فارغًا إذا فضّلت عدم كتابة الاسم"></label>
       <textarea id="idea" rows="4" placeholder="اكتب اقتراحك لتطوير Study Guardian"></textarea>
@@ -136,7 +464,7 @@
     </details>
 
     <details class="panel rating-panel">
-      <summary><span class="nav-title" data-card-key="rating">تقييم الأداة</span></summary>
+      <summary><span class="panel-icon">☆</span><span class="panel-card-text"><span class="nav-title" data-card-key="rating">تقييم الأداة</span><small>شاركنا رأيك وساعدنا على التطوير.</small></span></summary>
       <div class="panel-content">
         <p id="rating-prompt" class="rating-prompt">ما أكثر ميزة أعجبتك في الحارس الذكي؟</p>
         <div id="rating-stars" class="rating-stars" aria-label="اختر تقييمك من خمس نجوم"><button type="button" data-score="1" aria-label="نجمة واحدة">★</button><button type="button" data-score="2" aria-label="نجمتان">★</button><button type="button" data-score="3" aria-label="ثلاث نجوم">★</button><button type="button" data-score="4" aria-label="أربع نجوم">★</button><button type="button" data-score="5" aria-label="خمس نجوم">★</button></div>
@@ -152,19 +480,710 @@
       <div class="admin-panel-content"><div class="admin-panel-head"><div><strong>إدارة الاقتراحات والتقييمات</strong><p id="admin-status">تسجيل الدخول مطلوب لعرض الاقتراحات.</p><p id="admin-device-status" class="admin-device-status" hidden></p></div><button id="admin-logout" type="button" class="secondary" hidden>خروج الإدارة</button></div>
       <details class="admin-mobile-link"><summary>ربط الجوال والتنبيهات</summary><div class="panel-content"><label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label><label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label><label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label><button id="save-telegram" type="button">حفظ الربط</button><button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button><label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label><button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button><button id="clear-telegram" type="button" class="secondary">مسح الربط</button><p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p><details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol></details></div></details>
       <details id="admin-access-panel" class="admin-access-panel" hidden><summary>إدارة المشرفين</summary><div class="admin-access-content"><p>أضف بريد مشرف موثوق. بعد أن يسجل بحسابه Google مرة واحدة، يظهر طلبه هنا لتمنحه صلاحية دائمة أو مؤقتة.</p><label>بريد المشرف<input id="supervisor-email" type="email" autocomplete="off" placeholder="name@example.com"></label><label>مدة الصلاحية<select id="supervisor-duration"><option value="0">دائمة</option><option value="86400000">24 ساعة</option><option value="604800000">أسبوع</option><option value="2592000000">30 يومًا</option></select></label><div class="admin-access-actions"><button id="save-supervisor-email" type="button">حفظ البريد</button><button id="remove-supervisor-email" type="button" class="secondary">إزالة البريد</button></div><p id="supervisor-status"></p><section><strong>طلبات انتظار التفعيل</strong><div id="admin-requests" class="admin-access-list"><p class="hint">لا توجد طلبات حاليًا.</p></div></section><section><strong>المشرفون المفعّلون</strong><div id="admin-members" class="admin-access-list"><p class="hint">لا يوجد مشرفون إضافيون.</p></div></section></div></details>
+      <details id="admin-visitor-panel" class="admin-access-panel" hidden><summary>إدارة عداد المستخدمين</summary><div class="admin-access-content"><p>العداد يعتمد على الأجهزة أو المتصفحات الفريدة التي زارت الأداة. اكتب الرقم الذي تريد ظهوره، مثل 0 للتصفير أو رقم أقل للتقليل.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div></details>
       <details id="admin-card-titles" class="admin-access-panel" hidden><summary>تعديل أسماء المربعات</summary><div class="admin-access-content"><p>اختر مربعًا ثم اكتب الاسم الذي تريده. يظهر التعديل مباشرة لجميع المستخدمين.</p><label>المربع<select id="card-title-key"><option value="attendance">متابعة التحضير بالاسم</option><option value="screenMonitor">مراقبة المنطقة المطلوبة</option><option value="groups">وضع المجموعة</option><option value="notes">ملاحظة سريعة</option><option value="gpa">حاسبة المعدل</option><option value="pdf">تظليل نقاط المحاضرة في PDF</option><option value="ideas">اقتراح أو فكرة</option><option value="rating">تقييم الأداة</option></select></label><label>الاسم الجديد<input id="card-title-value" maxlength="60" placeholder="مثال: حاسبة الجامعة"></label><div class="admin-access-actions"><button id="save-card-title" type="button">حفظ الاسم</button><button id="reset-card-title" type="button" class="secondary">استعادة الاسم الأصلي</button></div><p id="card-title-status"></p></div></details>
       <section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div>
     </details>
     </section>
 
-    <footer class="footer-info"><p class="copyright">© sultan alharbi — جميع الحقوق محفوظة</p><span id="admin-login-status" class="admin-login-status" aria-live="polite"></span><p id="designer-prayer" class="designer-prayer" aria-live="polite">اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.</p></footer>
+    <footer class="footer-info">
+      <p class="copyright">© sultan alharbi — جميع الحقوق محفوظة</p>
+      <div class="footer-center"><p class="visitor-counter">المستخدمون <span class="heartbeat" aria-hidden="true">❤</span> <strong id="visitor-count">0</strong></p><span id="admin-login-status" class="admin-login-status" aria-live="polite"></span></div>
+      <p id="designer-prayer" class="designer-prayer" aria-live="polite">اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.</p>
+    </footer>
   </main>
+  <div id="theme-switch" class="theme-switch" role="group" aria-label="مظهر الواجهة">
+    <button type="button" data-theme-choice="light" aria-label="مظهر فاتح" title="فاتح">☀</button>
+    <button type="button" data-theme-choice="dark" aria-label="مظهر غامق" title="غامق">🌙</button>
+    <button type="button" data-theme-choice="system" aria-label="حسب النظام" title="حسب النظام">🖥</button>
+  </div>
+  <script>
+    (function(){
+      var KEY = "sgTheme";
+      function apply(mode){
+        if (mode === "system") document.documentElement.removeAttribute("data-theme");
+        else document.documentElement.setAttribute("data-theme", mode);
+        document.querySelectorAll("#theme-switch button").forEach(function(b){ b.classList.toggle("active", b.dataset.themeChoice === mode); });
+      }
+      var saved = localStorage.getItem(KEY) || "light";
+      apply(saved);
+      document.querySelectorAll("#theme-switch button").forEach(function(b){
+        b.addEventListener("click", function(){ localStorage.setItem(KEY, b.dataset.themeChoice); apply(b.dataset.themeChoice); });
+      });
+    })();
+  </script>
   <div id="name-toast" role="status" aria-live="assertive" hidden></div>
   <div id="screen-toast" role="status" aria-live="assertive" hidden></div>
   <div id="prayer-toast" role="status" aria-live="assertive" hidden></div>
   <button id="admin-message-badge" type="button" class="admin-message-badge" hidden aria-label="رسائل الاقتراحات الجديدة" title="اقتراحات جديدة"><span aria-hidden="true">💬</span><b id="admin-message-count">0</b></button>
-  <script src="core.js?v=132"></script>
-  <script type="module" src="mobile.js?v=2026.20"></script>
-  <script type="module" src="pdf-feature.js?v=10"></script>
+  <script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition, listening = false, starting = false, browserStopped = false, micReady = false, scheduleStopTimer = null, toastTimer = null, prayerToastTimer = null, quoteTimer = null, quoteIndex = 0, prayerData = null, heardBuffer = "", listenStartedAt = 0, lastAlert = 0, screenStream = null, screenTimer = null, screenMonitoring = false, screenLastFrame = null, screenChangeCount = 0, screenLastAlert = 0, screenSelection = null, screenDrag = null;
+  const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "", "آية — سورة الشرح، رقم 5", "verse"],["اللهم لا سهل إلا ما جعلته سهلًا", "O Allah, nothing is easy except what You make easy.", "", "hikam"],["واصل. أنت أقرب مما تتوقع.", "Keep going. You are closer than you think.", "", "hikam"],["ركّز على التقدم لا الكمال.", "Focus on progress, not perfection.", "", "hikam"],["الخطوات الصغيرة المستمرة تصنع نتائج كبيرة.", "Small consistent steps create big results.", "", "hikam"],["اسأل مبكرًا؛ فالالتباس يكبر مع الصمت.", "Ask questions early; confusion grows in silence.", "", "hikam"],["تقويمك يكشف أولوياتك.", "Your calendar shows your priorities.", "", "hikam"],["أنجز المهم قبل أن يسرقك ضجيج العاجل.", "Do the important task before the urgent noise.", "", "hikam"],["ملاحظة واضحة توفر ساعة في المستقبل.", "A clear note saves a future hour.", "", "hikam"],["الراحة جزء من العمل المنضبط، وليست مكافأة بعد الإرهاق.", "Rest is part of disciplined work, not a reward for burnout.", "", "hikam"],["كن موثوقًا: افعل ما قلت إنك ستفعله.", "Be reliable: do what you said you would do.", "", "hikam"],["تعلم المهارة، ثم طبّقها أمام الآخرين.", "Learn the skill, then practice it in public.", "", "hikam"],["العمل الجيد يظهر عندما تشرحه بوضوح.", "Good work becomes visible when you communicate it clearly.", "", "hikam"],["اللهم فرّج همّ المهمومين من المسلمين، واشف مرضاهم، وارحم موتاهم.", "", "آمين", "prayer"],["اللهم ارزق من تأخر عنه الذرية ذرية صالحة، واجعلها قرة عين له.", "", "آمين", "prayer"],["اللهم أغنِ الفقير، وارزقه من واسع فضلك، وأغنه بحلالك عن حرامك.", "", "آمين", "prayer"],["اللهم ارحم اليتيم، واجبر قلبه، وهيئ له من أمره رشدًا ورحمة.", "", "آمين", "prayer"],["اللهم اغفر لموتى المسلمين، وارحمهم، ونوّر قبورهم، واجعل الجنة دارهم.", "", "آمين", "prayer"],["رَبِّ زِدْنِي عِلْمًا", "", "آية — سورة طه، رقم 114", "verse"]];
+  const status = text => { $("listen-status").textContent = text; };
+  const normalize = value => value.toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+  const rawNames = () => $("listen-names").value.split(/[,،;\n]/).map(name => name.trim()).filter(Boolean);
+  const watchedNames = () => rawNames().map(normalize).filter(Boolean);
+  const displayName = name => rawNames().find(item => normalize(item) === name) || name;
+  const latinKey = value => value.replace(/[aeiouy]/g, "");
+  function distance(a, b) { const row = Array.from({ length: b.length + 1 }, (_, i) => i); for (let i = 1; i <= a.length; i += 1) { let previous = row[0]; row[0] = i; for (let j = 1; j <= b.length; j += 1) { const saved = row[j]; row[j] = Math.min(row[j] + 1, row[j - 1] + 1, previous + (a[i - 1] === b[j - 1] ? 0 : 1)); previous = saved; } } return row[b.length]; }
+  function closeWord(word, name) { if (word === name) return true; if (name.length < 4 || word.length < 4) return false; if (word.includes(name) || name.includes(word)) return Math.min(word.length, name.length) >= name.length - 1; if (/^[a-z]+$/.test(word) && /^[a-z]+$/.test(name) && latinKey(word) === latinKey(name)) return true; return distance(word, name) <= Math.max(1, Math.floor(name.length * .2)); }
+  function matchedName(text) { const full = normalize(text); for (const name of watchedNames()) { if (full.includes(name)) return name; const nameWords = name.split(" "), heardWords = full.split(" "); if (nameWords.length === 1 && heardWords.some(word => closeWord(word, name))) return name; for (let i = 0; i <= heardWords.length - nameWords.length; i += 1) if (nameWords.every((word, index) => closeWord(heardWords[i + index], word))) return name; } return ""; }
+  const languages = () => { const names = $("listen-names").value, ar = /[\u0600-\u06FF]/.test(names), en = /[A-Za-z]/.test(names); return ar && en ? ["ar-SA", "en-US"] : [ar ? "ar-SA" : "en-US"]; };
+  const minutes = value => { const [h, m] = (value || "").split(":").map(Number); return Number.isInteger(h) && Number.isInteger(m) ? h * 60 + m : null; };
+  const hasSchedule = () => Boolean($("listen-start").value && $("listen-end").value && $("listen-start").value !== $("listen-end").value);
+  const dailySchedule = () => $("listen-daily").checked;
+  const scheduleId = () => `${new Date().toDateString()}|${$("listen-start").value}|${$("listen-end").value}`;
+  const scheduleDone = () => !dailySchedule() && localStorage.mobileScheduleDone === scheduleId();
+  const finishSchedule = () => { if (!dailySchedule()) localStorage.mobileScheduleDone = scheduleId(); };
+  const scheduledNow = () => { const start = minutes($("listen-start").value), end = minutes($("listen-end").value); if (start === null || end === null || start === end) return false; const d = new Date(), now = d.getHours() * 60 + d.getMinutes(); return start < end ? now >= start && now < end : now >= start || now < end; };
+  const scheduleEnded = () => { const start = minutes($("listen-start").value), end = minutes($("listen-end").value), nowDate = new Date(), now = nowDate.getHours() * 60 + nowDate.getMinutes(); return start !== null && end !== null && start < end && now >= end; };
+  function armScheduledStop() { clearTimeout(scheduleStopTimer); if (!hasSchedule() || scheduleDone() || !scheduledNow()) return; const end = minutes($("listen-end").value), now = new Date(), target = new Date(now); target.setHours(Math.floor(end / 60), end % 60, 0, 0); if (target <= now) target.setDate(target.getDate() + 1); scheduleStopTimer = setTimeout(() => { if (listening) stop(true); finishSchedule(); tick(); }, Math.max(500, target - now)); }
+  function problem(error) { const code = error?.error || error?.name || ""; if (["not-allowed", "NotAllowedError", "service-not-allowed"].includes(code)) return "اسمح بالميكروفون من رمز القفل بجانب الرابط، ثم حدّث الصفحة."; if (["not-found", "NotFoundError"].includes(code)) return "لا يوجد ميكروفون متاح في الكمبيوتر."; if (["not-readable", "NotReadableError"].includes(code)) return "الميكروفون مستخدم في برنامج آخر."; if (code === "network") return "تعذر تشغيل خدمة التعرف. تأكد من الإنترنت."; return `تعذر بدء الاستماع: ${code || "خطأ غير معروف"}`; }
+  function ring() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .35; gain.connect(context.destination); for (let i = 0; i < 8; i += 1) { const tone = context.createOscillator(); tone.frequency.value = i % 2 ? 1180 : 880; tone.connect(gain); tone.start(context.currentTime + i * .16); tone.stop(context.currentTime + i * .16 + .1); } setTimeout(() => context.close(), 1500); }
+  function stopRing() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .28; gain.connect(context.destination); for (let i = 0; i < 3; i += 1) { const tone = context.createOscillator(); tone.frequency.value = 560; tone.connect(gain); tone.start(context.currentTime + i * .28); tone.stop(context.currentTime + i * .28 + .18); } setTimeout(() => context.close(), 1200); }
+  function alertsAllowedNow() { return !$("alerts-follow-schedule").checked || !hasSchedule() || scheduledNow(); }
+  function alertName(name = "") { if (!alertsAllowedNow()) return; const display = name || "صاحبنا", message = `🔔 يا الشيخ ${display} مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄`, toast = $("name-toast"), boldName = document.createElement("strong"); boldName.textContent = display; status(message); toast.replaceChildren("🔔 يا الشيخ ", boldName, " مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄"); toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.hidden = true; }, 8000); ring(); navigator.vibrate?.([180, 90, 180, 90, 180]); }
+  async function sendTelegram(text, isTest = false) { const token = $("telegram-token").value.trim(), chatId = $("telegram-chat-id").value.trim(); if (!token || !chatId) { if (isTest) $("telegram-status").textContent = "اكتب Bot Token وChat ID أولًا."; return; } try { $("telegram-status").textContent = isTest ? "جارٍ إرسال الاختبار..." : "جارٍ إرسال التنبيه للجوال..."; const body = new URLSearchParams({ chat_id: chatId, text }); const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: "POST", body }); const data = await response.json(); if (!response.ok || !data.ok) throw new Error(data?.description || "تعذر الإرسال"); $("telegram-status").textContent = isTest ? "نجح الاختبار. وصلتك رسالة Telegram." : "تم إرسال تنبيه Telegram."; } catch (error) { $("telegram-status").textContent = `تعذر إرسال Telegram: ${error.message || "تحقق من البيانات والإنترنت"}`; } }
+  async function sendTelegramFile(file, caption = "ملف من Smart Guardian") { const token = $("telegram-token").value.trim(), chatId = $("telegram-chat-id").value.trim(); if (!token || !chatId) { $("telegram-status").textContent = "اكتب Bot Token وChat ID أولًا."; return false; } if (!file) { $("telegram-status").textContent = "اختر ملفًا أولًا."; return false; } if (file.size > 50 * 1024 * 1024) { $("telegram-status").textContent = "حجم الملف أكبر من 50 MB؛ اختر ملفًا أصغر."; return false; } try { $("telegram-status").textContent = "جارٍ إرسال الملف إلى Telegram..."; const body = new FormData(); body.append("chat_id", chatId); body.append("caption", caption); body.append("document", file, file.name || "smart-guardian-file"); const response = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: "POST", body }); const data = await response.json(); if (!response.ok || !data.ok) throw new Error(data?.description || "تعذر الإرسال"); $("telegram-status").textContent = "تم إرسال الملف. ستجده الآن في جميع أجهزتك على Telegram."; return { ok: true, fileId: data.result?.document?.file_id || "" }; } catch (error) { $("telegram-status").textContent = `تعذر إرسال الملف: ${error.message || "تحقق من الربط والإنترنت"}`; return false; } }
+  function alertTelegram(name) { if (!alertsAllowedNow() || !$("telegram-enabled").checked) return; sendTelegram(`عزيزي ${name || "طالبنا"}، الرجاء الانتباه.. سمعنا اسمك الآن.`); }
+  function saveTelegram() { localStorage.telegramToken = $("telegram-token").value.trim(); localStorage.telegramChatId = $("telegram-chat-id").value.trim(); localStorage.telegramEnabled = $("telegram-enabled").checked ? "1" : "0"; $("telegram-status").textContent = "تم حفظ الربط على هذا الجهاز."; }
+  function clearTelegram() { ["telegramToken", "telegramChatId", "telegramEnabled"].forEach(key => localStorage.removeItem(key)); $("telegram-token").value = ""; $("telegram-chat-id").value = ""; $("telegram-enabled").checked = false; $("telegram-status").textContent = "تم مسح ربط Telegram من هذا الجهاز."; }
+  const screenStatus = text => { $("screen-monitor-status").textContent = text; };
+  function sensitivityLabel() { const value = Number($("screen-sensitivity").value); $("screen-sensitivity-label").textContent = value <= 11 ? "عالية — تلتقط تغيّرات أصغر" : value >= 27 ? "منخفضة — تتجاهل الحركة البسيطة" : "متوازنة"; localStorage.screenSensitivity = String(value); }
+  function paintScreenSelection() { const video = $("screen-preview"), marker = $("screen-selection"); if (!screenSelection || !video.clientWidth || !video.clientHeight) return marker.hidden = true; const { x, y, w, h } = screenSelection; marker.hidden = false; marker.style.left = `${video.offsetLeft + x * video.clientWidth}px`; marker.style.top = `${video.offsetTop + y * video.clientHeight}px`; marker.style.width = `${w * video.clientWidth}px`; marker.style.height = `${h * video.clientHeight}px`; }
+  function selectScreenArea(event) { const video = $("screen-preview"), rect = video.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return null; return { x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)), y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height)) }; }
+  function renderScreenFrame() { if (!screenMonitoring || !screenStream || !screenSelection) return; const video = $("screen-preview"); if (video.readyState < 2 || !video.videoWidth) return; const x = Math.max(0, Math.min(.98, screenSelection.x)), y = Math.max(0, Math.min(.98, screenSelection.y)), w = Math.max(.02, Math.min(1 - x, screenSelection.w)), h = Math.max(.02, Math.min(1 - y, screenSelection.h)); const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 36; const context = canvas.getContext("2d", { willReadFrequently: true }); context.drawImage(video, x * video.videoWidth, y * video.videoHeight, w * video.videoWidth, h * video.videoHeight, 0, 0, canvas.width, canvas.height); const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data; const frame = new Uint8Array(canvas.width * canvas.height); for (let i = 0, j = 0; i < pixels.length; i += 4, j += 1) frame[j] = (pixels[i] * 54 + pixels[i + 1] * 183 + pixels[i + 2] * 19) >> 8; if (!screenLastFrame) { screenLastFrame = frame; screenStatus("تم تثبيت الصورة المرجعية. تتم مراقبة المنطقة المحددة الآن."); return; } let sum = 0; for (let i = 0; i < frame.length; i += 1) sum += Math.abs(frame[i] - screenLastFrame[i]); const difference = sum / frame.length; const threshold = Number($("screen-sensitivity").value); if (difference >= threshold) { screenChangeCount += 1; if (screenChangeCount >= 2 && Date.now() - screenLastAlert > 45000) { screenLastAlert = Date.now(); screenChangeCount = 0; screenLastFrame = frame; const text = "🔔 تنبيه الحارس الذكي: ظهر تغيّر واضح في منطقة الاستبيان التي حددتها. افتح المحاضرة الآن."; const toast = $("screen-toast"); toast.textContent = "🔔 ظهر تغيّر جديد في منطقة الاستبيان"; toast.hidden = false; setTimeout(() => { toast.hidden = true; }, 9000); ring(); navigator.vibrate?.([180, 80, 180, 80, 180]); if ($("telegram-enabled").checked) sendTelegram(text); screenStatus("تم إرسال تنبيه للتغيّر المكتشف. تستمر المراقبة الآن."); } } else { screenChangeCount = 0; screenLastFrame = frame; } }
+  function startScreenSampling() { clearInterval(screenTimer); screenLastFrame = null; screenChangeCount = 0; screenMonitoring = true; screenTimer = setInterval(renderScreenFrame, 1000); renderScreenFrame(); }
+  function stopScreenMonitor(message = "تم إيقاف مراقبة الشاشة.") { screenMonitoring = false; clearInterval(screenTimer); screenTimer = null; screenLastFrame = null; screenChangeCount = 0; if (screenStream) screenStream.getTracks().forEach(track => track.stop()); screenStream = null; $("screen-preview").srcObject = null; $("screen-preview-wrap").hidden = true; $("start-screen-monitor").hidden = false; $("stop-screen-monitor").hidden = true; screenStatus(message); }
+  async function startScreenMonitor() { if (!navigator.mediaDevices?.getDisplayMedia) return screenStatus("متصفحك لا يدعم اختيار تبويب للمراقبة. افتح الرابط المنشور في Chrome أو Edge."); if (!window.isSecureContext && location.protocol !== "file:") return screenStatus("افتح الرابط المنشور عبر HTTPS لتفعيل مراقبة الشاشة."); try { screenStatus("اختر تبويب المحاضرة من النافذة، ثم اسمح بالمشاركة."); const stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: { ideal: 3, max: 5 } }, audio: false }); screenStream = stream; const video = $("screen-preview"); video.srcObject = stream; await video.play(); $("screen-preview-wrap").hidden = false; $("start-screen-monitor").hidden = true; $("stop-screen-monitor").hidden = false; screenSelection = null; paintScreenSelection(); stream.getVideoTracks()[0].onended = () => { if (screenStream === stream) stopScreenMonitor("توقفت مشاركة التبويب، لذلك توقفت المراقبة."); }; screenStatus("اسحب فوق معاينة تبويب المحاضرة لتحديد شريط الاستبيان. بعدها تبدأ المراقبة تلقائيًا."); } catch (error) { screenStatus(error?.name === "NotAllowedError" ? "لم تسمح بمشاركة تبويب المحاضرة؛ لن تبدأ المراقبة." : "تعذر بدء مراقبة الشاشة. حاول اختيار تبويب المحاضرة مرة أخرى."); } }
+  function setupScreenSelection() { const wrap = $("screen-preview-wrap"); wrap.addEventListener("pointerdown", event => { const point = selectScreenArea(event); if (!point || !screenStream) return; screenDrag = point; screenSelection = { x: point.x, y: point.y, w: .01, h: .01 }; wrap.setPointerCapture?.(event.pointerId); paintScreenSelection(); }); wrap.addEventListener("pointermove", event => { if (!screenDrag) return; const point = selectScreenArea(event); if (!point) return; screenSelection = { x: Math.min(screenDrag.x, point.x), y: Math.min(screenDrag.y, point.y), w: Math.max(.02, Math.abs(point.x - screenDrag.x)), h: Math.max(.02, Math.abs(point.y - screenDrag.y)) }; paintScreenSelection(); }); const done = () => { if (!screenDrag) return; screenDrag = null; paintScreenSelection(); startScreenSampling(); }; wrap.addEventListener("pointerup", done); wrap.addEventListener("pointercancel", done); window.addEventListener("resize", paintScreenSelection); }
+  async function checkMicPermission() { try { const permission = await navigator.permissions?.query({ name: "microphone" }); if (!permission) return; micReady = permission.state === "granted"; permission.onchange = () => { micReady = permission.state === "granted"; }; } catch (_) {} }
+  function session() { const list = languages(), activeRecognition = new Recognition(); recognition = activeRecognition; activeRecognition.continuous = true; activeRecognition.interimResults = true; activeRecognition.maxAlternatives = 3; activeRecognition.lang = list[0]; activeRecognition.onresult = event => { if (recognition !== activeRecognition) return; let text = ""; for (let i = event.resultIndex; i < event.results.length; i += 1) text += `${event.results[i][0].transcript} `; text = normalize(text); if (!text) return; heardBuffer = normalize(`${heardBuffer} ${text}`).slice(-360); $("heard").textContent = `آخر ما سمعه: ${heardBuffer}`; window.dispatchEvent(new CustomEvent("smartguardian:heard", { detail: { text } })); const name = matchedName(`${heardBuffer} ${text}`); if (name && Date.now() - listenStartedAt >= 1000 && Date.now() - lastAlert >= 5000) { lastAlert = Date.now(); const display = displayName(name); status(`تم اكتشاف الاسم: ${name}`); alertTelegram(display); alertName(display); heardBuffer = ""; } }; activeRecognition.onerror = error => { if (recognition === activeRecognition && !["no-speech", "aborted"].includes(error.error)) status(problem(error)); }; activeRecognition.onend = () => { if (recognition !== activeRecognition || !listening || browserStopped) return; status("تستمر متابعة الاسم تلقائيًا…"); setTimeout(() => { if (recognition === activeRecognition && listening && !browserStopped) session(); }, 250); }; activeRecognition.start(); }
+  async function start(fromSchedule = false) { if (!Recognition) return status("التعرف الصوتي غير متاح في هذا المتصفح. استخدم Chrome."); if (!watchedNames().length && !window.studyGuardianPdfListening) return status("اكتب الاسم أولًا، أو جهّز ملف PDF لتفعيل التقاط عبارات المحاضرة."); if (fromSchedule && !micReady) return status("الجدول ينتظر إذن الميكروفون. اضغط «بدء متابعة الاسم» بنفسك مرة واحدة فقط."); if (listening || starting) return; starting = true; try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); stream.getTracks().forEach(track => track.stop()); micReady = true; } catch (error) { micReady = false; starting = false; return status(problem(error)); } try { browserStopped = false; heardBuffer = ""; listenStartedAt = Date.now(); listening = true; session(); $("listen").textContent = "🎧 إيقاف متابعة الاسم"; status(window.studyGuardianPdfListening ? "يستمع الحارس لعبارات المحاضرة المهمة." : (languages().length > 1 ? "تتم متابعة الاسم باللغة الأساسية المكتوبة." : "تتم متابعة الاسم من ميكروفون هذا الجهاز.")); localStorage.mobileNames = $("listen-names").value; } catch (error) { listening = false; status(problem(error)); } starting = false; }
+  function stop(fromSchedule = false) { listening = false; browserStopped = true; clearTimeout(scheduleStopTimer); recognition?.stop(); if ($("stop-alarm").checked) stopRing(); $("listen").textContent = "🎧 بدء متابعة الاسم"; status(fromSchedule ? "تم إيقاف الاستماع لانتهاء الوقت المحدد." : "تم إيقاف المتابعة مباشرة."); }
+  function saveSchedule(changed = false) { localStorage.mobileListenStart = $("listen-start").value; localStorage.mobileListenEnd = $("listen-end").value; localStorage.mobileListenDaily = dailySchedule() ? "1" : "0"; if (changed) localStorage.removeItem("mobileScheduleDone"); if (!hasSchedule()) { clearTimeout(scheduleStopTimer); return $("schedule-status").textContent = "اختر وقت بداية ونهاية مختلفين. لمسح الجدول امسح أحد الوقتين."; } $("schedule-status").textContent = dailySchedule() ? `يتكرر يوميًا: ${$("listen-start").value} إلى ${$("listen-end").value}.` : `مؤقت للحصة الحالية: ${$("listen-start").value} إلى ${$("listen-end").value}. بعد النهاية يتعطل حتى تغيّر الوقت.`; armScheduledStop(); }
+  function tick() { if (!hasSchedule()) { clearTimeout(scheduleStopTimer); return; } if (scheduleDone()) return; if (scheduledNow()) { if (!listening && !browserStopped) start(true); armScheduledStop(); return; } if (!dailySchedule() && scheduleEnded()) { if (listening) stop(true); finishSchedule(); clearTimeout(scheduleStopTimer); $("schedule-status").textContent = "انتهى مؤقت هذه الحصة ولن يتدخل مرة أخرى حتى تغيّر الوقت."; return; } if (dailySchedule() && listening) stop(true); if (dailySchedule() && !scheduledNow()) browserStopped = false; }
+  function rotate(index = 0) { quoteIndex = index % quotes.length; const quote = quotes[quoteIndex], translation = $("quote-translation"), reference = $("quote-reference"), box = $("quote-text").parentElement; $("quote-text").textContent = quote[0]; translation.textContent = quote[1]; translation.dir = /[\u0600-\u06FF]/.test(quote[1]) ? "rtl" : "ltr"; translation.hidden = !quote[1]; reference.textContent = quote[2] || ""; reference.hidden = !quote[2]; box.classList.toggle("is-verse", quote[3] === "verse"); box.classList.toggle("is-prayer", quote[3] === "prayer"); box.classList.toggle("is-hikam", quote[3] === "hikam"); clearTimeout(quoteTimer); quoteTimer = setTimeout(() => rotate(quoteIndex + 1), 18000); }
+  function cycleDesignerPrayer(index = 0) { const prayers = ["اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.", "اللهم اجعل هذه الأداة نافعة، واكتب الأجر لمن ساهم في صنعها.", "اللهم يسر لصاحب هذه الأداة أمره، وبارك له في علمه ووقته.", "اللهم ارزق من صمم هذه الأداة التوفيق والسداد والخير الكثير."]; $("designer-prayer").textContent = prayers[index % prayers.length]; setTimeout(() => cycleDesignerPrayer(index + 1), 18000); }
+  $("listen-names").value = localStorage.mobileNames || ""; $("listen-start").value = localStorage.mobileListenStart || ""; $("listen-end").value = localStorage.mobileListenEnd || ""; $("listen-daily").checked = localStorage.mobileListenDaily === "1"; $("alerts-follow-schedule").checked = localStorage.mobileAlertsFollowSchedule === "1"; $("stop-alarm").checked = localStorage.mobileStopAlarm !== "0"; $("telegram-token").value = localStorage.telegramToken || ""; $("telegram-chat-id").value = localStorage.telegramChatId || ""; $("telegram-enabled").checked = localStorage.telegramEnabled === "1";
+  ["courseName", "courseContext", "geminiKey", "courseAiEnabled"].forEach(key => localStorage.removeItem(key));
+  $("screen-sensitivity").value = localStorage.screenSensitivity || "14"; sensitivityLabel(); $("screen-sensitivity").oninput = sensitivityLabel; $("start-screen-monitor").onclick = startScreenMonitor; $("stop-screen-monitor").onclick = () => stopScreenMonitor(); setupScreenSelection();
+  const gpaGrades = { "5": [["A+", 5], ["A", 4.75], ["B+", 4.5], ["B", 4], ["C+", 3.5], ["C", 3], ["D+", 2.5], ["D", 2], ["F", 0]], "4": [["A", 4], ["B+", 3.5], ["B", 3], ["C+", 2.5], ["C", 2], ["D+", 1.5], ["D", 1], ["F", 0]] };
+  const savedGpaCourses = () => { try { const items = JSON.parse(localStorage.gpaCourses || "[]"); return Array.isArray(items) ? items.slice(0, 20) : []; } catch (_) { return []; } };
+  function saveGpaCourses() { const courses = [...$("gpa-courses").querySelectorAll(".gpa-course")].map(row => ({ name: row.querySelector(".gpa-name").value.trim(), hours: row.querySelector(".gpa-hours").value, grade: row.querySelector(".gpa-grade").value })); localStorage.gpaCourses = JSON.stringify(courses); }
+  function makeGpaCourse(course = {}) { const scale = $("gpa-scale").value, row = document.createElement("div"), name = document.createElement("input"), hours = document.createElement("input"), grade = document.createElement("select"), remove = document.createElement("button"); row.className = "gpa-course"; name.className = "gpa-name"; name.placeholder = "اسم المادة"; name.value = course.name || ""; hours.className = "gpa-hours"; hours.type = "number"; hours.min = "1"; hours.max = "12"; hours.step = "1"; hours.value = course.hours || "3"; grade.className = "gpa-grade"; const placeholder = document.createElement("option"); placeholder.value = ""; placeholder.textContent = "الدرجة"; grade.append(placeholder); gpaGrades[scale].forEach(([label, points]) => { const option = document.createElement("option"); option.value = String(points); option.textContent = `${label} — ${points}`; if (String(points) === String(course.grade)) option.selected = true; grade.append(option); }); remove.type = "button"; remove.title = "حذف المادة"; remove.setAttribute("aria-label", "حذف المادة"); remove.textContent = "×"; remove.onclick = () => { row.remove(); saveGpaCourses(); }; [["المادة", name], ["الساعات", hours], ["الدرجة", grade]].forEach(([text, control]) => { const label = document.createElement("label"); label.textContent = text; label.append(control); row.append(label); }); row.append(remove); row.oninput = saveGpaCourses; row.onchange = saveGpaCourses; return row; }
+  function renderGpaCourses(courses = savedGpaCourses()) { const target = $("gpa-courses"); target.replaceChildren(); (courses.length ? courses : [{}, {}, {}]).forEach(course => target.append(makeGpaCourse(course))); $("gpa-result").textContent = "أضف المواد ثم احسب المعدل."; }
+  function calculateGpa() { saveGpaCourses(); const scale = Number($("gpa-scale").value), courses = savedGpaCourses(), valid = courses.filter(course => Number(course.hours) > 0 && course.grade !== ""); if (!valid.length) return $("gpa-result").textContent = "اختر ساعات ودرجة مادة واحدة على الأقل."; const hours = valid.reduce((sum, course) => sum + Number(course.hours), 0), points = valid.reduce((sum, course) => sum + Number(course.hours) * Number(course.grade), 0), result = points / hours; $("gpa-result").textContent = `معدلك الحالي: ${result.toFixed(2)} من ${scale} — مجموع الساعات: ${hours}`; }
+  $("gpa-scale").value = localStorage.gpaScale === "4" ? "4" : "5"; $("gpa-scale").onchange = () => { localStorage.gpaScale = $("gpa-scale").value; renderGpaCourses(savedGpaCourses().map(course => ({ ...course, grade: "" }))); }; $("add-gpa-course").onclick = () => { $("gpa-courses").append(makeGpaCourse()); saveGpaCourses(); }; $("calculate-gpa").onclick = calculateGpa; renderGpaCourses();
+  window.studyGuardianSendTelegramFile = sendTelegramFile; window.studyGuardianSendTelegram = sendTelegram;
+  $("listen").onclick = () => listening ? stop() : start(); $("listen-start").onchange = () => saveSchedule(true); $("listen-end").onchange = () => saveSchedule(true); $("listen-daily").onchange = () => saveSchedule(true); $("alerts-follow-schedule").onchange = () => { localStorage.mobileAlertsFollowSchedule = $("alerts-follow-schedule").checked ? "1" : "0"; }; $("stop-alarm").onchange = () => { localStorage.mobileStopAlarm = $("stop-alarm").checked ? "1" : "0"; }; $("save-telegram").onclick = saveTelegram; $("test-telegram").onclick = () => sendTelegram("تم ربط Study Guardian بنجاح.", true); $("send-telegram-file").onclick = () => sendTelegramFile($("telegram-file").files?.[0]); $("clear-telegram").onclick = clearTelegram; $("previous-quote").onclick = () => rotate((quoteIndex - 1 + quotes.length) % quotes.length); $("next-quote").onclick = () => rotate(quoteIndex + 1);
+  const prayerNames = { Fajr: "الفجر", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء" };
+  const prayerKeys = Object.keys(prayerNames);
+  const cleanPrayerTime = value => (value || "").match(/\d{2}:\d{2}/)?.[0] || "";
+  const timeParts = time => time.split(":").map(Number);
+  const timeValue = time => { const [hour, minute] = timeParts(time); return hour * 60 + minute; };
+  const manualPrayerIds = { Fajr: "manual-fajr", Dhuhr: "manual-dhuhr", Asr: "manual-asr", Maghrib: "manual-maghrib", Isha: "manual-isha" };
+  const savedManualPrayerTimes = () => { try { return JSON.parse(localStorage.prayerManualTimes || "{}"); } catch (_) { return {}; } };
+  const hasCompleteManualPrayerTimes = times => prayerKeys.every(key => /^\d{2}:\d{2}$/.test(times[key] || ""));
+  function useManualPrayerTimes(times) { prayerData = { city: "المواقيت اليدوية", zone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh", date: new Intl.DateTimeFormat("en-CA").format(new Date()), baseTimes: { ...times }, times: { ...times } }; }
+  function applyManualPrayerTimes() { if (!prayerData) return; const manual = savedManualPrayerTimes(); prayerData.times = Object.fromEntries(prayerKeys.map(key => [key, /^\d{2}:\d{2}$/.test(manual[key] || "") ? manual[key] : prayerData.baseTimes[key]])); }
+  function fillManualPrayerInputs() { if (!prayerData) return; const manual = savedManualPrayerTimes(); prayerKeys.forEach(key => { $(manualPrayerIds[key]).value = manual[key] || prayerData.baseTimes[key] || ""; }); }
+  function saveManualPrayerTimes() { const times = {}; for (const key of prayerKeys) { const value = $(manualPrayerIds[key]).value; if (!/^\d{2}:\d{2}$/.test(value)) return $("prayer-status").textContent = "أكمل أوقات الصلوات الخمس أولًا."; times[key] = value; } localStorage.prayerManualTimes = JSON.stringify(times); localStorage.prayerManualActive = "1"; useManualPrayerTimes(times); fillManualPrayerInputs(); renderPrayerTimes(); checkPrayerTimes(); $("prayer-status").textContent = "تم تفعيل المواقيت اليدوية. يظهر الآن عداد الصلاة القادمة."; }
+  function resetManualPrayerTimes() { localStorage.removeItem("prayerManualTimes"); localStorage.removeItem("prayerManualActive"); if (!prayerData) return $("prayer-status").textContent = "ستعود للمواقيت التلقائية عند تحديث المدينة أو الموقع."; const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude; if (latitude && longitude) return loadPrayerTimesByLocation(latitude, longitude); if ($("prayer-city").value && $("prayer-country").value) return loadPrayerTimes(); $("prayer-status").textContent = "تم إيقاف المواقيت اليدوية. اختر المدينة أو الموقع لتحديث المواقيت التلقائية."; }
+  function cityClock() { if (!prayerData) return ""; return new Intl.DateTimeFormat("en-GB", { timeZone: prayerData.zone, hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date()); }
+  function showPrayerToast(text) { const toast = $("prayer-toast"); toast.textContent = text; toast.hidden = false; clearTimeout(prayerToastTimer); prayerToastTimer = setTimeout(() => { toast.hidden = true; }, 12000); try { ring(); } catch (_) {} navigator.vibrate?.([200, 100, 200]); }
+  function renderPrayerTimes() { if (!prayerData) return; const now = cityClock(), current = timeValue(now), items = prayerKeys.map(key => ({ key, time: prayerData.times[key] })); let next = items.find(item => timeValue(item.time) >= current); let tomorrow = false; if (!next) { next = items[0]; tomorrow = true; } let remaining = timeValue(next.time) - current; if (remaining < 0) remaining += 1440; const hours = Math.floor(remaining / 60), minutes = remaining % 60, wait = `${hours ? `${hours} ساعة ` : ""}${minutes} دقيقة`; $("prayer-title").textContent = `الصلاة القادمة: ${prayerNames[next.key]}`; $("prayer-countdown").textContent = `باقي ${wait}${tomorrow ? " — غدًا" : ""}.`; $("prayer-status").textContent = `حسب مدينة ${prayerData.city}. الصلاة القادمة الساعة ${next.time}.`; $("prayer-times").textContent = items.map(item => `${prayerNames[item.key]}: ${item.time}`).join("  •  "); $("prayer-times").hidden = false; }
+  async function fetchPrayerTimes(url, city, failureMessage) { $("prayer-status").textContent = "جارٍ جلب مواقيت الصلاة..."; try { const response = await fetch(url); const result = await response.json(); if (!response.ok || result.code !== 200) throw new Error("تعذر جلب المواقيت"); const timings = {}; prayerKeys.forEach(key => { timings[key] = cleanPrayerTime(result.data.timings[key]); }); prayerData = { city, zone: result.data.meta.timezone, date: result.data.date.gregorian.date, baseTimes: timings, times: timings }; applyManualPrayerTimes(); fillManualPrayerInputs(); renderPrayerTimes(); checkPrayerTimes(); } catch (_) { $("prayer-status").textContent = failureMessage; } }
+  async function loadPrayerTimes() { const city = $("prayer-city").value.trim(), country = $("prayer-country").value.trim(); localStorage.prayerCity = city; localStorage.prayerCountry = country; localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; localStorage.removeItem("prayerLatitude"); localStorage.removeItem("prayerLongitude"); if (!city || !country) return $("prayer-status").textContent = "اكتب المدينة والدولة أولًا."; return fetchPrayerTimes(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=4`, city, "تعذر جلب المواقيت. تحقق من اسم المدينة والإنترنت."); }
+  function loadPrayerTimesByLocation(latitude, longitude) { localStorage.prayerLatitude = String(latitude); localStorage.prayerLongitude = String(longitude); localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; return fetchPrayerTimes(`https://api.aladhan.com/v1/timings?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}&method=4`, "موقعك الحالي", "تعذر جلب المواقيت من موقعك. تحقق من الإنترنت أو استخدم المدينة يدويًا."); }
+  function useCurrentLocation() { if (!navigator.geolocation) return $("prayer-status").textContent = "تحديد الموقع غير مدعوم في هذا المتصفح."; $("prayer-status").textContent = "بانتظار إذن تحديد الموقع..."; navigator.geolocation.getCurrentPosition(position => loadPrayerTimesByLocation(position.coords.latitude, position.coords.longitude), () => { $("prayer-status").textContent = "لم يتم السماح بتحديد الموقع. يمكنك كتابة المدينة يدويًا."; }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 3600000 }); }
+  function checkPrayerTimes() { if (!prayerData) return; renderPrayerTimes(); if (!$("prayer-enabled").checked) return; const now = cityClock(); for (const key of prayerKeys) { const time = prayerData.times[key], alertKey = `${prayerData.date}|${key}|${time}`; if (time === now && localStorage.prayerLastAlert !== alertKey) { localStorage.prayerLastAlert = alertKey; showPrayerToast(`لقد حان وقت صلاة ${prayerNames[key]} في ${prayerData.city}.`); } } }
+  function fallbackNotes() {
+    const notesBox = $("notes"), render = entry => { const item = document.createElement("article"), time = document.createElement("small"); item.className = "note"; item.textContent = `[${entry.mode || "مستقل"}] ${entry.author || "طالب"}: ${entry.text}`; time.textContent = new Date(entry.createdAt || Date.now()).toLocaleString("ar-SA"); item.append(time); notesBox.prepend(item); while (notesBox.children.length > 2) notesBox.lastElementChild.remove(); };
+    const stored = () => JSON.parse(localStorage.mobileNotes || "[]");
+    if (!notesBox.children.length) stored().slice().reverse().forEach(render);
+    $("save").onclick = () => { const text = $("note").value.trim(); if (!text) return $("note-status").textContent = "اكتب الملاحظة أولًا."; const entry = { text, author: "طالب", createdAt: Date.now(), mode: "مستقل" }, all = stored(); all.unshift(entry); localStorage.mobileNotes = JSON.stringify(all.slice(0, 100)); render(entry); $("note").value = ""; $("note-status").textContent = "تم حفظ الملاحظة."; };
+    $("export-notes").onclick = () => { const entries = stored(); if (!entries.length) return $("note-status").textContent = "لا توجد ملاحظات لتصديرها."; const text = entries.map(entry => `${new Date(entry.createdAt).toLocaleString("ar-SA")}\n${entry.text}`).join("\n\n--------------------\n\n"), url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" })), link = document.createElement("a"); link.href = url; link.download = `study-guardian-notes-${new Date().toISOString().slice(0, 10)}.txt`; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500); $("note-status").textContent = "تم تجهيز ملف الملاحظات."; };
+    $("print-notes").onclick = () => { if (!stored().length) return $("note-status").textContent = "لا توجد ملاحظات لحفظها."; window.print(); };
+  }
+  const panels = [...document.querySelectorAll(".feature-map > details.panel")];
+  panels.forEach(panel => panel.addEventListener("toggle", () => { if (panel.open) panels.forEach(other => { if (other !== panel) other.open = false; }); }));
+  $("prayer-city").value = localStorage.prayerCity || ""; $("prayer-country").value = localStorage.prayerCountry || ""; $("prayer-enabled").checked = localStorage.prayerEnabled === "1"; $("update-prayers").onclick = loadPrayerTimes; $("use-location").onclick = useCurrentLocation; $("save-manual-prayers").onclick = saveManualPrayerTimes; $("reset-manual-prayers").onclick = resetManualPrayerTimes; $("prayer-enabled").onchange = () => { localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; if ($("prayer-enabled").checked && !prayerData) { const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude; if (latitude && longitude) loadPrayerTimesByLocation(latitude, longitude); else loadPrayerTimes(); } if (!$("prayer-enabled").checked && prayerData) renderPrayerTimes(); }; { const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude, manual = savedManualPrayerTimes(); if (localStorage.prayerManualActive === "1" && hasCompleteManualPrayerTimes(manual)) { useManualPrayerTimes(manual); fillManualPrayerInputs(); renderPrayerTimes(); } else if (latitude && longitude) loadPrayerTimesByLocation(latitude, longitude); else if ($("prayer-city").value && $("prayer-country").value) loadPrayerTimes(); else if (hasCompleteManualPrayerTimes(manual)) { useManualPrayerTimes(manual); fillManualPrayerInputs(); renderPrayerTimes(); } }
+  checkMicPermission(); saveSchedule(); setInterval(tick, 1000); setInterval(checkPrayerTimes, 15000); document.addEventListener("visibilitychange", () => { if (!document.hidden) { checkMicPermission(); tick(); checkPrayerTimes(); } }); window.addEventListener("focus", tick); tick(); rotate(); cycleDesignerPrayer(); window.studyGuardianCoreReady = true; setTimeout(() => { if (!window.studyGuardianMobileReady) fallbackNotes(); }, 3000);
+})();
+
+</script>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { getDatabase, ref, push, set, get, onChildAdded, onValue, onDisconnect, query, limitToLast, update, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+const config = {
+  apiKey: "AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek",
+  authDomain: "study-guardian-groups.firebaseapp.com",
+  databaseURL: "https://study-guardian-groups-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "study-guardian-groups",
+  storageBucket: "study-guardian-groups.firebasestorage.app",
+  messagingSenderId: "499313905189",
+  appId: "1:499313905189:web:589c4dfade509c853779cc"
+};
+const $ = id => document.getElementById(id);
+const app = initializeApp(config);
+const auth = getAuth(app);
+const db = getDatabase(app);
+const ADMIN_EMAIL = "s2shug@gmail.com";
+const googleProvider = new GoogleAuthProvider();
+let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
+let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null;
+let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map(), cardTitleSettings = {};
+let visitorRows = 0, visitorAdjustment = 0;
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
+const status = (id, text) => { $(id).textContent = text; };
+const nickname = () => { const value = $("alias").value.trim(); return value && !hasAnimalAlias(value) && !moderate(value) ? value : "مستخدم"; };
+const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
+const isAdmin = user => isOwner(user) || grantedAdmin;
+const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
+const defaultCardTitles = { attendance: "متابعة التحضير بالاسم", screenMonitor: "⌖ مراقبة المنطقة المطلوبة", groups: "وضع المجموعة", notes: "ملاحظة سريعة", gpa: "حاسبة المعدل", pdf: "تظليل نقاط المحاضرة في PDF", ideas: "اقتراح أو فكرة", rating: "تقييم الأداة" };
+function applyCardTitles(values = {}) { cardTitleSettings = values || {}; Object.entries(defaultCardTitles).forEach(([key, title]) => { const node = document.querySelector(`[data-card-key="${key}"]`); if (node) node.textContent = String(cardTitleSettings[key] || title); }); const key = $("card-title-key")?.value; if (key) $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; }
+const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
+const homeRoute = new URLSearchParams(location.search).get("home") === "1";
+const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
+function ensureVisitorUi() {
+  const footer = document.querySelector(".footer-info"), copyright = footer?.querySelector(".copyright");
+  if (footer && copyright && !$("visitor-count")) { const item = document.createElement("p"); item.className = "visitor-counter"; item.innerHTML = 'المستخدمون: <strong id="visitor-count">0</strong>'; copyright.after(item); }
+  const titlePanel = $("admin-card-titles");
+  if (titlePanel && !$("admin-visitor-panel")) { const panel = document.createElement("details"); panel.id = "admin-visitor-panel"; panel.className = "admin-access-panel"; panel.hidden = true; panel.innerHTML = '<summary>إدارة عداد المستخدمين</summary><div class="admin-access-content"><p>العداد يعتمد على الأجهزة أو المتصفحات الفريدة التي زارت الأداة. اكتب الرقم الذي تريد ظهوره، مثل 0 للتصفير أو رقم أقل للتقليل.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div>'; titlePanel.before(panel); }
+}
+function renderVisitorCount() { const total = Math.max(0, visitorRows + visitorAdjustment); if ($("visitor-count")) $("visitor-count").textContent = total.toLocaleString("ar-SA"); if ($("visitor-count-input") && document.activeElement !== $("visitor-count-input")) $("visitor-count-input").value = total; }
+async function registerVisitor(user) { if (!user?.uid) { try { await signInAnonymously(auth); } catch (_) {} return; } if (localStorage.smartGuardianVisitorCounted) return; try { await set(ref(db, `visitors/${user.uid}`), { firstSeen: Date.now() }); localStorage.smartGuardianVisitorCounted = "1"; } catch (_) {} }
+ensureVisitorUi();
+function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
+const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
+const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
+const animalAliasTerms = ["كلب", "قط", "قطة", "حصان", "حمار", "بغل", "خنزير", "بقرة", "ثور", "ماعز", "خروف", "كبش", "قرد", "غوريلا", "شمبانزي", "فيل", "زرافة", "ذئب", "ثعلب", "ضبع", "ارنب", "تمساح", "ثعبان", "عقرب", "عنكبوت", "سلحفاة", "سحلية", "قرش", "حوت", "دلفين", "بطريق", "بومة", "ديك", "دجاجة", "بطة", "سمكة", "dog", "cat", "horse", "donkey", "mule", "pig", "cow", "bull", "goat", "sheep", "monkey", "ape", "gorilla", "chimpanzee", "elephant", "giraffe", "wolf", "fox", "hyena", "rabbit", "crocodile", "snake", "scorpion", "spider", "turtle", "lizard", "shark", "whale", "dolphin", "penguin", "owl", "rooster", "chicken", "duck", "fish", "lion", "tiger", "leopard"];
+const animalAliasCompact = animalAliasTerms.map(term => normalizedForModeration(term).replace(/[^\p{L}]/gu, ""));
+const hasAnimalAlias = text => { const compact = normalizedForModeration(text).replace(/[^\p{L}]/gu, ""); return compact !== "نمر" && animalAliasCompact.some(term => compact.includes(term)); };
+const evasiveArabicPatterns = customArabicBlocked.map(term => { const letters = [...normalizedForModeration(term).replace(/[^\p{L}]/gu, "")]; return new RegExp(letters.map(letter => letter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("(?:[^\\p{L}]|ـ)*"), "giu"); });
+const customArabicPattern = new RegExp("(^|[^\\p{L}])(?:" + customArabicBlocked.sort((a, b) => b.length - a.length).map(term => term.replaceAll(" ", "\\s*")).join("|") + ")(?=$|[^\\p{L}])", "giu");
+const blockedPatterns = [
+  /f[\W_]*u[\W_]*c[\W_]*k(?:ing|er|ed|s)?/giu, /s[\W_]*h[\W_]*i[\W_]*t(?:ty|s)?/giu,
+  /\b(?:bitch|bastard|asshole|dick|pussy|cunt|whore|slut|nigger|motherfucker)\b/giu,
+  /(?:شرموط(?:ه|ة|ين)?|قحب(?:ه|ة)?|ديوث|طيز|خرا|عرص|متناك|منيوك|يلعن(?:ك|كم|امك)|امك\s*(?:كلمة\s*بذيئة)?|كل\s*تبن|روح\s*تبن|انقلع|انطم|انبح|انقلع\s*بس|يا\s*حمار|يا\s*كلب|يا\s*تيس|يا\s*غبي|يا\s*حقير|يا\s*وسخ|تف\s*عليك)/giu,
+  /(^|[^\p{L}])(?:كس|زب)(?=$|[^\p{L}])/giu, customArabicPattern, ...evasiveArabicPatterns
+];
+const moderate = text => { const value = normalizedForModeration(text); return blockedPatterns.some(pattern => { pattern.lastIndex = 0; return pattern.test(value); }); };
+const cleanText = text => { let value = String(text || ""); blockedPatterns.forEach(pattern => { pattern.lastIndex = 0; value = value.replace(pattern, (match, prefix) => typeof prefix === "string" ? prefix : ""); }); return value.replace(/\s{2,}/g, " "); };
+const allowedText = (text, target) => { if (!moderate(text)) return true; status(target, "لا يمكن إرسال عبارات غير لائقة. عدّل النص ثم حاول."); return false; };
+function protectTyping(id, target) { const input = $(id); if (!input) return; input.addEventListener("input", () => { const cleaned = cleanText(input.value); if (cleaned !== input.value) { input.value = cleaned; status(target, "تمت إزالة عبارة غير لائقة من النص."); } }); }
+function protectAlias() { const input = $("alias"); input.addEventListener("input", () => { if (hasAnimalAlias(input.value)) { input.value = ""; status("group-status", "لا يُسمح باستخدام أسماء الحيوانات كاسم مستعار."); } }); }
+function limitAdminItems() { const cards = [...$("admin-feedback").querySelectorAll(".feedback-card")]; cards.forEach((card, index) => { card.hidden = !adminExpanded && index >= 3; }); $("admin-more").hidden = cards.length <= 3; $("admin-more").textContent = adminExpanded ? "إخفاء الرسائل القديمة" : "أكثر"; }
+function adminStatus(text) { status("admin-status", text); }
+function unreadAdminFeedback() { try { const saved = JSON.parse(localStorage.smartGuardianUnreadFeedback || "[]"); return Array.isArray(saved) ? saved : []; } catch (_) { return []; } }
+function updateAdminMessageBadge() { const badge = $("admin-message-badge"), count = unreadAdminFeedback().length; badge.hidden = !isAdmin(auth.currentUser) || count === 0; $("admin-message-count").textContent = count > 99 ? "99+" : String(count); }
+function addUnreadAdminFeedback(id) { const unread = unreadAdminFeedback(); if (!unread.includes(id)) localStorage.smartGuardianUnreadFeedback = JSON.stringify([id, ...unread].slice(0, 99)); updateAdminMessageBadge(); }
+function readAdminMessages() { localStorage.removeItem("smartGuardianUnreadFeedback"); updateAdminMessageBadge(); $("admin-panel").open = true; $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" }); }
+function showAdminFeedback(id, data, announce = false) {
+  if (moderate(`${data.author || ""} ${data.text || ""} ${data.reply || ""}`)) { remove(ref(db, `feedback/${id}`)).catch(() => {}); return; }
+  const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove();
+  const old = document.getElementById(`feedback-${id}`); if (old) old.remove();
+  const card = document.createElement("article"); card.className = "feedback-card"; card.id = `feedback-${id}`;
+  const title = document.createElement("strong"); title.textContent = data.author || "مستخدم";
+  const body = document.createElement("p"); body.textContent = data.text || "";
+  const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : "";
+  const response = document.createElement("textarea"); response.rows = 2; response.placeholder = "اكتب ردك على صاحب الاقتراح"; response.value = data.reply || ""; response.addEventListener("input", () => { const cleaned = cleanText(response.value); if (cleaned !== response.value) { response.value = cleaned; adminStatus("تمت إزالة عبارة غير لائقة من الرد."); } });
+  const send = document.createElement("button"); send.type = "button"; send.textContent = "إرسال الرد";
+  send.onclick = async () => { const reply = response.value.trim(); if (!reply || !allowedText(reply, "admin-status")) return; send.disabled = true; try { await update(ref(db, `feedback/${id}`), { reply, repliedAt: Date.now() }); deleteReply.hidden = false; send.textContent = "تم حفظ الرد"; } catch (error) { send.textContent = "تعذر حفظ الرد"; } finally { send.disabled = false; } };
+  const deleteReply = document.createElement("button"); deleteReply.type = "button"; deleteReply.className = "delete-item"; deleteReply.textContent = "حذف الرد"; deleteReply.hidden = !data.reply; deleteReply.onclick = async () => { if (!confirm("حذف رد الإدارة فقط؟")) return; try { await update(ref(db, `feedback/${id}`), { reply: null, repliedAt: null }); response.value = ""; deleteReply.hidden = true; } catch (_) { adminStatus("تعذر حذف الرد."); } };
+  const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف"; del.onclick = async () => { if (!confirm("حذف هذا الاقتراح نهائيًا؟")) return; await remove(ref(db, `feedback/${id}`)); card.remove(); limitAdminItems(); };
+  card.append(title, body, time, response, send, deleteReply, del); $("admin-feedback").prepend(card); limitAdminItems();
+  if (announce) { addUnreadAdminFeedback(id); adminStatus("وصل اقتراح جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "اقتراح جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); }
+}
+function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "مستخدم"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
+async function subscribeAdminFeedback() {
+  stopAdminFeedback?.(); adminExpanded = false; $("admin-feedback").replaceChildren();
+  const source = query(ref(db, "feedback"), limitToLast(50)), existing = new Set(), startedAt = Date.now();
+  try { const snapshot = await get(source); snapshot.forEach(item => existing.add(item.key)); } catch (_) { adminStatus("تعذر تحميل الاقتراحات."); }
+  stopAdminFeedback = onChildAdded(source, item => { const wasAlreadyThere = existing.delete(item.key), data = item.val(); showAdminFeedback(item.key, data, !wasAlreadyThere && Number(data.createdAt || 0) > startedAt); });
+}
+async function subscribeAdminRatings() { stopAdminRatings?.(); const source = query(ref(db, "ratings"), limitToLast(50)), existing = new Set(); try { const snapshot = await get(source); snapshot.forEach(item => existing.add(item.key)); } catch (_) {} stopAdminRatings = onChildAdded(source, item => { const wasAlreadyThere = existing.delete(item.key); showAdminRating(item.key, item.val(), !wasAlreadyThere); }); }
+const feedbackIds = () => { try { const saved = JSON.parse(localStorage.mobileFeedbackIds || "[]"), legacy = localStorage.mobileFeedbackId; return [...new Set([...(Array.isArray(saved) ? saved : []), ...(legacy ? [legacy] : [])])]; } catch (_) { return localStorage.mobileFeedbackId ? [localStorage.mobileFeedbackId] : []; } };
+function rememberFeedback(id) { const all = feedbackIds().filter(item => item !== id); all.unshift(id); localStorage.mobileFeedbackIds = JSON.stringify(all.slice(0, 100)); localStorage.mobileFeedbackId = id; }
+function renderOwnReplies() { const replies = [...knownReplies.values()].filter(item => item.reply).sort((a,b) => (b.repliedAt || 0) - (a.repliedAt || 0)); const list = $("idea-reply-list"); list.replaceChildren(); $("idea-reply").hidden = !replies.length; $("more-responses").hidden = replies.length <= 3; replies.slice(0, 3).forEach(item => { const row = document.createElement("article"); row.className = "idea-reply-item"; const text = document.createElement("p"); text.textContent = item.reply; const time = document.createElement("small"); time.textContent = item.repliedAt ? new Date(item.repliedAt).toLocaleString("ar-SA") : ""; row.append(text, time); list.append(row); }); }
+function subscribeOwnFeedback(user) {
+  stopOwnFeedback.forEach(unsubscribe => unsubscribe()); stopOwnFeedback = []; knownReplies.clear();
+  if (!user || isAdmin(user)) return;
+  feedbackIds().forEach(id => { const unsubscribe = onValue(ref(db, `feedback/${id}`), item => { if (!item.exists()) return; const data = item.val(), previous = knownReplies.get(id); knownReplies.set(id, data); renderOwnReplies(); if (data.reply && previous?.reply !== data.reply) { status("idea-status", "تم استلام رد الإدارة."); const toast = document.createElement("div"); toast.className = "reply-toast"; toast.textContent = "وصل رد جديد من الإدارة"; document.body.append(toast); setTimeout(() => toast.remove(), 7000); } }); stopOwnFeedback.push(unsubscribe); });
+}
+function accessExpiry(item) { const expiry = Number(item?.expiresAt || 0); return expiry ? `مؤقتة حتى ${new Date(expiry).toLocaleString("ar-SA")}` : "دائمة"; }
+function accessRow(email, note, label, action) { const row = document.createElement("article"), info = document.createElement("div"), title = document.createElement("strong"), small = document.createElement("small"), button = document.createElement("button"); row.className = "admin-access-row"; title.textContent = email || "حساب غير معروف"; small.textContent = note; info.append(title, small); button.type = "button"; button.textContent = label; button.onclick = action; row.append(info, button); return row; }
+function renderAdminAccess() { const requests = $("admin-requests"), members = $("admin-members"); if (!requests || !members) return; requests.replaceChildren(); members.replaceChildren(); const pending = [...adminRequests.entries()].sort((a, b) => Number(b[1].requestedAt || 0) - Number(a[1].requestedAt || 0)); if (!pending.length) requests.innerHTML = '<p class="hint">لا توجد طلبات حاليًا.</p>'; pending.forEach(([uid, request]) => { const policy = adminAllowlist.get(emailKey(request.email)); const text = policy ? `البريد محفوظ — الصلاحية عند التفعيل: ${Number(policy.duration || 0) ? "مؤقتة" : "دائمة"}.` : "غير موجود في قائمة المشرفين الموثوقين."; requests.append(accessRow(request.email, text, policy ? "تفعيل" : "تجاهل", async () => { if (!policy) return remove(ref(db, `adminRequests/${uid}`)); const duration = Number(policy.duration || 0), now = Date.now(); await set(ref(db, `admins/${uid}`), { email: request.email, displayName: request.displayName || "", active: true, grantedAt: now, expiresAt: duration ? now + duration : 0 }); await remove(ref(db, `adminRequests/${uid}`)); status("supervisor-status", "تم تفعيل المشرف بنجاح."); })); }); const active = [...adminMembers.entries()].filter(([, item]) => item?.active && (!item.expiresAt || Number(item.expiresAt) > Date.now())); if (!active.length) members.innerHTML = '<p class="hint">لا يوجد مشرفون إضافيون.</p>'; active.forEach(([uid, member]) => members.append(accessRow(member.email, accessExpiry(member), "إلغاء الصلاحية", async () => { if (!confirm(`إلغاء صلاحية ${member.email}؟`)) return; await remove(ref(db, `admins/${uid}`)); status("supervisor-status", "تم إلغاء صلاحية المشرف."); })));
+}
+function stopAdminPresence() { stopAdminSessions?.(); stopAdminSessions = null; if (adminSessionRef) { remove(adminSessionRef).catch(() => {}); adminSessionRef = null; } const indicator = $("admin-device-status"); indicator.hidden = true; indicator.textContent = ""; }
+async function startAdminPresence(user) { stopAdminPresence(); if (!user?.uid) return; adminSessionRef = ref(db, `adminSessions/${user.uid}/${adminSessionId}`); try { await set(adminSessionRef, { startedAt: Date.now(), lastSeen: Date.now() }); await onDisconnect(adminSessionRef).remove(); stopAdminSessions = onValue(ref(db, `adminSessions/${user.uid}`), snapshot => { const sessions = Object.values(snapshot.val() || {}).filter(item => Number(item?.lastSeen || 0) > Date.now() - 120000); const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = sessions.length > 1 ? `● الحساب الإداري مفتوح الآن من ${sessions.length} أجهزة.` : "● لا يوجد جهاز إداري آخر متصل الآن."; }); } catch (_) { const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = "تعذر التحقق من الأجهزة المتصلة."; } }
+function stopAdminAccess() { stopAdminAllowlist?.(); stopAdminRequests?.(); stopAdminMembers?.(); stopAdminAllowlist = stopAdminRequests = stopAdminMembers = null; adminAllowlist = new Map(); adminRequests = new Map(); adminMembers = new Map(); }
+function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValue(ref(db, "adminAllowlist"), snapshot => { adminAllowlist = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminRequests = onValue(ref(db, "adminRequests"), snapshot => { adminRequests = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminMembers = onValue(ref(db, "admins"), snapshot => { adminMembers = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); }
+async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
+$("save-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return status("supervisor-status", "اكتب بريدًا صحيحًا للمشرف."); try { await set(ref(db, `adminAllowlist/${emailKey(email)}`), { email, duration: Number($("supervisor-duration").value || 0), savedAt: Date.now() }); status("supervisor-status", "تم حفظ البريد. يطلب المشرف الدخول بحسابه Google مرة واحدة ثم فعّله من الطلبات."); } catch (_) { status("supervisor-status", "تعذر حفظ بريد المشرف."); } };
+$("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
+$("card-title-key").onchange = () => { const key = $("card-title-key").value; $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; };
+$("save-card-title").onclick = async () => { const key = $("card-title-key").value, title = $("card-title-value").value.trim(); if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); if (!title) return status("card-title-status", "اكتب اسمًا للمربع أولًا."); try { await set(ref(db, `appSettings/cardTitles/${key}`), title); status("card-title-status", "تم حفظ الاسم ويظهر للمستخدمين مباشرة."); } catch (_) { status("card-title-status", "تعذر حفظ الاسم."); } };
+$("reset-card-title").onclick = async () => { const key = $("card-title-key").value; if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); try { await remove(ref(db, `appSettings/cardTitles/${key}`)); status("card-title-status", "تمت استعادة الاسم الأصلي."); } catch (_) { status("card-title-status", "تعذر استعادة الاسم."); } };
+onValue(ref(db, "appSettings/cardTitles"), snapshot => applyCardTitles(snapshot.val() || {}));
+onValue(ref(db, "visitors"), snapshot => { visitorRows = snapshot.size; renderVisitorCount(); });
+onValue(ref(db, "appSettings/visitorAdjustment"), snapshot => { visitorAdjustment = Number(snapshot.val() || 0); renderVisitorCount(); });
+$("save-visitor-count").onclick = async () => { if (!isOwner(auth.currentUser)) return status("visitor-count-status", "هذه الصلاحية لمالك الأداة فقط."); const target = Math.max(0, Math.floor(Number($("visitor-count-input").value || 0)); try { await set(ref(db, "appSettings/visitorAdjustment"), target - visitorRows); status("visitor-count-status", "تم حفظ الرقم الظاهر للمستخدمين."); } catch (_) { status("visitor-count-status", "تعذر حفظ الرقم."); } };
+function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
+async function adminLogin() {
+  if (!adminRoute) { location.href = "./admin.html"; return; }
+  if (isAdmin(auth.currentUser)) { $("admin-panel").hidden = false; $("admin-panel").open = true; $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+  if (location.protocol === "file:") return adminLoginMessage("دخول الإدارة يعمل من الرابط المنشور فقط، وليس من الملف المحلي.");
+  const mobile = matchMedia("(max-width: 719px), (pointer: coarse)").matches;
+  adminLoginMessage(mobile ? "جارٍ الانتقال لتسجيل Google..." : "جارٍ فتح تسجيل Google...");
+  try { const result = await signInWithPopup(auth, googleProvider); if (result?.user) await syncAdminSession(result.user); adminLoginMessage(""); } catch (error) {
+    if (mobile && ["auth/popup-blocked", "auth/cancelled-popup-request", "auth/popup-closed-by-user"].includes(error.code)) return signInWithRedirect(auth, googleProvider);
+    const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول.", "auth/popup-blocked": "اسمح للنوافذ المنبثقة ثم حاول مرة أخرى." };
+    const text = messages[error.code] || "تعذر تسجيل الدخول. حاول مرة أخرى."; adminStatus(text); adminLoginMessage(text);
+  }
+}
+$("admin-login").onclick = adminLogin;
+$("admin-logout").onclick = () => signOut(auth);
+$("admin-more").onclick = () => { adminExpanded = !adminExpanded; limitAdminItems(); };
+$("admin-message-badge").onclick = readAdminMessages;
+async function syncAdminSession(user) {
+  grantedAdmin = false;
+  if (user && !isOwner(user)) {
+    try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; }
+  }
+  const allowed = isAdmin(user), owner = isOwner(user), showAdmin = allowed && !homeRoute;
+  $("admin-panel").hidden = !showAdmin; $("admin-logout").hidden = !showAdmin;
+  $("admin-login").setAttribute("aria-label", allowed ? "فتح لوحة الإدارة" : "دخول الإدارة");
+  $("admin-access-panel").hidden = !owner;
+  $("admin-visitor-panel").hidden = !owner;
+  $("admin-card-titles").hidden = !owner;
+  document.querySelector(".admin-mobile-link").hidden = !owner;
+  if (showAdmin) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
+  else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
+}
+getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
+onAuthStateChanged(auth, user => { registerVisitor(user); syncAdminSession(user); });
+const quotes = [["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "Indeed, with hardship comes ease. — Quran 94:5"],["اللهم لا سهل إلا ما جعلته سهلاً", "O Allah, nothing is easy except what You make easy."],["التقدم البسيط يظل تقدّمًا.", "Small progress is still progress."],["رَبِّ زِدْنِي عِلْمًا", "My Lord, increase me in knowledge. — Quran 20:114"]];
+function rotateQuote(index = 0) { const quote = quotes[index % quotes.length]; $("quote-text").textContent = quote[0]; $("quote-translation").textContent = quote[1]; setTimeout(() => rotateQuote(index + 1), 18000); }
+const normalize = value => value.toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+const watchedNames = () => $("listen-names").value.split(/[,،\n]/).map(normalize).filter(Boolean);
+const recognitionLanguages = () => {
+  const names = $("listen-names").value;
+  const arabic = /[\u0600-\u06FF]/.test(names), english = /[A-Za-z]/.test(names);
+  if (arabic && english) return ["ar-SA", "en-US"];
+  return [arabic ? "ar-SA" : "en-US"];
+};
+const minutesOf = value => { const [hours, minutes] = (value || "").split(":").map(Number); return Number.isInteger(hours) && Number.isInteger(minutes) ? hours * 60 + minutes : null; };
+function scheduleIsActive() {
+  const start = minutesOf($("listen-start").value), end = minutesOf($("listen-end").value);
+  if (start === null || end === null || start === end) return false;
+  const now = new Date(), current = now.getHours() * 60 + now.getMinutes();
+  return start < end ? current >= start && current < end : current >= start || current < end;
+}
+function updateSchedule() {
+  const enabled = $("listen-schedule").checked;
+  localStorage.mobileListenStart = $("listen-start").value;
+  localStorage.mobileListenEnd = $("listen-end").value;
+  localStorage.mobileListenSchedule = enabled ? "1" : "0";
+  if (!enabled) return status("schedule-status", "الجدول غير مفعّل.");
+  if (!$("listen-start").value || !$("listen-end").value || $("listen-start").value === $("listen-end").value) return status("schedule-status", "اختر وقت بداية ونهاية مختلفين.");
+  status("schedule-status", `الاستماع المجدول: ${$("listen-start").value} إلى ${$("listen-end").value} يوميًا.`);
+}
+function checkSchedule() {
+  if (!$("listen-schedule").checked || !$("listen-start").value || !$("listen-end").value) return;
+  if (scheduleIsActive() && !listening) startListening();
+  if (!scheduleIsActive() && listening) stopListening();
+}
+function listenError(error) {
+  const code = error?.error || error?.name || "";
+  if (["not-allowed", "NotAllowedError", "service-not-allowed"].includes(code)) return "تم رفض إذن الميكروفون. من رمز القفل بجانب الرابط اختر: الميكروفون > سماح، ثم حدّث الصفحة.";
+  if (["not-found", "NotFoundError"].includes(code)) return "لا يوجد ميكروفون متاح. تأكد من اختيار ميكروفون في إعدادات Windows.";
+  if (["not-readable", "NotReadableError"].includes(code)) return "الميكروفون مستخدم في برنامج آخر. أغلق Teams أو Zoom أو أي برنامج يستخدمه ثم حاول.";
+  if (code === "network") return "تعذر تشغيل خدمة التعرف الصوتي. تأكد من الإنترنت ثم حاول.";
+  return `تعذر بدء الاستماع: ${code || "خطأ غير معروف"}`;
+}
+
+function ring() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .35; gain.connect(context.destination); for (let i = 0; i < 8; i += 1) { const tone = context.createOscillator(); tone.frequency.value = i % 2 ? 1180 : 880; tone.connect(gain); tone.start(context.currentTime + i * .16); tone.stop(context.currentTime + i * .16 + .1); } setTimeout(() => context.close(), 1500); }
+function setGuardianState(kind = "", label = "") { const brand = document.querySelector(".brand"), state = $("guardian-state"); if (!brand || !state) return; brand.classList.remove("is-listening", "is-alert"); if (!kind) { state.hidden = true; state.textContent = ""; return; } brand.classList.add(kind === "alert" ? "is-alert" : "is-listening"); state.textContent = label; state.hidden = false; }
+function alertName() { if (Date.now() - lastAlert < 12000) return; lastAlert = Date.now(); setGuardianState("alert", "تنبيه مهم"); ring(); $("alert").hidden = false; setTimeout(() => listening ? setGuardianState("listening", "الاستماع مفعّل") : setGuardianState(), 8000); }
+function startRecognitionSession() {
+  const languages = recognitionLanguages();
+  const language = languages[languageIndex % languages.length];
+  recognition = new Recognition(); recognition.continuous = true; recognition.interimResults = true; recognition.maxAlternatives = 3; recognition.lang = language;
+  recognition.onresult = event => { let text = ""; for (let i = event.resultIndex; i < event.results.length; i += 1) text += `${event.results[i][0].transcript} `; text = normalize(text); if (!text) return; $("heard").textContent = `آخر ما سمعه: ${text}`; if (watchedNames().some(name => text.includes(name))) alertName(); };
+  recognition.onend = () => {
+    clearTimeout(languageTimer);
+    if (!listening) return;
+    languageIndex = (languageIndex + 1) % recognitionLanguages().length;
+    setTimeout(() => { if (listening) { try { startRecognitionSession(); } catch (error) { status("listen-status", listenError(error)); } } }, 180);
+  };
+  recognition.onerror = error => { if (!["no-speech", "aborted"].includes(error.error)) status("listen-status", listenError(error)); };
+  recognition.start();
+  if (languages.length > 1) languageTimer = setTimeout(() => { if (listening) recognition?.abort(); }, 4500);
+}
+async function startListening() {
+  if (!Recognition) return status("listen-status", "ميزة التعرف الصوتي غير متاحة في هذا المتصفح.");
+  if (!watchedNames().length) return status("listen-status", "اكتب الاسم أولًا.");
+  if (listening || starting) return;
+  starting = true;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach(track => track.stop());
+  } catch (error) { starting = false; return status("listen-status", listenError(error)); }
+  try {
+    languageIndex = 0; listening = true; startRecognitionSession(); setGuardianState("listening", "الاستماع مفعّل"); $("listen").textContent = "🎧 إيقاف متابعة الاسم"; status("listen-status", recognitionLanguages().length > 1 ? "تتم متابعة العربية والإنجليزية بالتبديل التلقائي." : "تتم متابعة الاسم من ميكروفون هذا الجهاز."); localStorage.mobileNames = $("listen-names").value;
+  } catch (error) { listening = false; status("listen-status", listenError(error)); }
+  starting = false;
+}
+function stopListening() { listening = false; clearTimeout(languageTimer); recognition?.stop(); setGuardianState(); $("listen").textContent = "🎧 بدء متابعة الاسم"; status("listen-status", "المتابعة متوقفة."); }
+
+function render(data, key) {
+  const item = document.createElement("article");
+  item.className = "note";
+  const isOwn = key === undefined ? true : Boolean(data.uid) && data.uid === auth.currentUser?.uid;
+  const body = document.createElement("span");
+  body.className = "note-text";
+  body.textContent = `[${data.mode || "مستقل"}] ${data.author || "مستخدم"}: ${data.text || ""}`;
+  const time = document.createElement("small");
+  time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : "";
+  item.append(body, time);
+  if (isOwn) {
+    const actions = document.createElement("div");
+    actions.className = "note-actions";
+    const editBtn = document.createElement("button"); editBtn.type = "button"; editBtn.className = "secondary"; editBtn.textContent = "تعديل";
+    const delBtn = document.createElement("button"); delBtn.type = "button"; delBtn.className = "delete-item"; delBtn.textContent = "حذف";
+    editBtn.onclick = () => startEditNote(item, data, key, body);
+    delBtn.onclick = () => deleteNote(item, data, key);
+    actions.append(editBtn, delBtn);
+    item.append(actions);
+  }
+  $("notes").prepend(item);
+  while ($("notes").children.length > 6) $("notes").lastElementChild.remove();
+}
+function startEditNote(item, data, key, body) {
+  const editor = document.createElement("textarea"); editor.rows = 2; editor.value = data.text || "";
+  const saveBtn = document.createElement("button"); saveBtn.type = "button"; saveBtn.textContent = "حفظ التعديل";
+  const cancelBtn = document.createElement("button"); cancelBtn.type = "button"; cancelBtn.className = "secondary"; cancelBtn.textContent = "إلغاء";
+  const editWrap = document.createElement("div"); editWrap.className = "note-edit"; editWrap.append(editor, saveBtn, cancelBtn);
+  item.replaceChild(editWrap, body);
+  editor.addEventListener("input", () => { const cleaned = cleanText(editor.value); if (cleaned !== editor.value) { editor.value = cleaned; status("note-status", "تمت إزالة عبارة غير لائقة من النص."); } });
+  cancelBtn.onclick = () => item.replaceChild(body, editWrap);
+  saveBtn.onclick = async () => {
+    const text = editor.value.trim();
+    if (!text) return status("note-status", "لا يمكن حفظ ملاحظة فارغة.");
+    if (!allowedText(text, "note-status")) return;
+    try {
+      if (key === undefined) {
+        const own = JSON.parse(localStorage.mobileNotes || "[]");
+        const idx = own.findIndex(entry => entry.createdAt === data.createdAt && entry.text === data.text);
+        if (idx > -1) { own[idx].text = text; localStorage.mobileNotes = JSON.stringify(own); }
+      } else {
+        await update(ref(db, `groups/${room}/notes/${key}`), { text, editedAt: Date.now() });
+      }
+      data.text = text; body.textContent = `[${data.mode || "مستقل"}] ${data.author || "مستخدم"}: ${text}`;
+      item.replaceChild(body, editWrap);
+      status("note-status", "تم حفظ التعديل.");
+    } catch (error) { status("note-status", `تعذر حفظ التعديل: ${error.code || "خطأ اتصال"}`); }
+  };
+}
+function deleteNote(item, data, key) {
+  if (!confirm("حذف هذه الملاحظة نهائيًا؟")) return;
+  try {
+    if (key === undefined) {
+      const own = JSON.parse(localStorage.mobileNotes || "[]").filter(entry => !(entry.createdAt === data.createdAt && entry.text === data.text));
+      localStorage.mobileNotes = JSON.stringify(own);
+    } else {
+      remove(ref(db, `groups/${room}/notes/${key}`));
+    }
+    item.remove();
+    status("note-status", "تم حذف الملاحظة من العرض (تبقى محفوظة بأرشيف الإدارة كمرجع).");
+  } catch (error) { status("note-status", `تعذر الحذف: ${error.code || "خطأ اتصال"}`); }
+}
+async function connect(code) {
+  code = code.trim().toLowerCase();
+  if ($("alias").value.trim() && hasAnimalAlias($("alias").value)) return status("group-status", "اكتب اسمًا مستعارًا مناسبًا أولًا.");
+  if (!/^[a-z0-9-]{8,40}$/.test(code)) return status("group-status", "اكتب رمزًا صحيحًا أو أنشئ مجموعة.");
+  try {
+    status("group-status", "جارٍ الربط...");
+    if (!auth.currentUser) await signInAnonymously(auth);
+    stop?.(); room = code; $("notes").replaceChildren();
+    stop = onChildAdded(query(ref(db, `groups/${room}/notes`), limitToLast(50)), item => render(item.val()));
+    localStorage.mobileGroup = room; localStorage.mobileAlias = nickname();
+    $("copy").hidden = false; $("leave").hidden = false;
+    $("mode-status").textContent = "الحالة الحالية: مرتبط بالمجموعة";
+    status("group-status", `تم الربط برمز: ${room}`);
+  } catch (error) { status("group-status", `تعذر الربط: ${error.code || "خطأ اتصال"}`); }
+}
+$("create").onclick = () => { if ($("alias").value.trim() && hasAnimalAlias($("alias").value)) return status("group-status", "اكتب اسمًا مستعارًا مناسبًا أولًا."); const code = `sg-${crypto.randomUUID().replaceAll("-", "").slice(0, 20)}`; $("group-code").value = code; connect(code); };
+$("join").onclick = () => connect($("group-code").value);
+$("copy").onclick = async () => { try { await navigator.clipboard.writeText(room); status("group-status", "تم نسخ الرمز."); } catch (_) { status("group-status", room); } };
+$("leave").onclick = () => { stop?.(); room = ""; $("copy").hidden = true; $("leave").hidden = true; $("notes").replaceChildren(); $("mode-status").textContent = "الحالة الحالية: مستقل"; status("group-status", "أنت الآن في الوضع المستقل."); };
+$("save").onclick = async () => {
+  const text = $("note").value.trim();
+  if (!text) return status("note-status", "اكتب الملاحظة أولًا.");
+  if (!allowedText(text, "note-status")) return;
+  const entry = { text, author: nickname(), createdAt: Date.now(), mode: $("share").checked ? "مجموعة" : "مستقل" };
+  try {
+    if ($("share").checked) {
+      if (!room) return status("note-status", "اربط مجموعة أولًا ثم اختر المشاركة.");
+      const noteRef = push(ref(db, `groups/${room}/notes`));
+      const withOwner = { ...entry, uid: auth.currentUser?.uid || "" };
+      await set(noteRef, withOwner);
+      set(ref(db, `moderationArchive/${room}/${noteRef.key}`), withOwner).catch(() => {});
+      status("note-status", "تمت مشاركتها مع المجموعة.");
+    } else {
+      const own = JSON.parse(localStorage.mobileNotes || "[]"); own.unshift(entry); localStorage.mobileNotes = JSON.stringify(own.slice(0, 100)); render(entry);
+      status("note-status", "تم حفظها على هذا الجوال.");
+    }
+    $("note").value = "";
+  } catch (error) { status("note-status", `تعذر الحفظ: ${error.code || "خطأ اتصال"}`); }
+};
+function exportNotes() {
+  const saved = JSON.parse(localStorage.mobileNotes || "[]"), notes = saved.length ? saved.map(item => `[${item.mode || "مستقل"}] ${item.author || "مستخدم"}: ${item.text || ""}\n${item.createdAt ? new Date(item.createdAt).toLocaleString("ar-SA") : ""}`) : [...document.querySelectorAll("#notes .note")].map(item => (item.querySelector(".note-text")?.textContent || item.innerText).trim()).filter(Boolean);
+  if (!notes.length) return status("note-status", "لا توجد ملاحظات لتصديرها.");
+  const text = `Study Guardian Notes\n${new Date().toLocaleString("ar-SA")}\n\n${notes.join("\n\n--------------------\n\n")}`;
+  const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url; link.download = `study-guardian-notes-${new Date().toISOString().slice(0, 10)}.txt`;
+  document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500);
+  status("note-status", "تم تجهيز ملف الملاحظات.");
+}
+$("export-notes").onclick = exportNotes;
+$("print-notes").onclick = () => { const saved = JSON.parse(localStorage.mobileNotes || "[]"), notes = saved.length ? saved : [...document.querySelectorAll("#notes .note")].map(item => ({ text: item.querySelector(".note-text")?.textContent || item.innerText })); if (!notes.length) return status("note-status", "لا توجد ملاحظات لحفظها."); const page = window.open("", "_blank"); if (!page) return status("note-status", "اسمح بفتح نافذة الطباعة لحفظ PDF."); const rows = notes.map(item => `<article><p>${String(item.text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p><small>${item.createdAt ? new Date(item.createdAt).toLocaleString("ar-SA") : ""}</small></article>`).join(""); page.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>ملاحظات Smart Guardian</title><style>body{font-family:Tahoma,Arial;padding:28px;color:#142449}h1{color:#1d326a}article{padding:12px;border-bottom:1px solid #ddd}small{color:#65718b}</style></head><body><h1>ملاحظات Smart Guardian</h1>${rows}</body></html>`); page.document.close(); page.onload = () => page.print(); };
+$("send-idea").onclick = async () => {
+  const text = $("idea").value.trim(), typedAuthor = $("idea-author").value.trim(), author = typedAuthor || nickname();
+  if (!text) return status("idea-status", "اكتب الاقتراح أولًا.");
+  if (!allowedText(`${author} ${text}`, "idea-status")) return;
+  try {
+    if (!auth.currentUser) await signInAnonymously(auth);
+    const item = push(ref(db, "feedback"));
+    await set(item, { text, author, createdAt: Date.now(), ownerUid: auth.currentUser.uid });
+    rememberFeedback(item.key); $("idea-reply").hidden = true;
+    subscribeOwnFeedback(auth.currentUser);
+    $("idea").value = ""; $("idea-author").value = "";
+    status("idea-status", "شكرًا، تم إرسال اقتراحك لصاحب الأداة.");
+  } catch (error) { status("idea-status", `تعذر إرسال الاقتراح: ${error.code || "خطأ اتصال"}`); }
+};
+const ratingPrompts = ["ما أكثر ميزة أعجبتك في الحارس الذكي؟", "ما الذي جعلك تستخدم الأداة مرة أخرى؟", "أي جزء وفّر عليك وقتًا أكثر؟", "ما الميزة التي تتمنى استمرار تطويرها؟", "شاركنا شيئًا نافعًا وجدته في الأداة."];
+function rotateRatingPrompt(index = 0) { $("rating-prompt").textContent = ratingPrompts[index % ratingPrompts.length]; setTimeout(() => rotateRatingPrompt(index + 1), 16000); }
+function paintStars() { [...$("rating-stars").children].forEach(button => button.classList.toggle("selected", Number(button.dataset.score) <= selectedRating)); }
+$("rating-stars").onclick = event => { const score = Number(event.target.dataset.score); if (!score) return; selectedRating = score; paintStars(); };
+$("send-rating").onclick = async () => { const comment = $("rating-comment").value.trim(), typedAuthor = $("rating-author").value.trim(), author = typedAuthor || nickname(); if (!selectedRating) return status("rating-status", "اختر عدد النجوم أولًا."); if (!allowedText(`${author} ${comment}`, "rating-status")) return; try { if (!auth.currentUser) await signInAnonymously(auth); await set(push(ref(db, "ratings")), { score: selectedRating, comment, author, ownerUid: auth.currentUser.uid, createdAt: Date.now() }); $("rating-comment").value = ""; $("rating-author").value = ""; selectedRating = 0; paintStars(); status("rating-status", "شكرًا لتقييمك ودعمك للأداة."); } catch (error) { status("rating-status", "تعذر إرسال التقييم. حاول مرة أخرى."); } };
+[["alias", "group-status"], ["listen-names", "listen-status"], ["note", "note-status"], ["idea-author", "idea-status"], ["idea", "idea-status"], ["rating-author", "rating-status"], ["rating-comment", "rating-status"]].forEach(([id, target]) => protectTyping(id, target)); protectAlias();
+$("alias").value = localStorage.mobileAlias || "";
+$("group-code").value = localStorage.mobileGroup || "";
+if (!window.studyGuardianCoreReady) {
+$("listen-names").value = localStorage.mobileNames || "";
+$("listen-start").value = localStorage.mobileListenStart || "";
+$("listen-end").value = localStorage.mobileListenEnd || "";
+$("listen-schedule").checked = localStorage.mobileListenSchedule === "1";
+$("listen-start").onchange = updateSchedule;
+$("listen-end").onchange = updateSchedule;
+$("listen-schedule").onchange = updateSchedule;
+updateSchedule();
+setInterval(checkSchedule, 10000);
+checkSchedule();
+$("listen").onclick = () => listening ? stopListening() : startListening();
+$("close-alert").onclick = () => { $("alert").hidden = true; };
+}
+const updateBanner = $("update-banner");
+const hideUpdateBanner = () => { updateBanner.hidden = true; updateBanner.style.display = "none"; };
+const showUpdateBanner = () => { updateBanner.hidden = false; updateBanner.style.display = "flex"; };
+hideUpdateBanner();
+$("refresh-app").onclick = () => { localStorage.mobileAppVersion = latestVersion || localStorage.mobileAppVersion || "local"; hideUpdateBanner(); location.reload(); };
+if (location.protocol !== "file:") fetch("./version.json?time=" + Date.now(), { cache: "no-store" }).then(response => response.json()).then(data => { latestVersion = data.version; const seen = localStorage.mobileAppVersion; if (seen && seen !== data.version) { showUpdateBanner(); notifyOwnerAboutUpdate(); } if (!seen) localStorage.mobileAppVersion = data.version; }).catch(hideUpdateBanner);
+JSON.parse(localStorage.mobileNotes || "[]").reverse().forEach(render);
+if (!window.studyGuardianCoreReady) rotateQuote();
+rotateRatingPrompt();
+window.studyGuardianMobileReady = true;
+
+</script>
+  <script type="module">
+const firebaseConfig = { apiKey: "AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek", authDomain: "study-guardian-groups.firebaseapp.com", databaseURL: "https://study-guardian-groups-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "study-guardian-groups", storageBucket: "study-guardian-groups.firebasestorage.app", messagingSenderId: "499313905189", appId: "1:499313905189:web:589c4dfade509c853779cc" };
+const $ = id => document.getElementById(id);
+const state = { file: null, bytes: null, lines: [], marks: [], worker: null, libraries: null, processing: false, syncCode: "", stopSync: null, pendingMarks: [] };
+const importantWords = /(مهم|ركز|تذكر|اختبار|واجب|كويز|تسليم|مشروع|بحث|تقرير|موعد|deadline|exam|quiz|assignment|homework|submit|important|remember|focus)/i;
+let syncApi = null;
+
+function pdfStatus(text) { $("pdf-status").textContent = text; }
+function setProgress(percent, visible = true) { $("pdf-progress").hidden = !visible; $("pdf-progress-bar").style.width = `${Math.max(0, Math.min(100, percent))}%`; }
+function syncStatus(text) { $("pdf-sync-status").textContent = text; }
+function refreshMarksUi() { $("download-highlighted-pdf").hidden = !state.marks.length; $("send-highlighted-pdf").hidden = !state.marks.length; }
+async function ensureSyncAuth() {
+  if (location.protocol === "file:") throw new Error("المزامنة بين الأجهزة تعمل من الرابط المنشور فقط.");
+  if (!syncApi) {
+    const [appSdk, authSdk, databaseSdk] = await Promise.all([
+      import("https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
+      import("https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js")
+    ]);
+    const app = appSdk.getApps().length ? appSdk.getApp() : appSdk.initializeApp(firebaseConfig);
+    syncApi = { auth: authSdk.getAuth(app), db: databaseSdk.getDatabase(app), signInAnonymously: authSdk.signInAnonymously, ref: databaseSdk.ref, set: databaseSdk.set, get: databaseSdk.get, update: databaseSdk.update, onValue: databaseSdk.onValue };
+  }
+  if (!syncApi.auth.currentUser) await syncApi.signInAnonymously(syncApi.auth);
+  return syncApi;
+}
+function newSyncCode() { return `sgpdf-${crypto.randomUUID ? crypto.randomUUID().replaceAll("-", "") : Array.from(crypto.getRandomValues(new Uint32Array(5))).map(value => value.toString(36)).join("")}`; }
+async function saveSyncMarks() { if (!state.syncCode) return; try { const api = await ensureSyncAuth(); await api.update(api.ref(api.db, `pdfSync/${state.syncCode}`), { marks: state.marks, updatedAt: Date.now() }); } catch (_) { syncStatus("تعذر تحديث التظليلات على الأجهزة الأخرى."); } }
+async function watchSync(code) { const api = await ensureSyncAuth(); state.stopSync?.(); state.stopSync = api.onValue(api.ref(api.db, `pdfSync/${code}`), snapshot => { const data = snapshot.val(); if (!data) return; if (Array.isArray(data.marks)) { state.marks = data.marks; refreshMarksUi(); } }); }
+function connectSync(code) { state.syncCode = code; localStorage.pdfSyncCode = code; $("pdf-sync-code").value = code; $("copy-pdf-sync").hidden = false; $("leave-pdf-sync").hidden = false; watchSync(code).catch(error => syncStatus(error.message)); }
+async function downloadSyncFile(data) { const token = $("telegram-token").value.trim(); if (!token) throw new Error("اكتب Bot Token في قسم Telegram على هذا الجهاز أولًا."); const infoResponse = await fetch(`https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(data.fileId)}`), info = await infoResponse.json(); if (!infoResponse.ok || !info.ok || !info.result?.file_path) throw new Error("تعذر الوصول إلى ملف Telegram."); const fileResponse = await fetch(`https://api.telegram.org/file/bot${token}/${info.result.file_path}`); if (!fileResponse.ok) throw new Error("تعذر تنزيل الملف من Telegram."); return new File([await fileResponse.blob()], data.fileName || "lecture.pdf", { type: data.fileType || "application/pdf" }); }
+function normalize(value) { return String(value || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim(); }
+function lineGroups(words) {
+  const sorted = [...words].filter(word => word.text && word.bbox).sort((a, b) => a.bbox.y0 - b.bbox.y0 || a.bbox.x0 - b.bbox.x0), groups = [];
+  sorted.forEach(word => {
+    const middle = (word.bbox.y0 + word.bbox.y1) / 2, group = groups.find(item => Math.abs(item.middle - middle) < Math.max(16, (word.bbox.y1 - word.bbox.y0) * .75));
+    if (group) { group.words.push(word); group.middle = (group.middle * (group.words.length - 1) + middle) / group.words.length; }
+    else groups.push({ middle, words: [word] });
+  });
+  return groups.map(group => {
+    const boxes = group.words.map(word => word.bbox), x0 = Math.min(...boxes.map(box => box.x0)), y0 = Math.min(...boxes.map(box => box.y0)), x1 = Math.max(...boxes.map(box => box.x1)), y1 = Math.max(...boxes.map(box => box.y1));
+    return { text: group.words.map(word => word.text).join(" "), bbox: { x0, y0, x1, y1 } };
+  }).filter(line => normalize(line.text).length > 3);
+}
+function scoreLine(phrase, line) {
+  const wanted = normalize(phrase).split(" ").filter(word => word.length > 1), found = new Set(normalize(line.text).split(" "));
+  if (wanted.length < 2) return 0;
+  return wanted.filter(word => found.has(word)).length / wanted.length;
+}
+function highlightPhrase(phrase, auto = false) {
+  if (!state.lines.length) return false;
+  const ranked = state.lines.map(line => ({ line, score: scoreLine(phrase, line) })).sort((a, b) => b.score - a.score), best = ranked[0];
+  if (!best || best.score < (auto ? .56 : .4)) return false;
+  const key = `${best.line.pageIndex}:${Math.round(best.line.x)}:${Math.round(best.line.y)}:${Math.round(best.line.w)}:${Math.round(best.line.h)}`;
+  if (!state.marks.some(mark => mark.key === key)) state.marks.push({ ...best.line, key, phrase });
+  $("pdf-match").hidden = false;
+  $("pdf-match").textContent = `تم تحديد جملة قريبة في الصفحة ${best.line.pageIndex + 1}: ${best.line.text.slice(0, 130)}`;
+  refreshMarksUi(); saveSyncMarks();
+  pdfStatus(`تم تجهيز ${state.marks.length} تظليل${state.marks.length === 1 ? "" : "ات"} حتى الآن.`);
+  return true;
+}
+async function loadLibraries() {
+  if (state.libraries) return state.libraries;
+  pdfStatus("جارٍ تنزيل محرك قراءة PDF والتعرّف العربي/الإنجليزي للمرة الأولى...");
+  const [pdfjs, tesseractModule, pdfLib] = await Promise.all([
+    import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs"),
+    import("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js"),
+    import("https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm")
+  ]);
+  const tesseract = tesseractModule.default || tesseractModule;
+  pdfjs.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.mjs";
+  state.libraries = { pdfjs, tesseract, pdfLib };
+  return state.libraries;
+}
+async function readFileBytes(file) {
+  if (typeof file?.arrayBuffer === "function") return file.arrayBuffer();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("تعذر قراءة ملف PDF. اختره مرة أخرى ثم حاول."));
+    reader.onload = () => resolve(reader.result);
+    reader.readAsArrayBuffer(file);
+  });
+}
+async function preparePdf(fileOverride = null, syncedMarks = []) {
+  const file = fileOverride || $("study-pdf").files?.[0];
+  if (!file) return pdfStatus("اختر ملف PDF أولًا.");
+  if (file.size > 45 * 1024 * 1024) return pdfStatus("الملف كبير جدًا لهذه النسخة. استخدم ملفًا أقل من 45 MB.");
+  if (state.processing) return;
+  state.processing = true; state.file = file; state.bytes = null; state.lines = []; state.marks = []; state.pendingMarks = Array.isArray(syncedMarks) ? syncedMarks : [];
+  $("prepare-study-pdf").disabled = true; $("cancel-study-pdf").hidden = false; $("pdf-match").hidden = true; setProgress(2);
+  try {
+    pdfStatus("جارٍ قراءة ملف PDF...");
+    state.bytes = await readFileBytes(file);
+    const { pdfjs, tesseract } = await loadLibraries();
+    state.worker = await tesseract.createWorker("ara+eng", 1, { langPath: new URL("./tessdata/", location.href).href, logger: event => { if (event.status === "recognizing text" && Number.isFinite(event.progress)) setProgress(8 + event.progress * 78); } });
+    const task = pdfjs.getDocument({ data: new Uint8Array(state.bytes.slice(0)) }), pdf = await task.promise;
+    for (let number = 1; number <= pdf.numPages; number += 1) {
+      if (!state.processing) return;
+      pdfStatus(`جارٍ قراءة الصفحة ${number} من ${pdf.numPages}...`);
+      const page = await pdf.getPage(number), viewport = page.getViewport({ scale: 2 }), canvas = document.createElement("canvas"), context = canvas.getContext("2d", { willReadFrequently: true });
+      canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
+      await page.render({ canvasContext: context, viewport }).promise;
+      const result = await state.worker.recognize(canvas), groups = result.data.lines?.length ? result.data.lines.map(line => ({ text: line.text, bbox: line.bbox })) : lineGroups(result.data.words || []), original = page.getViewport({ scale: 1 });
+      groups.forEach(group => {
+        const box = group.bbox, x = box.x0 / canvas.width * original.width, y = original.height - box.y1 / canvas.height * original.height, w = (box.x1 - box.x0) / canvas.width * original.width, h = (box.y1 - box.y0) / canvas.height * original.height;
+        if (w > 0 && h > 0) state.lines.push({ pageIndex: number - 1, text: group.text, x, y, w, h });
+      });
+      setProgress(8 + (number / pdf.numPages) * 82);
+    }
+    await state.worker.terminate(); state.worker = null; setProgress(100); state.marks = state.pendingMarks; refreshMarksUi();
+    window.studyGuardianPdfListening = true;
+    pdfStatus(`اكتمل تجهيز ${state.lines.length} سطر من ${file.name}. ابدأ الاستماع أو ألصق جملة لتحديدها.`);
+  } catch (error) {
+    pdfStatus(`تعذر تجهيز الملف: ${(error?.message || "تحقق من الإنترنت ثم حاول مرة أخرى.").slice(0, 150)}`);
+    console.error(error);
+  } finally { state.processing = false; $("prepare-study-pdf").disabled = false; }
+}
+function clearPdfSession() {
+  state.processing = false; state.worker?.terminate?.(); state.worker = null; state.file = null; state.bytes = null; state.lines = []; state.marks = [];
+  window.studyGuardianPdfListening = false; $("study-pdf").value = ""; $("pdf-manual-sentence").value = ""; $("pdf-match").hidden = true; $("download-highlighted-pdf").hidden = true; $("send-highlighted-pdf").hidden = true; $("cancel-study-pdf").hidden = true; setProgress(0, false);
+  pdfStatus("تم إلغاء جلسة PDF ومسح بياناتها من الذاكرة. ملفك الأصلي لم يتغير.");
+}
+async function buildHighlightedPdf() {
+  if (!state.bytes || !state.marks.length) throw new Error("لا توجد جمل محددة.");
+  const { pdfLib } = await loadLibraries(), documentPdf = await pdfLib.PDFDocument.load(state.bytes.slice(0)), pages = documentPdf.getPages();
+    state.marks.forEach(mark => pages[mark.pageIndex]?.drawRectangle({ x: mark.x - 1.5, y: mark.y - 1.5, width: mark.w + 3, height: mark.h + 3, color: pdfLib.rgb(1, .86, .12), opacity: .42, borderWidth: 0 }));
+  return new Blob([await documentPdf.save()], { type: "application/pdf" });
+}
+async function downloadHighlightedPdf() {
+  if (!state.bytes || !state.marks.length) return pdfStatus("لا توجد جمل محددة لتحميلها.");
+  try {
+    const url = URL.createObjectURL(await buildHighlightedPdf()), link = document.createElement("a");
+    link.href = url; link.download = `${state.file.name.replace(/\.pdf$/i, "")}-مظلل.pdf`; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+    pdfStatus("تم تجهيز نسخة PDF المظللة للتحميل.");
+  } catch (_) { pdfStatus("تعذر إنشاء نسخة PDF المظللة. حاول مرة أخرى."); }
+}
+async function sendHighlightedPdf() {
+  if (!state.bytes || !state.marks.length) return pdfStatus("لا توجد جمل محددة لإرسالها.");
+  try {
+    const blob = await buildHighlightedPdf(), name = `${state.file.name.replace(/\.pdf$/i, "")}-مظلل.pdf`, sent = await window.studyGuardianSendTelegramFile?.(new File([blob], name, { type: "application/pdf" }), "نسخة PDF مظللة من Smart Guardian");
+    if (sent) pdfStatus("تم إرسال PDF المظلل إلى أجهزتك عبر Telegram.");
+  } catch (_) { pdfStatus("تعذر تجهيز PDF لإرساله."); }
+}
+async function createPdfSync() {
+  if (!state.file || !state.bytes) return syncStatus("جهّز ملف PDF أولًا، ثم ارفعه للمزامنة.");
+  try {
+    const api = await ensureSyncAuth(); syncStatus("جارٍ رفع الملف مرة واحدة إلى Telegram وربطه بالأجهزة...");
+    const sent = await window.studyGuardianSendTelegramFile?.(state.file, "ملف مزامنة Smart Guardian بين الأجهزة");
+    if (!sent?.fileId) throw new Error("تعذر إرسال الملف إلى Telegram.");
+    const code = newSyncCode();
+    await api.set(api.ref(api.db, `pdfSync/${code}`), { fileId: sent.fileId, fileName: state.file.name, fileType: state.file.type || "application/pdf", marks: state.marks, createdAt: Date.now(), updatedAt: Date.now() });
+    connectSync(code); syncStatus("تمت المزامنة. انسخ الرمز وافتحه من أي جهاز مرتبط بنفس Telegram.");
+  } catch (error) { syncStatus(`تعذر إنشاء المزامنة: ${error?.message || "تحقق من الربط والإنترنت."}`); }
+}
+async function openPdfSync() {
+  const code = $("pdf-sync-code").value.trim(); if (!code) return syncStatus("اكتب رمز المزامنة أولًا.");
+  try {
+    const api = await ensureSyncAuth(); syncStatus("جارٍ جلب الملف والتظليلات من المزامنة...");
+    const snapshot = await api.get(api.ref(api.db, `pdfSync/${code}`)), data = snapshot.val();
+    if (!data?.fileId) throw new Error("الرمز غير صحيح أو لم يعد الملف متاحًا.");
+    connectSync(code); const file = await downloadSyncFile(data); await preparePdf(file, data.marks || []);
+    syncStatus("تم فتح الملف. أي تظليل جديد سيتزامن تلقائيًا بين أجهزتك.");
+  } catch (error) { syncStatus(`تعذر فتح المزامنة: ${error?.message || "تحقق من الرمز وTelegram."}`); }
+}
+async function copySyncCode() { const code = state.syncCode || $("pdf-sync-code").value.trim(); if (!code) return; try { await navigator.clipboard.writeText(code); syncStatus("تم نسخ رمز المزامنة."); } catch (_) { syncStatus(`رمز المزامنة: ${code}`); } }
+function leavePdfSync() { state.stopSync?.(); state.stopSync = null; state.syncCode = ""; localStorage.removeItem("pdfSyncCode"); $("pdf-sync-code").value = ""; $("copy-pdf-sync").hidden = true; $("leave-pdf-sync").hidden = true; syncStatus("تم فصل هذا الجهاز. لم يُحذف الملف أو المزامنة."); }
+
+$("prepare-study-pdf").onclick = () => preparePdf();
+$("cancel-study-pdf").onclick = clearPdfSession;
+$("pdf-listen").onclick = () => { if (!state.lines.length) return pdfStatus("جهّز ملف PDF أولًا، ثم يبدأ الاستماع لتحديد الجمل داخله."); window.studyGuardianPdfListening = true; const button = $("listen"); if (!button.textContent.includes("إيقاف")) button.click(); pdfStatus("تم طلب تشغيل الاستماع لعبارات المحاضرة."); };
+$("highlight-pdf-sentence").onclick = () => { const phrase = $("pdf-manual-sentence").value.trim(); if (!phrase) return pdfStatus("اكتب الجملة أولًا."); if (!highlightPhrase(phrase)) pdfStatus("لم أجد تطابقًا واضحًا. جرّب جزءًا أطول أو أوضح من الجملة."); };
+$("download-highlighted-pdf").onclick = downloadHighlightedPdf;
+$("send-highlighted-pdf").onclick = sendHighlightedPdf;
+$("create-pdf-sync").onclick = createPdfSync;
+$("open-pdf-sync").onclick = openPdfSync;
+$("copy-pdf-sync").onclick = copySyncCode;
+$("leave-pdf-sync").onclick = leavePdfSync;
+$("pdf-sync-code").value = localStorage.pdfSyncCode || "";
+window.addEventListener("smartguardian:heard", event => { const phrase = event.detail?.text || ""; if (state.processing || !state.lines.length || !$("pdf-auto-highlight").checked || !importantWords.test(phrase)) return; highlightPhrase(phrase, true); });
+
+</script>
 </body>
 </html>
