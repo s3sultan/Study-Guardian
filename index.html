@@ -70,7 +70,18 @@ h1,h2,h3,.brand,.prayer-settings strong,.quote strong,.panel-card-text .nav-titl
 button,input,textarea,select{font:inherit}
 button{cursor:pointer;transition:transform .12s ease,background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease}
 button:active{transform:scale(.97)}
-main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
+main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:calc(var(--sg-header-h, 220px) + 14px) 24px calc(var(--sg-footer-h, 90px) + 14px)}
+.app-header{position:fixed;top:0;left:0;right:0;z-index:70;width:min(100%,1760px);margin:0 auto;background:var(--bg)}
+.footer-info{position:fixed!important;bottom:0;left:0;right:0;z-index:70;width:100%;margin:0!important;border-radius:0!important}
+.content-row{display:flex;gap:14px;align-items:flex-start}
+.content-row .feature-map{flex:1;margin:0;order:1}
+.ad-screen{order:2;flex:none;width:280px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-sm);align-self:stretch;display:flex;flex-direction:column}
+.ad-slides-stack{display:flex;flex-direction:column;height:100%;overflow-y:auto}
+.ad-slide-item{flex:1;min-height:150px;display:flex;flex-direction:column;border-bottom:1px solid var(--border-soft)}
+.ad-slide-item:last-child{border-bottom:0}
+.ad-slide-item .ad-slide-media{flex:1;min-height:130px;display:flex;align-items:center;justify-content:center;background:var(--surface-2);overflow:hidden}
+.ad-slide-item .ad-slide-media img,.ad-slide-item .ad-slide-media video{width:100%;height:100%;object-fit:cover;display:block}
+.ad-slide-item .ad-slide-caption{margin:0;padding:8px 10px;font-size:12px;color:var(--ink-dim);text-align:center;border-top:1px solid var(--border-soft)}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 #update-banner{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 14px;padding:11px 16px;border-radius:var(--r-sm);background:var(--gold-soft);color:var(--gold);border:1px solid rgba(255,189,89,.3);font-size:13px;font-weight:700}
@@ -80,17 +91,25 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 /* ---------- الرأس (Hero) — شبكة عصبية متوهجة متحركة ---------- */
 .top-area{position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:stretch;overflow:hidden;border-radius:var(--r-lg) var(--r-lg) 0 0;background:radial-gradient(1200px 640px at 8% -20%,rgba(124,107,255,.30),transparent 60%),radial-gradient(900px 560px at 100% 120%,rgba(51,224,255,.22),transparent 60%),var(--bg-soft);box-shadow:var(--shadow-lg);isolation:isolate}
 .top-area::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.6px);background-size:26px 26px;opacity:.35;pointer-events:none;mix-blend-mode:screen}
-.top-area::after{content:"";position:absolute;inset:-40% -10%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,95,174,.16) 60deg,transparent 140deg,rgba(51,224,255,.16) 220deg,transparent 320deg);animation:sg-spin 26s linear infinite;pointer-events:none}
-@keyframes sg-spin{to{transform:rotate(360deg)}}
 
-.brand{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:112px;padding:14px;border:2px solid transparent;border-radius:999px;background:transparent;cursor:pointer;transition:border-color .3s ease,box-shadow .3s ease}
-.brand img{display:block;width:76px;height:76px;flex:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(124,107,255,.55));transition:filter .2s ease,transform .15s ease;animation:sg-intro-glow 2.2s ease-out 1,sg-breathe 3.6s ease-in-out infinite 2.2s}
+.brand{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:112px;padding:14px;border:2px solid transparent;border-radius:999px;background:transparent;transition:border-color .3s ease,box-shadow .3s ease}
+.brand img{display:block;width:76px;height:76px;flex:none;object-fit:contain;filter:drop-shadow(0 0 14px rgba(124,107,255,.45));transition:filter .2s ease,transform .15s ease;animation:sg-intro-glow 2.2s ease-out 1,sg-breathe 7s ease-in-out infinite 2.2s}
 @keyframes sg-intro-glow{0%{transform:scale(.9);filter:drop-shadow(0 0 4px rgba(124,107,255,0))}35%{transform:scale(1.08);filter:drop-shadow(0 0 34px rgba(51,224,255,.85))}100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(124,107,255,.45))}}
-@keyframes sg-breathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(124,107,255,.45))}50%{transform:scale(1.035);filter:drop-shadow(0 0 20px rgba(51,224,255,.5))}}
-.brand-activity{position:absolute;top:10px;left:10px;width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--c-soft);opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
-.brand.is-listening .brand-activity{opacity:1;transform:scale(1);animation:sg-activity-blink 1.4s ease-in-out infinite}
-.brand.is-alert .brand-activity{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
-@keyframes sg-activity-blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes sg-breathe{0%,78%,100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(124,107,255,.45))}88%{transform:scale(1.045);filter:drop-shadow(0 0 22px rgba(51,224,255,.55))}}
+.brand-activity{position:absolute;top:10px;left:10px;width:10px;height:10px;border-radius:50%;background:var(--c);opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
+.brand-activity::before,.brand-activity::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--c);opacity:0}
+.brand.is-listening .brand-activity{opacity:1;transform:scale(1)}
+.brand.is-listening .brand-activity::before,.brand.is-listening .brand-activity::after{animation:sg-sonar-ring 1.8s cubic-bezier(.2,.7,.4,1) infinite}
+.brand.is-listening .brand-activity::after{animation-delay:.6s}
+.brand.is-alert .brand-activity,.brand.is-alert .brand-activity::before,.brand.is-alert .brand-activity::after{background:var(--bad)}
+@keyframes sg-sonar-ring{0%{transform:scale(1);opacity:.65}100%{transform:scale(4.2);opacity:0}}
+
+/* توهج نابض خفيف دائم حول الشعار الرئيسي (توقيع هادئ يليق بالعلامة) */
+.sg-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+.sg-stars-1{background-image:radial-gradient(1.6px 1.6px at 12% 22%,#fff,transparent),radial-gradient(1.3px 1.3px at 34% 68%,#fff,transparent),radial-gradient(1.8px 1.8px at 61% 30%,#fff,transparent),radial-gradient(1.4px 1.4px at 82% 58%,#fff,transparent),radial-gradient(1.5px 1.5px at 93% 20%,#fff,transparent);animation:sg-twinkle 3.2s ease-in-out infinite}
+.sg-stars-2{background-image:radial-gradient(1.4px 1.4px at 22% 78%,#fff,transparent),radial-gradient(1.7px 1.7px at 48% 15%,#fff,transparent),radial-gradient(1.3px 1.3px at 70% 82%,#fff,transparent),radial-gradient(1.6px 1.6px at 88% 40%,#fff,transparent),radial-gradient(1.4px 1.4px at 5% 50%,#fff,transparent);animation:sg-twinkle 4.1s ease-in-out infinite 1.1s}
+.sg-stars-3{background-image:radial-gradient(1.3px 1.3px at 40% 42%,#fff,transparent),radial-gradient(1.6px 1.6px at 15% 60%,#fff,transparent),radial-gradient(1.4px 1.4px at 75% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 88%,#fff,transparent),radial-gradient(1.3px 1.3px at 96% 70%,#fff,transparent);animation:sg-twinkle 3.7s ease-in-out infinite 2.2s}
+@keyframes sg-twinkle{0%,100%{opacity:.08}50%{opacity:.9}}
 .brand:hover img{transform:scale(1.08)}
 .brand.is-listening{border-color:var(--c);box-shadow:0 0 0 5px var(--c-soft)}
 .brand.is-alert{border-color:var(--bad);box-shadow:0 0 0 6px var(--bad-soft);animation:sg-alert-ring 1s ease-in-out infinite}
@@ -107,18 +126,24 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 .prayer-settings{position:relative;margin:0}
 .prayer-settings>summary{list-style:none;cursor:pointer}.prayer-settings>summary::-webkit-details-marker{display:none}
 .prayer-settings>summary>div{display:grid;align-content:center;gap:6px;min-height:74px;text-align:center}
-.prayer-settings strong{font-size:clamp(20px,2.4vw,28px);font-weight:800;color:var(--gold)}.prayer-settings p{margin:0;color:var(--ink-dim);font-size:14px}
+.prayer-settings strong{font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--gold)}.prayer-settings p{margin:0;color:var(--ink-dim);font-size:14px}
 .prayer-settings-content{position:absolute;z-index:10;top:calc(100% + 15px);right:0;width:min(420px,calc(100vw - 40px));padding:18px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg)}
 .prayer-settings-content label{display:block;margin:10px 0 0;color:var(--muted);font-size:13px}.prayer-settings-content button{width:100%;margin-top:10px}.prayer-settings-content #prayer-status{color:var(--muted);font-size:12px}.prayer-settings-content #prayer-times{max-height:180px;overflow:auto;margin-top:10px;padding:10px;border-radius:8px;background:var(--surface-2);font-size:13px}
 .manual-prayers{margin-top:12px;padding-top:11px;border-top:1px solid var(--border-soft)}.manual-prayers summary{color:var(--c);font-size:13px;font-weight:800;cursor:pointer}.manual-prayers p{margin:8px 0 0;color:var(--muted);font-size:11px;line-height:1.55}.manual-prayer-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.manual-prayer-grid label{margin:8px 0 0}.manual-prayer-grid input{width:100%;margin-top:4px;padding:8px;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);color:var(--ink)}.manual-prayers button.secondary{background:transparent;color:var(--c);border:1px solid var(--c-soft)}
 
 .quote{min-height:78px;margin:0;padding:14px 54px;border:0;border-radius:0;background:var(--bg-soft);color:var(--ink);text-align:center;display:grid;place-content:center;gap:5px;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
-.quote strong{font-size:clamp(16px,1.7vw,19px);line-height:1.8;font-weight:700;color:var(--ink)}.quote span{color:var(--muted);font-size:clamp(14px,1.5vw,17px);font-weight:500}.quote-reference{color:var(--muted);font-size:11px}
-.quote.is-verse{background:var(--gold-soft);border-color:rgba(184,121,10,.25)}.quote.is-verse strong{font-family:var(--font-display);font-size:clamp(22px,2.8vw,32px);font-weight:800;line-height:2;color:var(--gold)}.quote.is-verse .quote-reference{color:var(--gold);font-weight:700;opacity:.85}
-.quote.is-prayer{background:var(--ok-soft);border-color:rgba(10,145,105,.25)}.quote.is-prayer strong{color:var(--ok);font-size:clamp(18px,2vw,23px)}.quote.is-prayer .quote-reference{color:var(--ok)}
-.quote.is-hikam strong{font-size:clamp(16px,1.7vw,19px);color:var(--v)}.quote.is-hikam span{font-size:clamp(16px,1.7vw,19px);color:var(--muted);font-style:italic}
+.quote strong{font-family:var(--font-display);font-size:clamp(18px,2vw,23px);line-height:1.9;font-weight:700;color:var(--gold)}.quote span{color:var(--gold);opacity:.75;font-size:clamp(14px,1.5vw,17px);font-weight:500}.quote-reference{color:var(--gold);opacity:.8;font-size:11px;font-weight:700}
 .quote.is-verse span,.quote.is-prayer span{display:none}
-.quote-nav{display:flex;justify-content:center;gap:8px;margin:0;padding:9px 0 15px;background:var(--bg-soft);border-radius:0 0 var(--r-lg) var(--r-lg)}.quote-nav button{width:30px;height:28px;padding:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font-size:15px}.quote-nav button:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+.quote-nav-row{display:flex;align-items:center;gap:14px;margin:0;padding:9px 14px 15px;background:var(--bg-soft);border-radius:0 0 var(--r-lg) var(--r-lg)}
+.ticker-spacer{flex:1}
+.quote-nav{display:flex;justify-content:center;gap:8px;flex:none}.quote-nav button{width:30px;height:28px;padding:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font-size:15px}.quote-nav button:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+.match-ticker{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
+.ticker-teams{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.ticker-time{font-family:var(--font-mono);font-size:11.5px;color:var(--gold);white-space:nowrap;flex:none}
+.ticker-track{position:relative;flex:1;height:5px;min-width:60px;border-radius:999px;background:var(--surface-2);overflow:visible}
+.ticker-fill{position:absolute;inset:0;border-radius:999px;background:var(--aurora);width:0%}
+.ticker-marker{position:absolute;top:50%;right:0;width:20px;height:20px;border-radius:50%;transform:translate(50%,-50%);box-shadow:0 0 0 2px var(--bg-soft),0 2px 6px rgba(0,0,0,.3);transition:right .8s linear}
+@media (max-width:719px){.quote-nav-row{flex-wrap:wrap;padding:9px 14px 13px}.ticker-spacer{display:none}.match-ticker{order:3;flex:1 1 100%;margin-top:6px}.ticker-teams{max-width:none}}
 
 /* ---------- شبكة المزايا — Bento غير متماثلة ---------- */
 .feature-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0 26px;align-items:start}
@@ -128,9 +153,7 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 
 .panel summary{display:flex;align-items:center;gap:9px;min-height:57px;padding:16px 18px;border-bottom:1px solid var(--border-soft);color:var(--ink);font-weight:800;cursor:pointer;list-style:none}
 .panel summary::-webkit-details-marker{display:none}
-.panel summary::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--v);box-shadow:0 0 0 4px var(--v-soft)}
-.panel:nth-child(2) summary::before{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
-.panel:nth-child(5) summary::before,.panel:nth-child(8) summary::before{background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.panel summary::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--panel-dot,var(--v));box-shadow:0 0 0 4px var(--panel-dot-soft,var(--v-soft))}
 
 .panel-content{padding:16px 18px 18px;animation:open-card .28s cubic-bezier(.22,.9,.35,1)}
 .panel label{display:block;margin-top:11px;color:var(--muted);font-size:13px}
@@ -165,7 +188,42 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 .pdf-study-panel{border-color:rgba(111,92,242,.25)}.pdf-study-panel #prepare-study-pdf{background:var(--v);color:#fff;box-shadow:0 8px 22px rgba(111,92,242,.28)}.pdf-study-panel #prepare-study-pdf:hover{filter:brightness(1.08)}.pdf-progress{height:10px;margin-top:13px;overflow:hidden;border-radius:999px;background:var(--surface-2)}.pdf-progress span{display:block;width:0;height:100%;border-radius:inherit;background:var(--aurora);transition:width .25s ease}.pdf-match{margin:10px 0 0;padding:10px;border-radius:var(--r-sm);background:var(--v-soft);color:var(--v);font-size:13px;font-weight:700;border:1px solid rgba(111,92,242,.25)}.pdf-study-panel #download-highlighted-pdf{background:var(--ok);color:#062018;box-shadow:0 8px 22px rgba(49,230,176,.28)}
 .pdf-sync{margin-top:15px;padding-top:12px;border-top:1px solid rgba(255,95,174,.2);color:var(--muted);font-size:12px}.pdf-sync summary{color:var(--m);font-weight:800;cursor:pointer}.pdf-sync p{margin:8px 0}.pdf-sync #pdf-sync-status{min-height:19px;color:var(--muted);line-height:1.6}
 
-.idea-reply{margin-top:14px;padding:14px;border:1px solid rgba(49,230,176,.28);border-radius:var(--r-sm);background:var(--ok-soft);color:var(--ok);box-shadow:none}.idea-reply strong{display:block;font-size:15px}.idea-reply-item{padding:10px 0;border-bottom:1px solid rgba(49,230,176,.2)}.idea-reply-item:last-child{border-bottom:0}.idea-reply-item p{margin:0;white-space:pre-wrap;font-size:15px;line-height:1.7;color:var(--ink)}.idea-reply-item small{display:block;margin-top:4px;color:var(--ok);font-size:11px}.idea-reply a{display:inline-block;margin-top:12px;color:var(--ok);font-size:13px;font-weight:800;text-decoration:none}
+.idea-reply{margin-top:14px;padding:14px;border:1px solid rgba(49,230,176,.28);border-radius:var(--r-sm);background:var(--ok-soft);color:var(--ok);box-shadow:none}
+.wa-print{margin-top:12px;padding:12px;border-radius:var(--r-sm);background:var(--ok-soft);border:1px solid rgba(10,145,105,.25)}
+.char-count{display:block;margin-top:5px;text-align:left;color:var(--muted);font-size:11px;font-family:var(--font-mono)}
+.quick-links-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:10px}
+.quick-links-form input{margin-top:0}
+.quick-links-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.quick-link-row{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface)}
+.quick-link-row a{color:var(--v);font-size:13px;font-weight:700;text-decoration:none}
+.quick-link-row button{width:auto;margin:0;padding:0 4px;border:0;background:transparent;color:var(--muted);font-size:16px;box-shadow:none}
+.pomodoro-display{margin:10px 0 2px;font-family:var(--font-mono);font-size:38px;font-weight:700;color:var(--v);text-align:center}
+.matches-list{display:grid;gap:10px;margin-top:10px}
+.match-card{padding:14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)}
+.match-teams{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:15px}
+.match-teams span:nth-child(2){color:var(--gold);font-family:var(--font-mono);font-size:13px}
+.match-venue{margin:6px 0 0;color:var(--muted);font-size:12px}
+.match-countdown{margin-top:8px;font-family:var(--font-mono);font-weight:700;color:var(--gold);font-size:15px}
+.match-countdown.match-live{color:var(--ok)}
+.class-close-countdown{margin:10px 0 2px;font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--bad);text-align:center}
+.match-widget{position:relative}
+.match-widget-popover{position:absolute;z-index:40;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(360px,88vw);max-height:70vh;overflow-y:auto;padding:16px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);box-shadow:var(--shadow-lg);text-align:right}
+.match-widget-popover .panel-sub{margin-top:10px}
+.match-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--border-soft);border-radius:var(--r-sm);background:var(--surface-2);margin-top:6px}
+.match-row-actions{display:flex;gap:4px;flex:none}
+.match-row-actions button{width:auto;margin:0!important;padding:4px 8px!important;font-size:12px!important;box-shadow:none!important}
+.wa-print label{margin-top:0}.wa-print input{background:var(--surface)}
+.wa-print button{background:var(--ok);color:#062018;box-shadow:0 6px 16px rgba(10,145,105,.25)}
+.wa-print button:hover{filter:brightness(1.06)}
+.panel-sub{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)}
+.panel-sub+.panel-sub{margin-top:10px}
+.panel-sub>summary{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-weight:800;font-size:14px;cursor:pointer;color:var(--ink);list-style:none}
+.panel-sub>summary::-webkit-details-marker{display:none}
+.panel-sub>summary::after{content:"⌄";color:var(--muted);transition:transform .2s}
+.panel-sub[open]>summary::after{transform:rotate(180deg)}
+.panel-sub-content{padding:0 14px 16px;animation:open-card .2s ease}
+.feedback-subhead{margin:16px 0 -2px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-top:14px;border-top:1px solid var(--border-soft)}
+.feedback-subhead:first-child{margin-top:0;padding-top:0;border-top:0}.idea-reply strong{display:block;font-size:15px}.idea-reply-item{padding:10px 0;border-bottom:1px solid rgba(49,230,176,.2)}.idea-reply-item:last-child{border-bottom:0}.idea-reply-item p{margin:0;white-space:pre-wrap;font-size:15px;line-height:1.7;color:var(--ink)}.idea-reply-item small{display:block;margin-top:4px;color:var(--ok);font-size:11px}.idea-reply a{display:inline-block;margin-top:12px;color:var(--ok);font-size:13px;font-weight:800;text-decoration:none}
 .reply-toast{position:fixed;z-index:120;top:16px;left:50%;width:min(calc(100% - 28px),440px);transform:translateX(-50%);padding:15px 18px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--ok);color:var(--ink);text-align:center;font-size:16px;font-weight:800;box-shadow:var(--shadow-lg);animation:admin-pop .25s ease}
 
 .responses-page{background:var(--bg)}.responses-main{width:min(100%,800px);min-height:100vh;margin:auto;padding:28px 20px}.responses-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px;border-radius:var(--r-md);background:var(--bg-soft);border:1px solid var(--border);color:var(--ink);box-shadow:var(--shadow-md)}.responses-header strong{font-size:14px;color:var(--gold)}.responses-header h1{margin:4px 0;font-size:25px;font-family:var(--font-display)}.responses-header p{margin:0;color:var(--ink-dim);font-size:12px}.responses-header button{width:auto;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-weight:800}.responses-header button:hover{border-color:var(--c);color:var(--c)}.all-responses{display:grid;gap:12px;margin-top:18px}.response-card{padding:16px;border:1px solid rgba(49,230,176,.28);border-radius:var(--r-sm);background:var(--ok-soft);color:var(--ok);box-shadow:none}.response-card strong{font-size:15px}.response-card p{margin:8px 0;white-space:pre-wrap;font-size:16px;line-height:1.75;color:var(--ink)}.response-card small{color:var(--ok);font-size:11px}
@@ -175,22 +233,27 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 .rating-admin-card{border-color:rgba(255,189,89,.3);background:var(--gold-soft)}.delete-item{background:var(--bad-soft)!important;color:var(--bad)!important;border:1px solid rgba(255,84,112,.3)!important;box-shadow:none!important}
 
 /* ---------- الشعار وحالة الدخول ---------- */
-.footer-info{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 22px;margin:10px -16px 0;padding:22px 36px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--bg-soft);color:var(--ink-dim);font-size:12px;border-top:1px solid var(--border-soft)}
-.footer-info{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 22px;margin:10px -16px 0;padding:26px 40px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--bg-soft);color:var(--ink-dim);font-size:13.5px;border-top:1px solid var(--border-soft)}
+.footer-info{display:flex;flex-direction:column;gap:8px;margin:10px -16px 0;padding:14px 32px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--bg-soft);color:var(--ink-dim);font-size:12.5px;border-top:1px solid var(--border-soft)}
+.footer-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px 24px}
+.designer-prayer{grid-column:1}
+.footer-center{grid-column:2;justify-self:center}
+.footer-left{grid-column:3;display:flex;align-items:center;gap:10px;justify-self:end}
+.copyright{white-space:nowrap;font-size:11.5px;color:var(--muted)}
 .footer-info p{margin:0}
-.footer-center{display:flex;flex-direction:column;align-items:center;gap:5px;flex:none}
-.visitor-counter{padding:8px 16px!important;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);white-space:nowrap;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700}.visitor-counter strong{color:var(--gold);font-size:15px}
+.footer-center{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none}
+.footer-center-row{display:flex;flex-direction:row;align-items:center;gap:12px}
+.visitor-counter{padding:6px 14px!important;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);white-space:nowrap;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700}.visitor-counter strong{color:var(--gold);font-size:14px}
 .heartbeat{color:var(--bad);font-size:15px;display:inline-block;animation:sg-heartbeat 1.3s ease-in-out infinite}
 @keyframes sg-heartbeat{0%,100%{transform:scale(1)}20%{transform:scale(1.35)}40%{transform:scale(1)}60%{transform:scale(1.25)}80%{transform:scale(1)}}
-.designer-prayer{text-align:left;flex:1;min-width:240px;font-size:12.5px;line-height:1.7}.copyright{white-space:nowrap;text-align:right;flex:1;min-width:180px;font-size:13px}
+.designer-prayer{text-align:right;flex:1;min-width:240px;font-size:12.5px;line-height:1.7}
 
-.theme-switch{position:fixed;z-index:130;left:18px;bottom:18px;display:flex;gap:4px;padding:5px;border-radius:999px;background:#150f2c;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 26px rgba(3,2,10,.4)}
+.theme-switch{position:relative;display:flex;gap:4px;padding:5px;border-radius:999px;background:#150f2c;border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 16px rgba(3,2,10,.3)}
 .theme-switch button{width:32px;height:32px;padding:0;margin:0;border:0;border-radius:50%;background:transparent;color:#c7c1e6;font-size:15px;display:grid;place-items:center;box-shadow:none!important}
 .theme-switch button.active{background:var(--aurora);color:#0a0714}
 
 .admin-login-wrap{display:grid;justify-items:center;gap:4px}
-.admin-login{width:auto;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:12px;font-weight:700}.admin-login:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
-.admin-login-status{max-width:260px;color:var(--gold);text-align:center;font-size:10px;line-height:1.4}
+.admin-login{width:auto;padding:6px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font-size:12px;font-weight:700}.admin-login:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
+.admin-login-status{max-width:280px;color:var(--gold);text-align:center;font-size:11px;line-height:1.5}
 
 .admin-panel{grid-column:1/-1;border:1px solid var(--border);border-radius:var(--r-md);background:linear-gradient(160deg,var(--surface),var(--bg-soft));box-shadow:var(--shadow-sm)}
 .admin-panel>summary{padding:16px 18px;color:var(--ink);font-size:17px;font-weight:800;cursor:pointer}
@@ -220,16 +283,25 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:28px 24px 0}
 @keyframes admin-pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .admin-device-status{color:var(--ok)!important;font-weight:800}
 
-html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width:none;padding:0}html.admin-embedded #update-banner,html.admin-embedded .top-area,html.admin-embedded .quote,html.admin-embedded .quote-nav,html.admin-embedded .feature-map>.panel,html.admin-embedded .footer-info{display:none!important}html.admin-embedded .feature-map{display:block;margin:0}html.admin-embedded .admin-panel{margin:0;border-radius:0;box-shadow:none;border:0}html.admin-embedded .admin-panel>summary{display:none}html.admin-embedded .admin-panel-content{padding:16px}
+html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width:none;padding:0}html.admin-embedded #update-banner,html.admin-embedded .app-header,html.admin-embedded .top-area,html.admin-embedded .quote,html.admin-embedded .quote-nav,html.admin-embedded .ad-screen,html.admin-embedded .feature-map>.panel,html.admin-embedded .footer-info{display:none!important}html.admin-embedded .feature-map{display:block;margin:0}html.admin-embedded .content-row{display:block}html.admin-embedded .admin-panel{margin:0;border-radius:0;box-shadow:none;border:0}html.admin-embedded .admin-panel>summary{display:none}html.admin-embedded .admin-panel-content{padding:16px}
 
-.admin-message-badge{position:fixed;z-index:115;right:18px;bottom:18px;display:flex;align-items:center;gap:7px;width:auto;padding:12px 14px;border:1px solid var(--border-strong);border-radius:999px;background:var(--surface);color:var(--c);font-size:20px;box-shadow:var(--glow-c);cursor:pointer}.admin-message-badge b{display:grid;min-width:22px;height:22px;place-items:center;padding:0 4px;border-radius:999px;background:var(--c);color:#04222b;font-size:12px;line-height:1;font-family:Arial,sans-serif}.admin-message-badge:hover{transform:translateY(-2px)}
+.admin-message-badge{position:relative;display:flex;align-items:center;gap:7px;width:auto;padding:9px 12px;border:1px solid var(--border-strong);border-radius:999px;background:var(--surface);color:var(--c);font-size:17px;box-shadow:var(--glow-c);cursor:pointer}.admin-message-badge b{display:grid;min-width:20px;height:20px;place-items:center;padding:0 4px;border-radius:999px;background:var(--c);color:#04222b;font-size:11px;line-height:1;font-family:Arial,sans-serif}.admin-message-badge:hover{transform:translateY(-2px)}
 
 #name-toast,#screen-toast,#prayer-toast{position:fixed;z-index:100;top:14px;left:50%;width:min(calc(100% - 28px),520px);transform:translateX(-50%);padding:14px 18px;border-radius:var(--r-sm);color:#fff;text-align:center;font-weight:800;line-height:1.6;box-shadow:var(--shadow-lg);pointer-events:none;border:1px solid rgba(255,255,255,.15)}#name-toast{background:var(--bad)}#screen-toast{background:#c2294a}#prayer-toast{background:var(--ok);color:#062018}
 
 @keyframes open-card{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:none}}
+.panic-banner{display:none;margin:0 0 16px;padding:22px;border-radius:var(--r-md);background:var(--bad-soft);border:1px solid rgba(217,46,77,.32);color:var(--bad);text-align:center}
+.panic-banner strong{display:block;font-size:18px;margin-bottom:6px;font-family:var(--font-display)}
+.panic-banner p{margin:0;color:var(--bad)}
+body.panic-lock .panic-banner{display:block}
+body.panic-lock .feature-map{display:none}
 
 @media (max-width:719px){
-  main{padding:18px 14px 0}
+  .quick-links-form{grid-template-columns:1fr}
+  main{padding:calc(var(--sg-header-h, 340px) + 14px) 14px calc(var(--sg-footer-h, 140px) + 14px)}
+  .content-row{flex-direction:column}
+  .ad-screen{width:100%;order:-1;height:200px}
+  .ad-slide-item .ad-slide-media{min-height:0}
   .top-area{grid-template-columns:1.16fr .84fr;border-radius:20px 20px 0 0}
   .brand{min-height:98px;padding:10px}.brand img{width:62px;height:62px}
   .prayer-widget{min-height:98px;padding:10px}
@@ -240,7 +312,7 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   .feature-map{grid-template-columns:1fr;gap:12px;margin-top:16px}.wide-panel{grid-column:auto}
   .panel summary{min-height:53px;padding:14px}.panel-content{padding:14px}
   .gpa-course{grid-template-columns:1fr 66px 1fr 35px;gap:5px;padding:8px}
-  .footer-info{display:grid;justify-items:center;gap:8px;margin:0 -14px;padding:18px 14px;text-align:center;border-radius:20px 20px 0 0}.designer-prayer{text-align:center}.copyright{white-space:normal;text-align:center}
+  .footer-info{margin:0 -14px;padding:18px 14px;border-radius:20px 20px 0 0}.footer-top{display:flex;flex-direction:column;align-items:center;text-align:center}.designer-prayer{text-align:center}.copyright{white-space:normal}
   .time-row{gap:8px}
 }
 
@@ -252,52 +324,48 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
 .panel-icon::before{content:"";display:block;width:100%;height:100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:52%;mask-size:52%}
 .panel:nth-child(1) .panel-icon{background:var(--v-soft)}.panel:nth-child(1) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14v3M8 10v9M12 5v14M16 9v10M20 12v6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14v3M8 10v9M12 5v14M16 9v10M20 12v6'/%3E%3C/svg%3E")}
 .panel:nth-child(2) .panel-icon{background:var(--bad-soft)}.panel:nth-child(2) .panel-icon::before{background-color:var(--bad);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='13' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='13' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E")}
-.panel:nth-child(3) .panel-icon{background:var(--v-soft)}.panel:nth-child(3) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='2.3'/%3E%3Ccircle cx='18' cy='6' r='2.3'/%3E%3Ccircle cx='12' cy='18' r='2.3'/%3E%3Cpath d='M6 8.3 12 15.7M18 8.3 12 15.7M8.3 6h7.4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='2.3'/%3E%3Ccircle cx='18' cy='6' r='2.3'/%3E%3Ccircle cx='12' cy='18' r='2.3'/%3E%3Cpath d='M6 8.3 12 15.7M18 8.3 12 15.7M8.3 6h7.4'/%3E%3C/svg%3E")}
-.panel:nth-child(4) .panel-icon{background:var(--v-soft)}.panel:nth-child(4) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E")}
-.panel:nth-child(5) .panel-icon{background:var(--gold-soft)}.panel:nth-child(5) .panel-icon::before{background-color:var(--gold);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 16l5-5 4 3 8-9'/%3E%3Cpath d='M15 5h5v5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 16l5-5 4 3 8-9'/%3E%3Cpath d='M15 5h5v5'/%3E%3C/svg%3E")}
-.panel:nth-child(6) .panel-icon{background:var(--v-soft)}.panel:nth-child(6) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E")}
-.panel:nth-child(7) .panel-icon{background:var(--v-soft)}.panel:nth-child(7) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 2l1.8 4.8L18 8.6l-4.2 1.8L12 15l-1.8-4.6L6 8.6l4.2-1.8Z'/%3E%3Cpath d='M12 17v4M9.5 21h5' stroke-linecap='round'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 2l1.8 4.8L18 8.6l-4.2 1.8L12 15l-1.8-4.6L6 8.6l4.2-1.8Z'/%3E%3Cpath d='M12 17v4M9.5 21h5' stroke-linecap='round'/%3E%3C/svg%3E")}
-.panel:nth-child(8) .panel-icon{background:var(--gold-soft)}.panel:nth-child(8) .panel-icon::before{background-color:var(--gold);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E")}
+.panel:nth-child(3) .panel-icon{background:var(--v-soft)}.panel:nth-child(3) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h11l3 3v13H5z'/%3E%3Cpath d='M8.5 10.5l1.5 1.5 3-3.5M8 15h6'/%3E%3C/svg%3E")}
+.panel:nth-child(4) .panel-icon{background:var(--v-soft)}.panel:nth-child(4) .panel-icon::before{background-color:var(--v);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h10l4 4v14H5z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3Ccircle cx='16.3' cy='16.3' r='2.2'/%3E%3Cpath d='M17.9 17.9 19.6 19.6'/%3E%3C/svg%3E")}
+.panel:nth-child(5) .panel-icon{background:var(--gold-soft)}.panel:nth-child(5) .panel-icon::before{background-color:var(--gold);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z'/%3E%3C/svg%3E")}
 
 @media (min-width:720px){
-  main{width:min(100%,1510px);padding:14px 16px 0}
-  .top-area{grid-template-columns:34% 44% 22%;min-height:158px;border-radius:var(--r-lg)}
-  .brand{grid-column:1;min-height:158px;padding:0 26px}
-  .brand img{width:96px;height:96px}
-  #guardian-state{right:26px;bottom:18px;z-index:2}
+  main{width:min(100%,1760px);padding:calc(var(--sg-header-h, 190px) + 14px) 16px calc(var(--sg-footer-h, 80px) + 14px)}
+  .top-area{grid-template-columns:180px 1fr 22%;min-height:132px;border-radius:var(--r-lg)}
+  .brand{grid-column:1;min-height:132px;padding:0}
+  .brand img{width:78px;height:78px}
+  #guardian-state{right:16px;bottom:14px;z-index:2}
 
   .hero-copy{grid-column:2;display:grid;align-content:center;justify-items:center;padding:24px;text-align:center;position:relative;z-index:1}
   .hero-copy h1{margin:0;font-size:clamp(24px,2.6vw,38px);line-height:1.25;font-weight:800;background:var(--aurora);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy h1 i{padding:0 8px;font-style:normal}
   .hero-copy p{margin:10px 0 7px;font-size:clamp(14px,1.3vw,18px);font-weight:700;color:var(--ink-dim)}
   .hero-copy small{max-width:560px;color:var(--muted);font-size:12.5px}
 
-  .prayer-widget{grid-column:3;grid-row:1;min-height:158px;margin:16px 16px 16px 0;padding:0;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-md)}
-  .prayer-settings{height:100%}.prayer-settings>summary>div{position:relative;gap:2px;min-height:126px;padding:18px 16px;text-align:center}
+  .prayer-widget{grid-column:3;grid-row:1;min-height:132px;margin:12px 12px 12px 0;padding:0;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-md)}
+  .prayer-settings{height:100%}.prayer-settings>summary>div{position:relative;gap:2px;min-height:100px;padding:14px 16px;text-align:center}
   .prayer-settings>summary b{position:absolute;top:16px;right:18px;color:var(--c);font-size:22px}
   .prayer-settings>summary span{font-size:12.5px;color:var(--muted)}.prayer-settings strong{font-size:29px}.prayer-settings p{color:var(--ink-dim);font-size:14px}
   .prayer-settings em{margin-top:6px;padding-top:7px;border-top:1px solid var(--border-soft);color:var(--c);font-size:11px;font-style:normal;font-weight:800}
 
-  .quote{min-height:64px;margin-top:14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);box-shadow:none}.quote strong{font-size:19px}.quote span{color:var(--muted)}.quote.is-verse strong{font-size:32px}.quote.is-hikam strong,.quote.is-hikam span{font-size:18px}
-  .quote-nav{margin-top:-2px;background:transparent;border-radius:0}.quote-nav button{border-color:var(--border);background:var(--surface);color:var(--c)}
+  .quote{min-height:64px;margin-top:14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);box-shadow:none}.quote strong{font-size:21px}.quote span{color:var(--gold);opacity:.75}
+  .quote-nav-row{margin-top:-2px;background:transparent;border-radius:0}.quote-nav button{border-color:var(--border);background:var(--surface);color:var(--c)}
 
-  .feature-map{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-flow:dense;gap:14px;margin-top:14px;align-items:start}
-  .panel{border-radius:var(--r-md);grid-column:span 3}
-  .panel:nth-child(3),.panel:nth-child(4),.panel:nth-child(5){grid-column:span 2}
-  .rating-panel{grid-column:span 6}.rating-panel summary{max-width:640px;margin:0 auto}
-  .panel summary{position:relative;min-height:106px;padding:18px 18px;border:0;align-items:center;gap:15px;font-size:16.5px}
+  .feature-map{grid-template-columns:1fr;gap:12px;margin-top:14px;align-items:start}
+  .panel{border-radius:var(--r-md)}
+  .panel summary{position:relative;min-height:88px;padding:15px 18px;border:0;align-items:center;gap:15px;font-size:16.5px}
   .panel summary::before{content:"";order:3;flex:none;width:26px;height:26px;background:none;box-shadow:none;border:1px solid var(--border);border-radius:50%;position:relative}
   .panel summary::after{content:"⌄";position:absolute;left:18px;top:50%;transform:translateY(-50%) rotate(0deg);transition:transform .25s ease;width:26px;height:26px;display:grid;place-items:center;font-size:15px;color:var(--muted)}
   .panel-icon{display:block;order:-1;flex:none;width:46px;height:46px;border-radius:14px}
-  .panel-card-text{display:grid;gap:5px;min-width:0}.panel-card-text .nav-title{font-size:16.5px;line-height:1.35;font-weight:800}.panel-card-text small{color:var(--muted);font-size:12px;font-weight:400;line-height:1.55}
+  .panel-card-text{display:grid;gap:5px;min-width:0}.panel-card-text .nav-title{font-size:16.5px;line-height:1.35;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.panel-card-text small{color:var(--muted);font-size:12px;font-weight:400;line-height:1.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
   .panel[open]{grid-column:1/-1}.panel[open] summary{min-height:60px;border-bottom:1px solid var(--border-soft)}.panel[open] summary::after{transform:translateY(-50%) rotate(180deg)}
   .panel[open] .panel-icon{width:36px;height:36px;border-radius:10px}.panel[open] .panel-icon::before{-webkit-mask-size:56%;mask-size:56%}
   .panel[open] .panel-card-text{display:flex;align-items:center;gap:10px}.panel[open] .panel-card-text small{display:none}
   .panel-content{min-height:245px;padding:24px}
 
-  .footer-info{display:flex;margin:10px -16px 0;padding:24px 36px;border-radius:var(--r-lg) var(--r-lg) 0 0}
+  .footer-info{margin:10px -16px 0;padding:24px 36px;border-radius:var(--r-lg) var(--r-lg) 0 0}
 }
 @media (max-width:719px){
+  .match-widget-popover{position:fixed;left:12px;right:12px;bottom:12px;transform:none;width:auto;max-height:80vh}
   .hero-copy{display:none}
   .panel summary{gap:10px}
   .panel-icon{display:block;order:-1;flex:none;width:34px;height:34px;border-radius:10px}
@@ -306,13 +374,15 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   .panel summary::before{display:none}
 }
 
+.permission-box{margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-soft)}.permission-box legend{padding:0 8px;font-weight:800;color:var(--navy)}.supervisor-permission-editor{margin:-4px 0 12px;padding:10px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--surface-soft)}
 </style>
 </head>
 <body>
 <script>if (new URLSearchParams(location.search).get('embedded') === '1') document.documentElement.classList.add('admin-embedded');</script>
   <main>
     <section id="update-banner" hidden><span>يوجد تحديث جديد للأداة.</span><button id="refresh-app">تحديث الصفحة</button></section>
-    <section class="top-area"><button id="admin-login" type="button" class="brand" aria-label="دخول الإدارة"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Smart Guardian mark">
+    <div class="app-header" id="app-header">
+    <section class="top-area"><span class="sg-stars sg-stars-1" aria-hidden="true"></span><span class="sg-stars sg-stars-2" aria-hidden="true"></span><span class="sg-stars sg-stars-3" aria-hidden="true"></span><span class="brand" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Smart Guardian mark">
   <defs>
     <linearGradient id="sg-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#150f2c"/>
@@ -339,13 +409,25 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   <circle cx="50" cy="45" r="3.4" fill="#0a0714" stroke="#7c6bff" stroke-width="2.4"/>
   <circle cx="64" cy="40" r="4.6" fill="#0a0714" stroke="#ff5fae" stroke-width="2.4"/>
   <circle cx="64" cy="40" r="1.6" fill="#ff5fae"/>
-</svg><span class="brand-activity" aria-hidden="true"></span><span id="guardian-state" hidden></span></button><section class="hero-copy"><h1>Smart Guardian <i>|</i> الحارس الذكي</h1><p>ذكاء يحمي · تنظيم يطور · مستقبل أفضل</p><small>منصة ذكية تساعد الطلاب على تنظيم دراستهم ومتابعة مهامهم وتعزيز إنتاجيتهم.</small></section><section class="prayer-widget"><details class="prayer-settings"><summary aria-label="إعدادات مواقيت الصلاة" title="اضغط لإعداد مواقيت الصلاة"><div><span>الصلاة القادمة</span><strong id="prayer-title">الصلاة القادمة</strong><p id="prayer-countdown">مواقيت الصلاة غير مفعّلة.</p><em>عرض جميع أوقات الصلاة</em></div></summary><div class="prayer-settings-content"><label>المدينة<input id="prayer-city" placeholder="مثال: Riyadh"></label><label>الدولة<input id="prayer-country" placeholder="مثال: Saudi Arabia"></label><button id="use-location" type="button" class="secondary">استخدام موقعي الحالي</button><label class="check"><input id="prayer-enabled" type="checkbox"> تفعيل تنبيه الصلاة أثناء فتح الصفحة فقط</label><button id="update-prayers" type="button">تحديث المواقيت</button><details class="manual-prayers"><summary>تعديل المواقيت يدويًا</summary><p>عدّل الوقت الذي تريده، ثم احفظ. يمكنك الرجوع للمواقيت التلقائية في أي وقت.</p><div class="manual-prayer-grid"><label>الفجر<input id="manual-fajr" type="time"></label><label>الظهر<input id="manual-dhuhr" type="time"></label><label>العصر<input id="manual-asr" type="time"></label><label>المغرب<input id="manual-maghrib" type="time"></label><label>العشاء<input id="manual-isha" type="time"></label></div><button id="save-manual-prayers" type="button" class="secondary">حفظ التعديل اليدوي</button><button id="reset-manual-prayers" type="button" class="secondary">العودة للمواقيت التلقائية</button></details><p id="prayer-status">اختر مدينتك أو استخدم موقعك ثم فعّل التنبيه عند رغبتك.</p><div id="prayer-times" hidden></div></div></details></section></section>
+</svg><span class="brand-activity" aria-hidden="true"></span><span id="guardian-state" hidden></span></span><section class="hero-copy"><h1>Smart Guardian <i>|</i> الحارس الذكي</h1><p>ذكاء يحمي · تنظيم يطور · مستقبل أفضل</p><small>منصة ذكية تساعد الطلاب على تنظيم دراستهم ومتابعة مهامهم وتعزيز إنتاجيتهم.</small></section><section class="prayer-widget"><details class="prayer-settings"><summary aria-label="إعدادات مواقيت الصلاة" title="اضغط لإعداد مواقيت الصلاة"><div><span>الصلاة القادمة</span><strong id="prayer-title">الصلاة القادمة</strong><p id="prayer-countdown">مواقيت الصلاة غير مفعّلة.</p><em>عرض جميع أوقات الصلاة</em></div></summary><div class="prayer-settings-content"><label>المدينة<input id="prayer-city" placeholder="مثال: Riyadh"></label><label>الدولة<input id="prayer-country" placeholder="مثال: Saudi Arabia"></label><button id="use-location" type="button" class="secondary">استخدام موقعي الحالي</button><label class="check"><input id="prayer-enabled" type="checkbox"> تفعيل تنبيه الصلاة أثناء فتح الصفحة فقط</label><button id="update-prayers" type="button">تحديث المواقيت</button><details class="manual-prayers"><summary>تعديل المواقيت يدويًا</summary><p>عدّل الوقت الذي تريده، ثم احفظ. يمكنك الرجوع للمواقيت التلقائية في أي وقت.</p><div class="manual-prayer-grid"><label>الفجر<input id="manual-fajr" type="time"></label><label>الظهر<input id="manual-dhuhr" type="time"></label><label>العصر<input id="manual-asr" type="time"></label><label>المغرب<input id="manual-maghrib" type="time"></label><label>العشاء<input id="manual-isha" type="time"></label></div><button id="save-manual-prayers" type="button" class="secondary">حفظ التعديل اليدوي</button><button id="reset-manual-prayers" type="button" class="secondary">العودة للمواقيت التلقائية</button></details><p id="prayer-status">اختر مدينتك أو استخدم موقعك ثم فعّل التنبيه عند رغبتك.</p><div id="prayer-times" hidden></div></div></details></section></section>
     <section class="quote" aria-live="polite"><strong id="quote-text">فَإِنَّ مَعَ الْعُسْرِ يُسْرًا</strong><span id="quote-translation" hidden></span><small id="quote-reference" class="quote-reference" hidden></small></section>
-    <div class="quote-nav" aria-label="التنقل بين العبارات"><button id="previous-quote" type="button" aria-label="العبارة السابقة">→</button><button id="next-quote" type="button" aria-label="العبارة التالية">←</button></div>
+    <div class="quote-nav-row">
+      <div id="match-ticker" class="match-ticker" hidden>
+        <div class="ticker-teams" id="ticker-teams"></div>
+        <div class="ticker-time" id="ticker-time"></div>
+        <div class="ticker-track"><span class="ticker-fill" id="ticker-fill"></span><img src="smart-guardian-mark.svg" class="ticker-marker" id="ticker-marker" alt="" aria-hidden="true"></div>
+      </div>
+      <div class="quote-nav" aria-label="التنقل بين العبارات"><button id="previous-quote" type="button" aria-label="العبارة السابقة">→</button><button id="next-quote" type="button" aria-label="العبارة التالية">←</button></div>
+      <div class="ticker-spacer" aria-hidden="true"></div>
+    </div>
+    </div>
 
+    <div id="panic-banner" class="panic-banner" hidden><strong>⚠ الأداة متوقفة مؤقتًا</strong><p>نعمل على شيء الآن، ارجع بعد قليل.</p></div>
+    <div class="content-row">
+    <aside id="ad-screen" class="ad-screen" hidden><div id="ad-slides-stack" class="ad-slides-stack"></div></aside>
     <section class="feature-map" aria-label="خريطة خصائص الحارس الذكي">
-    <details class="panel">
-      <summary><span class="panel-icon">♙</span><span class="panel-card-text"><span class="nav-title" data-card-key="attendance">متابعة سماع اسمك للتحضير</span><small>تابع تحضير أعضائك بدقة بالاسم والتفاصيل.</small></span></summary>
+    <details class="panel" data-panel-key="attendance">
+      <summary><span class="panel-icon">♙</span><span class="panel-card-text"><span class="nav-title" data-card-key="attendance">متابعة سماع اسمك للتحضير</span><small data-hint-key="attendance">تابع تحضير أعضائك بدقة بالاسم والتفاصيل.</small></span></summary>
       <div class="panel-content">
       <label>اسمك أو بدائل النطق<input id="listen-names" placeholder="سلطان، Sultan، Soltan"></label>
       <p class="hint">اكتب البدائل بفواصل، وليس بمسافة: سلطان، Sultan، Soltan. المسافات قبل أو بعد الاسم لا تؤثر.</p>
@@ -360,11 +442,12 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
         <label class="check"><input id="stop-alarm" type="checkbox" checked> تنبيه صوتي عند إيقاف المتابعة</label>
         <p id="schedule-status">الجدول غير مفعّل.</p>
       </section>
+      <button id="open-class-close-from-listening" type="button" class="secondary">⏱ فتح مؤقت إغلاق تبويب الكلاس</button>
       </div>
     </details>
 
-    <details class="panel screen-monitor-panel">
-      <summary><span class="panel-icon">⌖</span><span class="panel-card-text"><span class="nav-title" data-card-key="screenMonitor">مراقبة أي تغيير بالشاشة</span><small>حدّد الجزء المطلوب من الشاشة لتنبيهات فورية.</small></span></summary>
+    <details class="panel screen-monitor-panel" data-panel-key="screenMonitor">
+      <summary><span class="panel-icon">⌖</span><span class="panel-card-text"><span class="nav-title" data-card-key="screenMonitor">مراقبة أي تغيير بالشاشة</span><small data-hint-key="screenMonitor">حدّد الجزء المطلوب من الشاشة لتنبيهات فورية.</small></span></summary>
       <div class="panel-content">
         <p class="hint">اضغط البدء، ثم اختر <b>تبويب المحاضرة</b> من نافذة Chrome. اسحب فوق المعاينة لتحديد شريط الاستبيان أو المنطقة التي تريد مراقبتها. لا تُرسل أي صورة إلى الإنترنت؛ المقارنة تتم داخل جهازك فقط.</p>
         <div id="screen-preview-wrap" class="screen-preview-wrap" hidden>
@@ -376,40 +459,90 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
         <button id="start-screen-monitor" type="button">🖥️ بدء مراقبة الاستبيان</button>
         <button id="stop-screen-monitor" type="button" class="secondary" hidden>إيقاف مراقبة الشاشة</button>
         <p id="screen-monitor-status">المراقبة متوقفة. تعمل فقط بعد اختيارك لتبويب أو شاشة.</p>
+        <details class="panel-sub">
+          <summary>⏱ إغلاق الكلاس تلقائيًا</summary>
+          <div class="panel-sub-content">
+          <p class="hint">لأسباب حماية المتصفح لا يمكن للموقع إغلاق تبويب فُتح خارجه. ضع رابط الكلاس هنا؛ سيفتحه الحارس في تبويب جديد ثم يغلقه تلقائيًا عند انتهاء المدة.</p>
+          <label>رابط الكلاس<input id="class-close-url" type="url" dir="ltr" placeholder="https://..."></label>
+          <div class="time-row">
+            <label>ساعات<input id="class-close-hours" type="number" min="0" max="24" value="1"></label>
+            <label>دقائق<input id="class-close-minutes" type="number" min="0" max="59" value="0"></label>
+          </div>
+          <label>ثوانٍ<input id="class-close-seconds" type="number" min="0" max="59" value="0"></label>
+          <label class="check"><input id="class-close-share-screen" type="checkbox"> شارك الشاشة (مراقبة الاستبيان) أيضًا مع فتح الكلاس</label>
+          <div class="admin-access-actions"><button id="start-class-close" type="button">فتح الكلاس وبدء المؤقت</button><button id="cancel-class-close" type="button" class="secondary">إلغاء المؤقت</button></div>
+          <p id="class-close-countdown" class="class-close-countdown">01:00:00</p>
+          <p id="class-close-status" class="hint">المؤقت غير مفعّل.</p>
+          </div>
+        </details>
       </div>
     </details>
 
-    <details class="panel">
-      <summary><span class="panel-icon">♟</span><span class="panel-card-text"><span class="nav-title" data-card-key="groups">وضع المجموعة</span><small>أنشئ مجموعات وشارك المهام والملاحظات.</small></span></summary>
+    <details class="panel" data-panel-key="notes">
+      <summary><span class="panel-icon">✎</span><span class="panel-card-text"><span class="nav-title" data-card-key="notes">ملاحظات ومجموعات</span><small data-hint-key="notes">ملاحظة سريعة، أو أنشئ/انضم لمجموعة.</small></span></summary>
       <div class="panel-content">
-      <p id="mode-status" class="mode-status">الحالة الحالية: مستقل</p>
-      <button id="create" class="secondary">إنشاء مجموعة جديدة</button>
-      <label>اسمك المستعار<input id="alias" maxlength="30" placeholder="مثال: Sultan"></label>
-      <label>رمز المجموعة<input id="group-code" dir="ltr" maxlength="40" placeholder="الصق رمز المجموعة"></label>
-      <button id="join">ربط بالمجموعة</button>
-      <button id="copy" class="secondary" hidden>نسخ رمز المجموعة</button>
-      <button id="leave" class="secondary" hidden>الوضع المستقل</button>
-      <p id="group-status"></p>
-      <details class="group-help"><summary>ما تعرف طريقة المجموعة؟ اضغط هنا</summary><ol><li>اكتب اسمًا مستعارًا بسيطًا لك.</li><li>لإنشاء مجموعة: اضغط «إنشاء مجموعة جديدة»؛ سيظهر رمز خاص بها.</li><li>اضغط «نسخ رمز المجموعة» وأرسله لزملائك فقط.</li><li>للانضمام: اكتب اسمك، الصق الرمز، ثم اضغط «ربط بالمجموعة».</li><li>للخروج والعودة لملاحظاتك الخاصة اضغط «الوضع المستقل».</li></ol><p>اضغط العنوان مرة أخرى لإخفاء الشرح.</p></details>
-      </div>
-    </details>
-
-    <details class="panel">
-      <summary><span class="panel-icon">✎</span><span class="panel-card-text"><span class="nav-title" data-card-key="notes">ملاحظة سريعة</span><small>سجل ملاحظتك في أي وقت ومن أي مكان.</small></span></summary>
-      <div class="panel-content">
-      <textarea id="note" rows="4" placeholder="اكتب ملاحظتك هنا"></textarea>
-      <label class="check"><input id="share" type="checkbox"> مشاركة مع المجموعة</label>
-      <button id="save">حفظ الملاحظة</button>
-      <div class="export-actions"><button id="export-notes" type="button" class="secondary">تحميل الملاحظات TXT</button><button id="print-notes" type="button" class="secondary">حفظ كـ PDF</button></div>
-      <section id="notes" aria-live="polite"></section>
-      <p class="hint">يعمل ملف TXT على الجوال والكمبيوتر. خيار PDF يفتح نافذة الطباعة ثم اختر «حفظ كـ PDF».</p>
-      <p id="note-status"></p>
-      </div>
-    </details>
-
-    <details class="panel calculator-panel">
-      <summary><span class="panel-icon">★</span><span class="panel-card-text"><span class="nav-title" data-card-key="gpa">حاسبة المعدل</span><small>احسب معدلك من 4 أو 5 بسهولة.</small></span></summary>
-      <div class="panel-content">
+      <details class="panel-sub" open>
+        <summary>ملاحظة سريعة</summary>
+        <div class="panel-sub-content">
+        <textarea id="note" rows="4" placeholder="اكتب ملاحظتك هنا"></textarea><span id="note-counter" class="char-count">0 حرف</span>
+        <label class="check"><input id="share" type="checkbox"> مشاركة مع المجموعة</label>
+        <button id="save">حفظ الملاحظة</button>
+        <div class="export-actions"><button id="export-notes" type="button" class="secondary">تحميل الملاحظات TXT</button><button id="print-notes" type="button" class="secondary">حفظ كـ PDF</button></div>
+        <div class="wa-print"><label>إرسال للطباعة عبر واتساب <small>اختياري</small><input id="wa-number-notes" list="wa-print-numbers" dir="ltr" placeholder="9665xxxxxxxx أو اختر رقم مكتبة"></label><button id="wa-send-notes" type="button" class="secondary">إرسال للطباعة</button><p id="wa-status-notes" class="hint"></p></div>
+        <datalist id="wa-print-numbers"></datalist>
+        <section id="notes" aria-live="polite"></section>
+        <p class="hint">يعمل ملف TXT على الجوال والكمبيوتر. خيار PDF يفتح نافذة الطباعة ثم اختر «حفظ كـ PDF».</p>
+        <p id="note-status"></p>
+        </div>
+      </details>
+      <details class="panel-sub">
+        <summary>وضع المجموعة</summary>
+        <div class="panel-sub-content">
+        <p id="mode-status" class="mode-status">الحالة الحالية: مستقل</p>
+        <button id="create" class="secondary">إنشاء مجموعة جديدة</button>
+        <label>اسمك المستعار<input id="alias" maxlength="30" placeholder="مثال: Sultan"></label>
+        <label>رمز المجموعة<input id="group-code" dir="ltr" maxlength="40" placeholder="الصق رمز المجموعة"></label>
+        <button id="join">ربط بالمجموعة</button>
+        <button id="copy" class="secondary" hidden>نسخ رمز المجموعة</button>
+        <button id="leave" class="secondary" hidden>الوضع المستقل</button>
+        <p id="group-status"></p>
+        <details class="group-help"><summary>ما تعرف طريقة المجموعة؟ اضغط هنا</summary><ol><li>اكتب اسمًا مستعارًا بسيطًا لك.</li><li>لإنشاء مجموعة: اضغط «إنشاء مجموعة جديدة»؛ سيظهر رمز خاص بها.</li><li>اضغط «نسخ رمز المجموعة» وأرسله لزملائك فقط.</li><li>للانضمام: اكتب اسمك، الصق الرمز، ثم اضغط «ربط بالمجموعة».</li><li>للخروج والعودة لملاحظاتك الخاصة اضغط «الوضع المستقل».</li></ol><p>اضغط العنوان مرة أخرى لإخفاء الشرح.</p></details>
+        </div>
+      </details>
+      <details class="panel-sub">
+        <summary>روابط سريعة</summary>
+        <div class="panel-sub-content">
+        <p class="hint">ثبّت روابطك المهمة (بلاك بورد، البوابة الأكاديمية...) وافتحها بضغطة — تُحفظ بجهازك فقط.</p>
+        <div class="quick-links-form"><input id="quicklink-label" placeholder="اسم الرابط، مثل: بلاك بورد"><input id="quicklink-url" dir="ltr" placeholder="https://..."><button id="add-quicklink" type="button" class="secondary">إضافة</button></div>
+        <div id="quicklinks-list" class="quick-links-list"><p class="hint">ما فيه روابط محفوظة بعد.</p></div>
+        </div>
+      </details>
+      <details class="panel-sub">
+        <summary>تركيز (بومودورو)</summary>
+        <div class="panel-sub-content">
+        <p class="hint">٢٥ دقيقة تركيز ثم ٥ دقائق راحة — تلقائيًا.</p>
+        <p id="pomodoro-display" class="pomodoro-display">٢٥:٠٠</p>
+        <p id="pomodoro-phase" class="hint">جاهز للبدء</p>
+        <div class="admin-access-actions"><button id="pomodoro-start" type="button">ابدأ</button><button id="pomodoro-reset" type="button" class="secondary">تصفير</button></div>
+        <button id="quick-break" type="button" class="secondary">استراحة سريعة (دقيقة)</button>
+        <p id="quick-break-text" class="hint"></p>
+        </div>
+      </details>
+      <details class="panel-sub">
+        <summary>تذكير اختبار</summary>
+        <div class="panel-sub-content">
+        <label>اسم المادة أو الاختبار<input id="exam-name" placeholder="مثال: اختبار الرياضيات"></label>
+        <div class="time-row"><label>تاريخ الاختبار<input id="exam-date" type="date"></label><label>وقت الاختبار<input id="exam-time" type="time"></label></div>
+        <label>نوع التذكير<select id="exam-reminder-type"><option value="1">قبله بيوم</option><option value="3">قبله بـ3 أيام</option><option value="7" selected>قبله بأسبوع</option><option value="30">قبله بشهر</option><option value="custom">تاريخ ووقت بداية مذاكرة محدد</option></select></label>
+        <label id="exam-custom-wrap" hidden>تاريخ ووقت بداية المذاكرة<input id="exam-custom-datetime" type="datetime-local"></label>
+        <button id="add-exam-reminder" type="button" class="secondary">إضافة التذكير</button>
+        <div id="exam-reminders-list" class="quick-links-list"></div>
+        <p id="exam-status" class="hint"></p>
+        </div>
+      </details>
+      <details class="panel-sub">
+        <summary>حاسبة المعدل</summary>
+        <div class="panel-sub-content">
         <label>نظام المعدل
           <select id="gpa-scale"><option value="5">من 5</option><option value="4">من 4</option></select>
         </label>
@@ -418,11 +551,13 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
         <button id="calculate-gpa" type="button">حساب المعدل</button>
         <p id="gpa-result" class="gpa-result">أضف المواد ثم احسب المعدل.</p>
         <p class="hint">يُحسب المعدل بحسب الساعات. البيانات محفوظة على هذا الجهاز فقط، ويمكنك حذف أي مادة.</p>
+        </div>
+      </details>
       </div>
     </details>
 
-    <details class="panel pdf-study-panel">
-      <summary><span class="panel-icon">▧</span><span class="panel-card-text"><span class="nav-title" data-card-key="pdf">تظليل نقاط المحاضرة في PDF</span><small>ارفع كتابك واستخرج النقاط المهمة واحفظها.</small></span></summary>
+    <details class="panel pdf-study-panel" data-panel-key="pdf">
+      <summary><span class="panel-icon">▧</span><span class="panel-card-text"><span class="nav-title" data-card-key="pdf">تظليل نقاط المحاضرة في PDF</span><small data-hint-key="pdf">ارفع كتابك واستخرج النقاط المهمة واحفظها.</small></span></summary>
       <div class="panel-content">
         <p class="hint">ارفع PDF المحاضرة ثم اضغط «تجهيز». عند سماع عبارة مهمة، يبحث الحارس عنها داخل الملف ويضع تظليلًا أصفر على أقرب جملة مطابقة. تتم المعالجة داخل جهازك.</p>
         <label>ملف المحاضرة PDF<input id="study-pdf" type="file" accept="application/pdf,.pdf"></label>
@@ -437,6 +572,7 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
         <button id="highlight-pdf-sentence" type="button" class="secondary">تحديد الجملة في PDF</button>
         <button id="download-highlighted-pdf" type="button" hidden>تحميل PDF المظلل</button>
         <button id="send-highlighted-pdf" type="button" class="secondary" hidden>إرسال PDF المظلل إلى أجهزتي</button>
+        <div class="wa-print"><label>إرسال للطباعة عبر واتساب <small>اختياري</small><input id="wa-number-pdf" list="wa-print-numbers" dir="ltr" placeholder="9665xxxxxxxx أو اختر رقم مكتبة"></label><button id="wa-send-pdf" type="button" class="secondary">إرسال للطباعة</button><p id="wa-status-pdf" class="hint"></p></div>
         <details class="pdf-sync">
           <summary>مزامنة هذا الملف بين أجهزتي</summary>
           <p>ارفعه مرة واحدة، ثم استخدم رمز المزامنة نفسه في أي جهاز لديه ربط Telegram الخاص بك.</p>
@@ -451,27 +587,24 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
       </div>
     </details>
 
-    <details class="panel">
-      <summary><span class="panel-icon">☼</span><span class="panel-card-text"><span class="nav-title" data-card-key="ideas">اقتراح أو فكرة</span><small>شاركنا اقتراحك لتجعل الأداة أفضل.</small></span></summary>
+
+    <details class="panel rating-panel" data-panel-key="ideas">
+      <summary><span class="panel-icon">☆</span><span class="panel-card-text"><span class="nav-title" data-card-key="ideas">اقتراح أو تقييم</span><small data-hint-key="ideas">شاركنا فكرتك أو رأيك بالأداة.</small></span></summary>
       <div class="panel-content">
+      <p class="feedback-subhead">اقتراح أو فكرة</p>
       <label>اسم صاحب الاقتراح <small>اختياري</small><input id="idea-author" maxlength="30" autocomplete="name" placeholder="اتركه فارغًا إذا فضّلت عدم كتابة الاسم"></label>
-      <textarea id="idea" rows="4" placeholder="اكتب اقتراحك لتطوير Study Guardian"></textarea>
+      <textarea id="idea" rows="3" placeholder="اكتب اقتراحك لتطوير Study Guardian"></textarea><span id="idea-counter" class="char-count">0 حرف</span>
       <button id="send-idea" type="button">إرسال الاقتراح</button>
       <section id="idea-reply" class="idea-reply" hidden aria-live="assertive"><strong>ردود إدارة الحارس الذكي</strong><div id="idea-reply-list"></div><a id="more-responses" href="responses.html" hidden>وأكثر من الردود ←</a></section>
       <p id="idea-status"></p>
-      <p class="hint">يصل الاقتراح إلى لوحة صاحب الأداة فقط. لا تكتب معلومات شخصية حساسة.</p>
-      </div>
-    </details>
-
-    <details class="panel rating-panel">
-      <summary><span class="panel-icon">☆</span><span class="panel-card-text"><span class="nav-title" data-card-key="rating">تقييم الأداة</span><small>شاركنا رأيك وساعدنا على التطوير.</small></span></summary>
-      <div class="panel-content">
-        <p id="rating-prompt" class="rating-prompt">ما أكثر ميزة أعجبتك في الحارس الذكي؟</p>
-        <div id="rating-stars" class="rating-stars" aria-label="اختر تقييمك من خمس نجوم"><button type="button" data-score="1" aria-label="نجمة واحدة">★</button><button type="button" data-score="2" aria-label="نجمتان">★</button><button type="button" data-score="3" aria-label="ثلاث نجوم">★</button><button type="button" data-score="4" aria-label="أربع نجوم">★</button><button type="button" data-score="5" aria-label="خمس نجوم">★</button></div>
-        <label>اسم المقيم <small>اختياري</small><input id="rating-author" maxlength="30" autocomplete="name" placeholder="اتركه فارغًا إذا فضّلت عدم كتابة الاسم"></label>
-        <textarea id="rating-comment" rows="3" placeholder="اكتب رأيك أو الميزة التي أفادتك"></textarea>
-        <button id="send-rating" type="button">إرسال التقييم</button>
-        <p id="rating-status"></p>
+      <p class="feedback-subhead feedback-subhead-2">التقييم</p>
+      <p id="rating-prompt" class="rating-prompt">ما أكثر ميزة أعجبتك في الحارس الذكي؟</p>
+      <div id="rating-stars" class="rating-stars" aria-label="اختر تقييمك من خمس نجوم"><button type="button" data-score="1" aria-label="نجمة واحدة">★</button><button type="button" data-score="2" aria-label="نجمتان">★</button><button type="button" data-score="3" aria-label="ثلاث نجوم">★</button><button type="button" data-score="4" aria-label="أربع نجوم">★</button><button type="button" data-score="5" aria-label="خمس نجوم">★</button></div>
+      <label>اسم المقيم <small>اختياري</small><input id="rating-author" maxlength="30" autocomplete="name" placeholder="اتركه فارغًا إذا فضّلت عدم كتابة الاسم"></label>
+      <textarea id="rating-comment" rows="3" placeholder="اكتب رأيك أو الميزة التي أفادتك"></textarea><span id="rating-comment-counter" class="char-count">0 حرف</span>
+      <button id="send-rating" type="button">إرسال التقييم</button>
+      <p id="rating-status"></p>
+      <p class="hint">يصل هذا إلى لوحة صاحب الأداة فقط. لا تكتب معلومات شخصية حساسة.</p>
       </div>
     </details>
 
@@ -479,24 +612,70 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
       <summary>لوحة الإدارة</summary>
       <div class="admin-panel-content"><div class="admin-panel-head"><div><strong>إدارة الاقتراحات والتقييمات</strong><p id="admin-status">تسجيل الدخول مطلوب لعرض الاقتراحات.</p><p id="admin-device-status" class="admin-device-status" hidden></p></div><button id="admin-logout" type="button" class="secondary" hidden>خروج الإدارة</button></div>
       <details class="admin-mobile-link"><summary>ربط الجوال والتنبيهات</summary><div class="panel-content"><label>Bot Token<input id="telegram-token" type="password" autocomplete="off" placeholder="123456:ABC..."></label><label>Chat ID<input id="telegram-chat-id" inputmode="numeric" placeholder="مثال: 123456789"></label><label class="check"><input id="telegram-enabled" type="checkbox"> إرسال تنبيهات الاسم والاستبيان</label><button id="save-telegram" type="button">حفظ الربط</button><button id="test-telegram" type="button" class="secondary">تجربة تفعيل Telegram</button><label>ملف لإرساله إلى أجهزتك عبر Telegram<input id="telegram-file" type="file"></label><button id="send-telegram-file" type="button" class="secondary">إرسال الملف إلى أجهزتي</button><button id="clear-telegram" type="button" class="secondary">مسح الربط</button><p id="telegram-status">تصل الملفات لكل جهاز مسجّل بنفس حساب Telegram. الحد الأقصى 50 MB.</p><details class="telegram-help"><summary>ما تعرف طريقة الربط؟ اضغط هنا</summary><ol><li>في Telegram افتح <b>@BotFather</b> وأنشئ بوتًا، ثم انسخ <b>Bot Token</b>.</li><li>أرسل <b>/start</b> للبوت الذي أنشأته.</li><li>افتح <b>@userinfobot</b> وانسخ رقم <b>ID</b> الخاص بك وضعه في خانة Chat ID.</li><li>اضغط «حفظ الربط»، ثم «اختبار Telegram» للتأكد من وصول الرسالة.</li></ol></details></div></details>
-      <details id="admin-access-panel" class="admin-access-panel" hidden><summary>إدارة المشرفين</summary><div class="admin-access-content"><p>أضف بريد مشرف موثوق. بعد أن يسجل بحسابه Google مرة واحدة، يظهر طلبه هنا لتمنحه صلاحية دائمة أو مؤقتة.</p><label>بريد المشرف<input id="supervisor-email" type="email" autocomplete="off" placeholder="name@example.com"></label><label>مدة الصلاحية<select id="supervisor-duration"><option value="0">دائمة</option><option value="86400000">24 ساعة</option><option value="604800000">أسبوع</option><option value="2592000000">30 يومًا</option></select></label><div class="admin-access-actions"><button id="save-supervisor-email" type="button">حفظ البريد</button><button id="remove-supervisor-email" type="button" class="secondary">إزالة البريد</button></div><p id="supervisor-status"></p><section><strong>طلبات انتظار التفعيل</strong><div id="admin-requests" class="admin-access-list"><p class="hint">لا توجد طلبات حاليًا.</p></div></section><section><strong>المشرفون المفعّلون</strong><div id="admin-members" class="admin-access-list"><p class="hint">لا يوجد مشرفون إضافيون.</p></div></section></div></details>
+      <details id="admin-access-panel" class="admin-access-panel" hidden><summary>إدارة المشرفين</summary><div class="admin-access-content"><p>أضف بريد مشرف موثوق. بعد أن يسجل بحسابه Google مرة واحدة، يظهر طلبه هنا لتمنحه صلاحية دائمة أو مؤقتة.</p><label>بريد المشرف<input id="supervisor-email" type="email" autocomplete="off" placeholder="name@example.com"></label><label>مدة الصلاحية<select id="supervisor-duration"><option value="0">دائمة</option><option value="86400000">24 ساعة</option><option value="604800000">أسبوع</option><option value="2592000000">30 يومًا</option></select></label><div class="admin-access-actions"><button id="save-supervisor-email" type="button">حفظ البريد</button><button id="remove-supervisor-email" type="button" class="secondary">إزالة البريد</button></div><p id="supervisor-status"></p><section><strong>طلبات انتظار التفعيل</strong><div id="admin-requests" class="admin-access-list"><p class="hint">لا توجد طلبات حاليًا.</p></div></section><section><strong>المشرفون المفعّلون</strong><div id="admin-members" class="admin-access-list"><p class="hint">لا يوجد مشرفون إضافيون.</p></div></section><section><strong>مشطوبون نهائيًا</strong><div id="admin-banned" class="admin-access-list"><p class="hint">لا يوجد بريد مشطوب.</p></div></section></div></details>
+      <details id="admin-ad-panel" class="admin-access-panel" hidden><summary>صندوق الإعلانات الجانبي</summary><div class="admin-access-content"><p>الصق رابط صورة أو فيديو خفيف — تظهر تلقائيًا يسار الخانات لكل الزوار.</p><label class="check"><input id="ad-slides-paused" type="checkbox"> إيقاف تدوير الشرائح (تبقى أول شريحة ثابتة فقط)</label><label>الرابط<input id="ad-slide-url" type="url" dir="ltr" placeholder="https://..."></label><label>النوع<select id="ad-slide-type"><option value="image">صورة</option><option value="video">فيديو</option></select></label><label>مدة العرض بالثواني<input id="ad-slide-duration" type="number" min="3" max="60" value="6"></label><label>وصف مختصر <small>اختياري</small><input id="ad-slide-caption-input" maxlength="80" placeholder="مثال: خصم خاص لطلاب الجامعة"></label><label class="check"><input id="ad-slide-pinned" type="checkbox"> تثبيت هذه الشريحة (تظهر دائمًا مع الأخرى، لا تدور)</label><div class="admin-access-actions"><button id="add-ad-slide" type="button">إضافة الشريحة</button><button id="cancel-ad-edit" type="button" class="secondary" hidden>إلغاء التعديل</button></div><div id="ad-slides-list" class="admin-access-list"><p class="hint">لا توجد شرائح مضافة.</p></div><p id="ad-slide-status" class="hint"></p></div></details>
+      <details id="admin-print-panel" class="admin-access-panel" hidden><summary>أرقام الطباعة عبر واتساب</summary><div class="admin-access-content"><div class="admin-access-row" style="margin-bottom:12px"><div><strong>تفعيل الميزة</strong><small>إيقافها يخفي خيار الطباعة عبر واتساب عن كل المستخدمين فورًا.</small></div><button id="wa-feature-toggle" type="button" class="secondary">تعطيل الميزة</button></div><p>أضف أرقام مكتبات مقترحة تظهر للمستخدمين كخيار سريع — المستخدم دائمًا يقدر يكتب أي رقم آخر يبيه، إلا إذا كان محظورًا.</p><label>اسم المكتبة أو المنطقة<input id="print-number-label" placeholder="مثال: مكتبة النور - الرياض"></label><label>الرقم (بصيغة دولية بدون + أو صفر البداية)<input id="print-number-value" dir="ltr" placeholder="9665xxxxxxxx"></label><div class="admin-access-actions"><button id="add-print-number" type="button">إضافة الرقم</button></div><div id="print-numbers-list" class="admin-access-list"><p class="hint">لا توجد أرقام مضافة.</p></div><section><strong>أرقام محظورة من الإرسال</strong><label>الرقم المراد حظره<input id="ban-number-value" dir="ltr" placeholder="9665xxxxxxxx"></label><div class="admin-access-actions"><button id="add-ban-number" type="button" class="delete-item">حظر الرقم</button></div><div id="banned-numbers-list" class="admin-access-list"><p class="hint">لا يوجد رقم محظور.</p></div></section></div></details>
       <details id="admin-visitor-panel" class="admin-access-panel" hidden><summary>إدارة عداد المستخدمين</summary><div class="admin-access-content"><p>العداد يعتمد على الأجهزة أو المتصفحات الفريدة التي زارت الأداة. اكتب الرقم الذي تريد ظهوره، مثل 0 للتصفير أو رقم أقل للتقليل.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div></details>
-      <details id="admin-card-titles" class="admin-access-panel" hidden><summary>تعديل أسماء المربعات</summary><div class="admin-access-content"><p>اختر مربعًا ثم اكتب الاسم الذي تريده. يظهر التعديل مباشرة لجميع المستخدمين.</p><label>المربع<select id="card-title-key"><option value="attendance">متابعة التحضير بالاسم</option><option value="screenMonitor">مراقبة المنطقة المطلوبة</option><option value="groups">وضع المجموعة</option><option value="notes">ملاحظة سريعة</option><option value="gpa">حاسبة المعدل</option><option value="pdf">تظليل نقاط المحاضرة في PDF</option><option value="ideas">اقتراح أو فكرة</option><option value="rating">تقييم الأداة</option></select></label><label>الاسم الجديد<input id="card-title-value" maxlength="60" placeholder="مثال: حاسبة الجامعة"></label><div class="admin-access-actions"><button id="save-card-title" type="button">حفظ الاسم</button><button id="reset-card-title" type="button" class="secondary">استعادة الاسم الأصلي</button></div><p id="card-title-status"></p></div></details>
-      <section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div>
+      <details id="admin-live-alerts-panel" class="admin-access-panel" hidden><summary>التنبيهات اللحظية</summary><div class="admin-access-content"><p>تنبيهات "سمع اسمك" و"تغيّر الشاشة" لحظة حدوثها على أي جهاز — بدون أي هوية أو بيانات شخصية، فقط نوع التنبيه ووقته.</p><div id="live-alerts-list" class="admin-access-list"><p class="hint">لا توجد تنبيهات بعد.</p></div></div></details>
+      <details id="admin-audit-panel" class="admin-access-panel" hidden><summary>سجل العمليات والنشاط اللحظي</summary><div class="admin-access-content"><p>آخر العمليات الإدارية (إضافة/إزالة مشرف، تعديل إعدادات، الرد على اقتراح، حذف...) بالوقت الفعلي — يتحدّث تلقائيًا بدون تحديث الصفحة.</p><div id="audit-log-list" class="admin-access-list"><p class="hint">لا يوجد نشاط بعد.</p></div></div></details>
+      <details id="admin-panic-panel" class="admin-access-panel" hidden><summary>وضع الطوارئ</summary><div class="admin-access-content"><p>عند التفعيل، تختفي كل خانات الرئيسية عن كل المستخدمين ويظهر بدلها إشعار "الأداة متوقفة مؤقتًا" — استخدمه فقط عند اشتباه أمني أو صيانة عاجلة. تقدر ترجعها عادي بنفس الزر بأي وقت.</p><button id="panic-toggle" type="button" class="secondary">تفعيل وضع الطوارئ</button><p id="panic-status" class="hint"></p></div></details>
+      <details id="admin-card-titles" class="admin-access-panel" hidden><summary>إدارة المربعات (تفعيل، تسمية، وصف، لون)</summary><div class="admin-access-content"><p>اختر مربعًا وتحكّم فيه بالكامل — التعديل يظهر مباشرة لجميع المستخدمين.</p><label>المربع<select id="card-title-key"><option value="attendance">متابعة التحضير بالاسم</option><option value="screenMonitor">مراقبة المنطقة المطلوبة</option><option value="notes">ملاحظات ومجموعات</option><option value="pdf">تظليل نقاط المحاضرة في PDF</option><option value="ideas">اقتراح أو تقييم</option></select></label><label class="check"><input id="card-visible-toggle" type="checkbox" checked> إظهار هذا المربع للمستخدمين</label><label>الاسم الظاهر<input id="card-title-value" maxlength="60" placeholder="مثال: حاسبة الجامعة"></label><label>الوصف المختصر تحت الاسم<input id="card-hint-value" maxlength="120" placeholder="جملة قصيرة توضيحية"></label><div class="time-row"><label>لون النقطة<input id="card-dot-color1" type="color" value="#7c6bff"></label><label class="check" style="align-self:end"><input id="card-dot-two-tone" type="checkbox"> نقطة تنبيه بلونين</label></div><label id="card-dot-color2-wrap" hidden>اللون الثاني (تنبيه)<input id="card-dot-color2" type="color" value="#ff5470"></label><div class="admin-access-actions"><button id="save-card-title" type="button">حفظ كل التعديلات</button><button id="reset-card-title" type="button" class="secondary">استعادة الافتراضي</button></div><p id="card-title-status"></p></div></details>
+      <details id="admin-session-panel" class="admin-access-panel" hidden><summary>مدة الخروج التلقائي من لوحة الإدارة</summary><div class="admin-access-content"><p>لو تُركت لوحة الإدارة مفتوحة بلا نشاط لهذه المدة، يسجَّل خروج تلقائي لحمايتها.</p><label>المدة بالدقائق<input id="admin-session-minutes" type="number" min="1" max="180" value="15"></label><div class="admin-access-actions"><button id="save-session-minutes" type="button">حفظ</button></div><p id="admin-session-status" class="hint"></p></div></details>
+      <details id="admin-feedback-panel" class="admin-access-panel" hidden><summary>التقييمات والأفكار</summary><div class="admin-access-content"><section id="admin-feedback" class="admin-feedback"><p class="hint">لا توجد اقتراحات ظاهرة الآن.</p></section><button id="admin-more" type="button" class="admin-more" hidden>أكثر</button></div></details>
+      </div>
     </details>
     </section>
+    </div>
 
     <footer class="footer-info">
-      <p class="copyright">© sultan alharbi — جميع الحقوق محفوظة</p>
-      <div class="footer-center"><p class="visitor-counter">المستخدمون <span class="heartbeat" aria-hidden="true">❤</span> <strong id="visitor-count">0</strong></p><span id="admin-login-status" class="admin-login-status" aria-live="polite"></span></div>
-      <p id="designer-prayer" class="designer-prayer" aria-live="polite">اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.</p>
+      <div class="footer-top">
+        <p id="designer-prayer" class="designer-prayer" aria-live="polite">اللهم بارك لمن صمم هذه الأداة، واجزه خيرًا، وافتح له أبواب العلم والرزق والتوفيق.</p>
+        <div class="footer-center">
+          <div class="footer-center-row">
+            <p class="visitor-counter">المستخدمون <span class="heartbeat" aria-hidden="true">❤</span> <strong id="visitor-count">0</strong></p>
+            <button id="admin-login" type="button" class="admin-login" aria-label="دخول الإدارة">دخول</button>
+            <div class="match-widget">
+              <button id="match-widget-toggle" type="button" class="admin-login">المباريات</button>
+              <div id="match-widget-popover" class="match-widget-popover" hidden>
+                <p id="matches-status" class="hint">جارٍ التحقق من مباريات اليوم...</p>
+                <div id="matches-list" class="matches-list"></div>
+                <details class="panel-sub">
+                  <summary>➕ إضافة مباراة</summary>
+                  <div class="panel-sub-content">
+                  <div class="time-row"><label>الفريق الأول<input id="add-match-teamA" placeholder="مثال: الهلال"></label><label>الفريق الثاني<input id="add-match-teamB" placeholder="مثال: النصر"></label></div>
+                  <div class="time-row"><label>التاريخ<input id="add-match-date" type="date"></label><label>الوقت<input id="add-match-time" type="time"></label></div>
+                  <button id="add-match-save" type="button" class="secondary">إضافة المباراة</button>
+                  <p id="add-match-status" class="hint"></p>
+                  <p class="hint">تُحذف المباريات تلقائيًا من التخزين بعد انتهاء تاريخها.</p>
+                  </div>
+                </details>
+                <details class="panel-sub" id="match-settings">
+                  <summary>⚙ إعدادات التنبيهات</summary>
+                  <div class="panel-sub-content">
+                  <label class="check"><input id="matches-mute-all" type="checkbox"> كتم كل تنبيهات المباريات (صافرة + شريط)</label>
+                  <label class="check"><input id="matches-hide-ticker" type="checkbox"> عدم عرض الشريط بجانب أسهم الاقتباس</label>
+                  <button id="matches-test" type="button" class="secondary">تجربة صوت الصافرة الآن</button>
+                  <p class="hint">تحكّم بكل مباراة لحالها (كتم، حذف، نتيجة):</p>
+                  <div id="matches-mute-list" class="quick-links-list"></div>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <p class="copyright">© sultan alharbi — جميع الحقوق محفوظة</p>
+          </div>
+          <span id="admin-login-status" class="admin-login-status" aria-live="polite"></span>
+        </div>
+        <div class="footer-left">
+          <div id="theme-switch" class="theme-switch" role="group" aria-label="مظهر الواجهة">
+            <button type="button" data-theme-choice="light" aria-label="مظهر فاتح" title="فاتح">☀</button>
+            <button type="button" data-theme-choice="dark" aria-label="مظهر غامق" title="غامق">🌙</button>
+            <button type="button" data-theme-choice="system" aria-label="حسب النظام" title="حسب النظام">🖥</button>
+          </div>
+          <button id="admin-message-badge" type="button" class="admin-message-badge" hidden aria-label="رسائل الاقتراحات الجديدة" title="اقتراحات جديدة"><span aria-hidden="true">💬</span><b id="admin-message-count">0</b></button>
+        </div>
+      </div>
     </footer>
   </main>
-  <div id="theme-switch" class="theme-switch" role="group" aria-label="مظهر الواجهة">
-    <button type="button" data-theme-choice="light" aria-label="مظهر فاتح" title="فاتح">☀</button>
-    <button type="button" data-theme-choice="dark" aria-label="مظهر غامق" title="غامق">🌙</button>
-    <button type="button" data-theme-choice="system" aria-label="حسب النظام" title="حسب النظام">🖥</button>
-  </div>
   <script>
     (function(){
       var KEY = "sgTheme";
@@ -515,7 +694,6 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   <div id="name-toast" role="status" aria-live="assertive" hidden></div>
   <div id="screen-toast" role="status" aria-live="assertive" hidden></div>
   <div id="prayer-toast" role="status" aria-live="assertive" hidden></div>
-  <button id="admin-message-badge" type="button" class="admin-message-badge" hidden aria-label="رسائل الاقتراحات الجديدة" title="اقتراحات جديدة"><span aria-hidden="true">💬</span><b id="admin-message-count">0</b></button>
   <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -543,9 +721,33 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   function armScheduledStop() { clearTimeout(scheduleStopTimer); if (!hasSchedule() || scheduleDone() || !scheduledNow()) return; const end = minutes($("listen-end").value), now = new Date(), target = new Date(now); target.setHours(Math.floor(end / 60), end % 60, 0, 0); if (target <= now) target.setDate(target.getDate() + 1); scheduleStopTimer = setTimeout(() => { if (listening) stop(true); finishSchedule(); tick(); }, Math.max(500, target - now)); }
   function problem(error) { const code = error?.error || error?.name || ""; if (["not-allowed", "NotAllowedError", "service-not-allowed"].includes(code)) return "اسمح بالميكروفون من رمز القفل بجانب الرابط، ثم حدّث الصفحة."; if (["not-found", "NotFoundError"].includes(code)) return "لا يوجد ميكروفون متاح في الكمبيوتر."; if (["not-readable", "NotReadableError"].includes(code)) return "الميكروفون مستخدم في برنامج آخر."; if (code === "network") return "تعذر تشغيل خدمة التعرف. تأكد من الإنترنت."; return `تعذر بدء الاستماع: ${code || "خطأ غير معروف"}`; }
   function ring() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .35; gain.connect(context.destination); for (let i = 0; i < 8; i += 1) { const tone = context.createOscillator(); tone.frequency.value = i % 2 ? 1180 : 880; tone.connect(gain); tone.start(context.currentTime + i * .16); tone.stop(context.currentTime + i * .16 + .1); } setTimeout(() => context.close(), 1500); }
+  function whistle() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .22; gain.connect(context.destination); [0, .28, .56].forEach(offset => { const tone = context.createOscillator(); tone.type = "sine"; tone.frequency.setValueAtTime(2300, context.currentTime + offset); tone.connect(gain); tone.start(context.currentTime + offset); tone.stop(context.currentTime + offset + .22); }); setTimeout(() => context.close(), 1400); }
+  const cupSchedules = [
+    {
+      name: "كأس خادم الحرمين الشريفين — دور الـ32 (2026-2027)",
+      matches: [
+        { date: "2026-08-16", time: "19:15", teamA: "الحزم", teamB: "البكيرية", venue: "ملعب نادي البكيرية — البكيرية" },
+        { date: "2026-08-16", time: "19:40", teamA: "أبها", teamB: "العروبة", venue: "ملعب نادي العروبة — الجوف" },
+        { date: "2026-08-16", time: "21:00", teamA: "الشباب", teamB: "الوحدة", venue: "استاد مدينة الملك عبدالعزيز الرياضية — مكة المكرمة" },
+        { date: "2026-08-17", time: "19:00", teamA: "الأهلي", teamB: "الأنوار", venue: "ملعب نادي الأنوار — حوطة بني تميم" },
+        { date: "2026-08-17", time: "19:15", teamA: "الرياض", teamB: "الزلفي", venue: "ملعب نادي الزلفي — الزلفي" },
+        { date: "2026-08-17", time: "19:15", teamA: "القادسية", teamB: "الطائي", venue: "استاد الأمير عبدالعزيز بن مساعد — حائل" },
+        { date: "2026-08-17", time: "21:00", teamA: "الفيحاء", teamB: "العدالة", venue: "استاد مدينة الأمير عبدالله بن جلوي — الأحساء" },
+        { date: "2026-08-17", time: "21:00", teamA: "الهلال", teamB: "الرائد", venue: "استاد مدينة الملك عبدالعزيز الرياضية — بريدة" },
+        { date: "2026-08-18", time: "19:05", teamA: "الخليج", teamB: "الأخدود", venue: "ملعب الأمير هذلول بن عبدالعزيز — نجران" },
+        { date: "2026-08-18", time: "19:15", teamA: "الاتفاق", teamB: "الجبلين", venue: "استاد الأمير عبدالعزيز بن مساعد — حائل" },
+        { date: "2026-08-18", time: "19:15", teamA: "الاتحاد", teamB: "النجمة", venue: "استاد مدينة الملك عبدالله الرياضية — بريدة" },
+        { date: "2026-08-18", time: "21:00", teamA: "نيوم", teamB: "الفيصلي", venue: "مدينة المجمعة الرياضية — المجمعة" },
+        { date: "2026-08-18", time: "21:00", teamA: "النصر", teamB: "الدرعية", venue: "استاد الأمير فيصل بن فهد — الرياض" },
+        { date: "2026-08-19", time: "19:15", teamA: "التعاون", teamB: "ضمك", venue: "ملعب نادي ضمك — خميس مشيط" },
+        { date: "2026-08-19", time: "19:30", teamA: "الخلود", teamB: "جدة", venue: "ملعب نادي جدة — جدة" },
+        { date: "2026-08-19", time: "21:00", teamA: "الفتح", teamB: "العلا", venue: "استاد الأمير محمد بن عبدالعزيز — المدينة المنورة" }
+      ]
+    }
+  ];
   function stopRing() { const context = new AudioContext(), gain = context.createGain(); gain.gain.value = .28; gain.connect(context.destination); for (let i = 0; i < 3; i += 1) { const tone = context.createOscillator(); tone.frequency.value = 560; tone.connect(gain); tone.start(context.currentTime + i * .28); tone.stop(context.currentTime + i * .28 + .18); } setTimeout(() => context.close(), 1200); }
   function alertsAllowedNow() { return !$("alerts-follow-schedule").checked || !hasSchedule() || scheduledNow(); }
-  function alertName(name = "") { if (!alertsAllowedNow()) return; const display = name || "صاحبنا", message = `🔔 يا الشيخ ${display} مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄`, toast = $("name-toast"), boldName = document.createElement("strong"); boldName.textContent = display; status(message); toast.replaceChildren("🔔 يا الشيخ ", boldName, " مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄"); toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.hidden = true; }, 8000); ring(); navigator.vibrate?.([180, 90, 180, 90, 180]); }
+  function alertName(name = "") { if (!alertsAllowedNow()) return; window.smartGuardianReportAlert?.("name"); const display = name || "صاحبنا", message = `🔔 يا الشيخ ${display} مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄`, toast = $("name-toast"), boldName = document.createElement("strong"); boldName.textContent = display; status(message); toast.replaceChildren("🔔 يا الشيخ ", boldName, " مثل ما وصيتنا.. سمعنا اسمك.. إذا ودك أو بكيفك 😄"); toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.hidden = true; }, 8000); ring(); navigator.vibrate?.([180, 90, 180, 90, 180]); }
   async function sendTelegram(text, isTest = false) { const token = $("telegram-token").value.trim(), chatId = $("telegram-chat-id").value.trim(); if (!token || !chatId) { if (isTest) $("telegram-status").textContent = "اكتب Bot Token وChat ID أولًا."; return; } try { $("telegram-status").textContent = isTest ? "جارٍ إرسال الاختبار..." : "جارٍ إرسال التنبيه للجوال..."; const body = new URLSearchParams({ chat_id: chatId, text }); const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: "POST", body }); const data = await response.json(); if (!response.ok || !data.ok) throw new Error(data?.description || "تعذر الإرسال"); $("telegram-status").textContent = isTest ? "نجح الاختبار. وصلتك رسالة Telegram." : "تم إرسال تنبيه Telegram."; } catch (error) { $("telegram-status").textContent = `تعذر إرسال Telegram: ${error.message || "تحقق من البيانات والإنترنت"}`; } }
   async function sendTelegramFile(file, caption = "ملف من Smart Guardian") { const token = $("telegram-token").value.trim(), chatId = $("telegram-chat-id").value.trim(); if (!token || !chatId) { $("telegram-status").textContent = "اكتب Bot Token وChat ID أولًا."; return false; } if (!file) { $("telegram-status").textContent = "اختر ملفًا أولًا."; return false; } if (file.size > 50 * 1024 * 1024) { $("telegram-status").textContent = "حجم الملف أكبر من 50 MB؛ اختر ملفًا أصغر."; return false; } try { $("telegram-status").textContent = "جارٍ إرسال الملف إلى Telegram..."; const body = new FormData(); body.append("chat_id", chatId); body.append("caption", caption); body.append("document", file, file.name || "smart-guardian-file"); const response = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: "POST", body }); const data = await response.json(); if (!response.ok || !data.ok) throw new Error(data?.description || "تعذر الإرسال"); $("telegram-status").textContent = "تم إرسال الملف. ستجده الآن في جميع أجهزتك على Telegram."; return { ok: true, fileId: data.result?.document?.file_id || "" }; } catch (error) { $("telegram-status").textContent = `تعذر إرسال الملف: ${error.message || "تحقق من الربط والإنترنت"}`; return false; } }
   function alertTelegram(name) { if (!alertsAllowedNow() || !$("telegram-enabled").checked) return; sendTelegram(`عزيزي ${name || "طالبنا"}، الرجاء الانتباه.. سمعنا اسمك الآن.`); }
@@ -555,7 +757,7 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   function sensitivityLabel() { const value = Number($("screen-sensitivity").value); $("screen-sensitivity-label").textContent = value <= 11 ? "عالية — تلتقط تغيّرات أصغر" : value >= 27 ? "منخفضة — تتجاهل الحركة البسيطة" : "متوازنة"; localStorage.screenSensitivity = String(value); }
   function paintScreenSelection() { const video = $("screen-preview"), marker = $("screen-selection"); if (!screenSelection || !video.clientWidth || !video.clientHeight) return marker.hidden = true; const { x, y, w, h } = screenSelection; marker.hidden = false; marker.style.left = `${video.offsetLeft + x * video.clientWidth}px`; marker.style.top = `${video.offsetTop + y * video.clientHeight}px`; marker.style.width = `${w * video.clientWidth}px`; marker.style.height = `${h * video.clientHeight}px`; }
   function selectScreenArea(event) { const video = $("screen-preview"), rect = video.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return null; return { x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)), y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height)) }; }
-  function renderScreenFrame() { if (!screenMonitoring || !screenStream || !screenSelection) return; const video = $("screen-preview"); if (video.readyState < 2 || !video.videoWidth) return; const x = Math.max(0, Math.min(.98, screenSelection.x)), y = Math.max(0, Math.min(.98, screenSelection.y)), w = Math.max(.02, Math.min(1 - x, screenSelection.w)), h = Math.max(.02, Math.min(1 - y, screenSelection.h)); const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 36; const context = canvas.getContext("2d", { willReadFrequently: true }); context.drawImage(video, x * video.videoWidth, y * video.videoHeight, w * video.videoWidth, h * video.videoHeight, 0, 0, canvas.width, canvas.height); const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data; const frame = new Uint8Array(canvas.width * canvas.height); for (let i = 0, j = 0; i < pixels.length; i += 4, j += 1) frame[j] = (pixels[i] * 54 + pixels[i + 1] * 183 + pixels[i + 2] * 19) >> 8; if (!screenLastFrame) { screenLastFrame = frame; screenStatus("تم تثبيت الصورة المرجعية. تتم مراقبة المنطقة المحددة الآن."); return; } let sum = 0; for (let i = 0; i < frame.length; i += 1) sum += Math.abs(frame[i] - screenLastFrame[i]); const difference = sum / frame.length; const threshold = Number($("screen-sensitivity").value); if (difference >= threshold) { screenChangeCount += 1; if (screenChangeCount >= 2 && Date.now() - screenLastAlert > 45000) { screenLastAlert = Date.now(); screenChangeCount = 0; screenLastFrame = frame; const text = "🔔 تنبيه الحارس الذكي: ظهر تغيّر واضح في منطقة الاستبيان التي حددتها. افتح المحاضرة الآن."; const toast = $("screen-toast"); toast.textContent = "🔔 ظهر تغيّر جديد في منطقة الاستبيان"; toast.hidden = false; setTimeout(() => { toast.hidden = true; }, 9000); ring(); navigator.vibrate?.([180, 80, 180, 80, 180]); if ($("telegram-enabled").checked) sendTelegram(text); screenStatus("تم إرسال تنبيه للتغيّر المكتشف. تستمر المراقبة الآن."); } } else { screenChangeCount = 0; screenLastFrame = frame; } }
+  function renderScreenFrame() { if (!screenMonitoring || !screenStream || !screenSelection) return; const video = $("screen-preview"); if (video.readyState < 2 || !video.videoWidth) return; const x = Math.max(0, Math.min(.98, screenSelection.x)), y = Math.max(0, Math.min(.98, screenSelection.y)), w = Math.max(.02, Math.min(1 - x, screenSelection.w)), h = Math.max(.02, Math.min(1 - y, screenSelection.h)); const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 36; const context = canvas.getContext("2d", { willReadFrequently: true }); context.drawImage(video, x * video.videoWidth, y * video.videoHeight, w * video.videoWidth, h * video.videoHeight, 0, 0, canvas.width, canvas.height); const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data; const frame = new Uint8Array(canvas.width * canvas.height); for (let i = 0, j = 0; i < pixels.length; i += 4, j += 1) frame[j] = (pixels[i] * 54 + pixels[i + 1] * 183 + pixels[i + 2] * 19) >> 8; if (!screenLastFrame) { screenLastFrame = frame; screenStatus("تم تثبيت الصورة المرجعية. تتم مراقبة المنطقة المحددة الآن."); return; } let sum = 0; for (let i = 0; i < frame.length; i += 1) sum += Math.abs(frame[i] - screenLastFrame[i]); const difference = sum / frame.length; const threshold = Number($("screen-sensitivity").value); if (difference >= threshold) { screenChangeCount += 1; if (screenChangeCount >= 2 && Date.now() - screenLastAlert > 45000) { screenLastAlert = Date.now(); screenChangeCount = 0; screenLastFrame = frame; window.smartGuardianReportAlert?.("screen"); const text = "🔔 تنبيه الحارس الذكي: ظهر تغيّر واضح في منطقة الاستبيان التي حددتها. افتح المحاضرة الآن."; const toast = $("screen-toast"); toast.textContent = "🔔 ظهر تغيّر جديد في منطقة الاستبيان"; toast.hidden = false; setTimeout(() => { toast.hidden = true; }, 9000); ring(); navigator.vibrate?.([180, 80, 180, 80, 180]); if ($("telegram-enabled").checked) sendTelegram(text); screenStatus("تم إرسال تنبيه للتغيّر المكتشف. تستمر المراقبة الآن."); } } else { screenChangeCount = 0; screenLastFrame = frame; } }
   function startScreenSampling() { clearInterval(screenTimer); screenLastFrame = null; screenChangeCount = 0; screenMonitoring = true; screenTimer = setInterval(renderScreenFrame, 1000); renderScreenFrame(); }
   function stopScreenMonitor(message = "تم إيقاف مراقبة الشاشة.") { screenMonitoring = false; clearInterval(screenTimer); screenTimer = null; screenLastFrame = null; screenChangeCount = 0; if (screenStream) screenStream.getTracks().forEach(track => track.stop()); screenStream = null; $("screen-preview").srcObject = null; $("screen-preview-wrap").hidden = true; $("start-screen-monitor").hidden = false; $("stop-screen-monitor").hidden = true; screenStatus(message); }
   async function startScreenMonitor() { if (!navigator.mediaDevices?.getDisplayMedia) return screenStatus("متصفحك لا يدعم اختيار تبويب للمراقبة. افتح الرابط المنشور في Chrome أو Edge."); if (!window.isSecureContext && location.protocol !== "file:") return screenStatus("افتح الرابط المنشور عبر HTTPS لتفعيل مراقبة الشاشة."); try { screenStatus("اختر تبويب المحاضرة من النافذة، ثم اسمح بالمشاركة."); const stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: { ideal: 3, max: 5 } }, audio: false }); screenStream = stream; const video = $("screen-preview"); video.srcObject = stream; await video.play(); $("screen-preview-wrap").hidden = false; $("start-screen-monitor").hidden = true; $("stop-screen-monitor").hidden = false; screenSelection = null; paintScreenSelection(); stream.getVideoTracks()[0].onended = () => { if (screenStream === stream) stopScreenMonitor("توقفت مشاركة التبويب، لذلك توقفت المراقبة."); }; screenStatus("اسحب فوق معاينة تبويب المحاضرة لتحديد شريط الاستبيان. بعدها تبدأ المراقبة تلقائيًا."); } catch (error) { screenStatus(error?.name === "NotAllowedError" ? "لم تسمح بمشاركة تبويب المحاضرة؛ لن تبدأ المراقبة." : "تعذر بدء مراقبة الشاشة. حاول اختيار تبويب المحاضرة مرة أخرى."); } }
@@ -594,13 +796,24 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   function saveManualPrayerTimes() { const times = {}; for (const key of prayerKeys) { const value = $(manualPrayerIds[key]).value; if (!/^\d{2}:\d{2}$/.test(value)) return $("prayer-status").textContent = "أكمل أوقات الصلوات الخمس أولًا."; times[key] = value; } localStorage.prayerManualTimes = JSON.stringify(times); localStorage.prayerManualActive = "1"; useManualPrayerTimes(times); fillManualPrayerInputs(); renderPrayerTimes(); checkPrayerTimes(); $("prayer-status").textContent = "تم تفعيل المواقيت اليدوية. يظهر الآن عداد الصلاة القادمة."; }
   function resetManualPrayerTimes() { localStorage.removeItem("prayerManualTimes"); localStorage.removeItem("prayerManualActive"); if (!prayerData) return $("prayer-status").textContent = "ستعود للمواقيت التلقائية عند تحديث المدينة أو الموقع."; const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude; if (latitude && longitude) return loadPrayerTimesByLocation(latitude, longitude); if ($("prayer-city").value && $("prayer-country").value) return loadPrayerTimes(); $("prayer-status").textContent = "تم إيقاف المواقيت اليدوية. اختر المدينة أو الموقع لتحديث المواقيت التلقائية."; }
   function cityClock() { if (!prayerData) return ""; return new Intl.DateTimeFormat("en-GB", { timeZone: prayerData.zone, hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date()); }
-  function showPrayerToast(text) { const toast = $("prayer-toast"); toast.textContent = text; toast.hidden = false; clearTimeout(prayerToastTimer); prayerToastTimer = setTimeout(() => { toast.hidden = true; }, 12000); try { ring(); } catch (_) {} navigator.vibrate?.([200, 100, 200]); }
-  function renderPrayerTimes() { if (!prayerData) return; const now = cityClock(), current = timeValue(now), items = prayerKeys.map(key => ({ key, time: prayerData.times[key] })); let next = items.find(item => timeValue(item.time) >= current); let tomorrow = false; if (!next) { next = items[0]; tomorrow = true; } let remaining = timeValue(next.time) - current; if (remaining < 0) remaining += 1440; const hours = Math.floor(remaining / 60), minutes = remaining % 60, wait = `${hours ? `${hours} ساعة ` : ""}${minutes} دقيقة`; $("prayer-title").textContent = `الصلاة القادمة: ${prayerNames[next.key]}`; $("prayer-countdown").textContent = `باقي ${wait}${tomorrow ? " — غدًا" : ""}.`; $("prayer-status").textContent = `حسب مدينة ${prayerData.city}. الصلاة القادمة الساعة ${next.time}.`; $("prayer-times").textContent = items.map(item => `${prayerNames[item.key]}: ${item.time}`).join("  •  "); $("prayer-times").hidden = false; }
+  function playPrayerSound() {
+    const mode = localStorage.prayerSound || "bell";
+    if (mode === "silent") return;
+    if (mode === "takbir" && "speechSynthesis" in window) {
+      speechSynthesis.cancel();
+      const phrase = new SpeechSynthesisUtterance("الله أكبر");
+      phrase.lang = "ar-SA"; phrase.rate = .78; phrase.pitch = .9; phrase.volume = .75;
+      speechSynthesis.speak(phrase); return;
+    }
+    try { ring(); } catch (_) {}
+  }
+  function showPrayerToast(text) { const toast = $("prayer-toast"); toast.textContent = text; toast.hidden = false; clearTimeout(prayerToastTimer); prayerToastTimer = setTimeout(() => { toast.hidden = true; }, 12000); playPrayerSound(); navigator.vibrate?.([200, 100, 200]); }
+  function renderPrayerTimes() { if (!prayerData) return; const now = cityClock(), current = timeValue(now), items = prayerKeys.map(key => ({ key, time: prayerData.times[key] })); let next = items.find(item => timeValue(item.time) >= current); let tomorrow = false; if (!next) { next = items[0]; tomorrow = true; } let remaining = timeValue(next.time) - current; if (remaining < 0) remaining += 1440; const hours = Math.floor(remaining / 60), minutes = remaining % 60, wait = `${hours ? `${hours} ساعة ` : ""}${minutes} دقيقة`; $("prayer-title").textContent = `الصلاة القادمة: ${prayerNames[next.key]}${prayerData.city && prayerData.city !== "المواقيت اليدوية" ? " — " + prayerData.city : ""}`; $("prayer-countdown").textContent = `باقي ${wait}${tomorrow ? " — غدًا" : ""}.`; $("prayer-status").textContent = `حسب مدينة ${prayerData.city}. الصلاة القادمة الساعة ${next.time}.`; $("prayer-times").textContent = items.map(item => `${prayerNames[item.key]}: ${item.time}`).join("  •  "); $("prayer-times").hidden = false; }
   async function fetchPrayerTimes(url, city, failureMessage) { $("prayer-status").textContent = "جارٍ جلب مواقيت الصلاة..."; try { const response = await fetch(url); const result = await response.json(); if (!response.ok || result.code !== 200) throw new Error("تعذر جلب المواقيت"); const timings = {}; prayerKeys.forEach(key => { timings[key] = cleanPrayerTime(result.data.timings[key]); }); prayerData = { city, zone: result.data.meta.timezone, date: result.data.date.gregorian.date, baseTimes: timings, times: timings }; applyManualPrayerTimes(); fillManualPrayerInputs(); renderPrayerTimes(); checkPrayerTimes(); } catch (_) { $("prayer-status").textContent = failureMessage; } }
   async function loadPrayerTimes() { const city = $("prayer-city").value.trim(), country = $("prayer-country").value.trim(); localStorage.prayerCity = city; localStorage.prayerCountry = country; localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; localStorage.removeItem("prayerLatitude"); localStorage.removeItem("prayerLongitude"); if (!city || !country) return $("prayer-status").textContent = "اكتب المدينة والدولة أولًا."; return fetchPrayerTimes(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=4`, city, "تعذر جلب المواقيت. تحقق من اسم المدينة والإنترنت."); }
   function loadPrayerTimesByLocation(latitude, longitude) { localStorage.prayerLatitude = String(latitude); localStorage.prayerLongitude = String(longitude); localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; return fetchPrayerTimes(`https://api.aladhan.com/v1/timings?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}&method=4`, "موقعك الحالي", "تعذر جلب المواقيت من موقعك. تحقق من الإنترنت أو استخدم المدينة يدويًا."); }
   function useCurrentLocation() { if (!navigator.geolocation) return $("prayer-status").textContent = "تحديد الموقع غير مدعوم في هذا المتصفح."; $("prayer-status").textContent = "بانتظار إذن تحديد الموقع..."; navigator.geolocation.getCurrentPosition(position => loadPrayerTimesByLocation(position.coords.latitude, position.coords.longitude), () => { $("prayer-status").textContent = "لم يتم السماح بتحديد الموقع. يمكنك كتابة المدينة يدويًا."; }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 3600000 }); }
-  function checkPrayerTimes() { if (!prayerData) return; renderPrayerTimes(); if (!$("prayer-enabled").checked) return; const now = cityClock(); for (const key of prayerKeys) { const time = prayerData.times[key], alertKey = `${prayerData.date}|${key}|${time}`; if (time === now && localStorage.prayerLastAlert !== alertKey) { localStorage.prayerLastAlert = alertKey; showPrayerToast(`لقد حان وقت صلاة ${prayerNames[key]} في ${prayerData.city}.`); } } }
+  function checkPrayerTimes() { if (!prayerData) return; renderPrayerTimes(); if (!$("prayer-enabled").checked || window.prayerAlertsGloballyEnabled === false) return; const now = cityClock(); for (const key of prayerKeys) { const time = prayerData.times[key], alertKey = `${prayerData.date}|${key}|${time}`; if (time === now && localStorage.prayerLastAlert !== alertKey) { localStorage.prayerLastAlert = alertKey; showPrayerToast(`لقد حان وقت صلاة ${prayerNames[key]} في ${prayerData.city}.`); } } }
   function fallbackNotes() {
     const notesBox = $("notes"), render = entry => { const item = document.createElement("article"), time = document.createElement("small"); item.className = "note"; item.textContent = `[${entry.mode || "مستقل"}] ${entry.author || "طالب"}: ${entry.text}`; time.textContent = new Date(entry.createdAt || Date.now()).toLocaleString("ar-SA"); item.append(time); notesBox.prepend(item); while (notesBox.children.length > 2) notesBox.lastElementChild.remove(); };
     const stored = () => JSON.parse(localStorage.mobileNotes || "[]");
@@ -611,15 +824,406 @@ html.admin-embedded body{background:var(--bg)}html.admin-embedded main{max-width
   }
   const panels = [...document.querySelectorAll(".feature-map > details.panel")];
   panels.forEach(panel => panel.addEventListener("toggle", () => { if (panel.open) panels.forEach(other => { if (other !== panel) other.open = false; }); }));
+  function ensurePrayerAlertControls() {
+    const updateButton = $("update-prayers"); if (!updateButton || $("prayer-sound")) return;
+    const label = document.createElement("label"); label.textContent = "صوت تنبيه الصلاة";
+    const select = document.createElement("select"); select.id = "prayer-sound";
+    [["silent", "بدون صوت"], ["bell", "جرس هادئ"], ["takbir", "تكبير بصوت الجهاز"]].forEach(([value, text]) => { const option = document.createElement("option"); option.value = value; option.textContent = text; select.append(option); });
+    select.value = localStorage.prayerSound || "bell"; select.onchange = () => { localStorage.prayerSound = select.value; };
+    label.append(select);
+    const test = document.createElement("button"); test.id = "test-prayer-alert"; test.type = "button"; test.className = "secondary"; test.textContent = "تجربة تنبيه الصلاة"; test.onclick = () => showPrayerToast("تجربة تنبيه الصلاة — سيظهر هنا اسم الصلاة عند حلول وقتها.");
+    updateButton.before(label, test);
+  }
+  ensurePrayerAlertControls();
   $("prayer-city").value = localStorage.prayerCity || ""; $("prayer-country").value = localStorage.prayerCountry || ""; $("prayer-enabled").checked = localStorage.prayerEnabled === "1"; $("update-prayers").onclick = loadPrayerTimes; $("use-location").onclick = useCurrentLocation; $("save-manual-prayers").onclick = saveManualPrayerTimes; $("reset-manual-prayers").onclick = resetManualPrayerTimes; $("prayer-enabled").onchange = () => { localStorage.prayerEnabled = $("prayer-enabled").checked ? "1" : "0"; if ($("prayer-enabled").checked && !prayerData) { const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude; if (latitude && longitude) loadPrayerTimesByLocation(latitude, longitude); else loadPrayerTimes(); } if (!$("prayer-enabled").checked && prayerData) renderPrayerTimes(); }; { const latitude = localStorage.prayerLatitude, longitude = localStorage.prayerLongitude, manual = savedManualPrayerTimes(); if (localStorage.prayerManualActive === "1" && hasCompleteManualPrayerTimes(manual)) { useManualPrayerTimes(manual); fillManualPrayerInputs(); renderPrayerTimes(); } else if (latitude && longitude) loadPrayerTimesByLocation(latitude, longitude); else if ($("prayer-city").value && $("prayer-country").value) loadPrayerTimes(); else if (hasCompleteManualPrayerTimes(manual)) { useManualPrayerTimes(manual); fillManualPrayerInputs(); renderPrayerTimes(); } }
   checkMicPermission(); saveSchedule(); setInterval(tick, 1000); setInterval(checkPrayerTimes, 15000); document.addEventListener("visibilitychange", () => { if (!document.hidden) { checkMicPermission(); tick(); checkPrayerTimes(); } }); window.addEventListener("focus", tick); tick(); rotate(); cycleDesignerPrayer(); window.studyGuardianCoreReady = true; setTimeout(() => { if (!window.studyGuardianMobileReady) fallbackNotes(); }, 3000);
+
+  function syncFixedChromeHeights() {
+    const header = document.getElementById("app-header"), footer = document.querySelector(".footer-info");
+    if (header) document.documentElement.style.setProperty("--sg-header-h", header.offsetHeight + "px");
+    if (footer) document.documentElement.style.setProperty("--sg-footer-h", footer.offsetHeight + "px");
+  }
+  window.smartGuardianSyncChrome = syncFixedChromeHeights;
+  window.addEventListener("resize", syncFixedChromeHeights);
+  window.addEventListener("load", syncFixedChromeHeights);
+  setTimeout(syncFixedChromeHeights, 300);
+  setTimeout(syncFixedChromeHeights, 1200);
+  syncFixedChromeHeights();
+
+
+  function matchKey(m) { return `${m.date}_${m.time}_${m.teamA}_${m.teamB}`; }
+  function getMatchSettings() { try { return JSON.parse(localStorage.getItem("sgMatchSettings") || "{}"); } catch (_) { return {}; } }
+  function setMatchSettings(s) { localStorage.setItem("sgMatchSettings", JSON.stringify(s)); }
+  function isMatchMuted(m) { const s = getMatchSettings(); return Boolean(s.muteAll || (s.muted && s.muted[matchKey(m)])); }
+  function getUserMatches() {
+    let items = [];
+    try { items = JSON.parse(localStorage.getItem("sgUserMatches") || "[]"); } catch (_) { items = []; }
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const kept = items.filter(m => m.date >= todayKey);
+    if (kept.length !== items.length) localStorage.setItem("sgUserMatches", JSON.stringify(kept));
+    return kept;
+  }
+  function setUserMatches(items) { localStorage.setItem("sgUserMatches", JSON.stringify(items)); }
+  function allMatchesCombined() { return [...cupSchedules.flatMap(s => s.matches), ...getUserMatches()]; }
+  function resultsSearchUrl(m) { return `https://www.google.com/search?q=${encodeURIComponent("نتيجة مباراة " + m.teamA + " و" + m.teamB)}`; }
+
+  function renderMatchesEverywhere() {
+    renderMatchSettingsList();
+    renderMatchesToday();
+  }
+
+  function renderMatchSettingsList() {
+    const list = $("matches-mute-list");
+    if (!list) return;
+    list.replaceChildren();
+    const all = allMatchesCombined(), userKeys = new Set(getUserMatches().map(matchKey));
+    if (!all.length) { list.innerHTML = '<p class="hint">لا توجد مباريات مضافة بعد.</p>'; return; }
+    all.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).forEach(m => {
+      const key = matchKey(m);
+      const row = document.createElement("div"); row.className = "match-row";
+      const label = document.createElement("label"); label.className = "check"; label.style.margin = "0"; label.style.flex = "1";
+      label.innerHTML = `<span>${m.teamA} × ${m.teamB} — ${m.date.slice(5)} ${m.time}</span>`;
+      const cb = document.createElement("input"); cb.type = "checkbox";
+      const cur = getMatchSettings(); cb.checked = Boolean(cur.muted && cur.muted[key]);
+      cb.onchange = () => { const st = getMatchSettings(); st.muted = st.muted || {}; if (cb.checked) st.muted[key] = true; else delete st.muted[key]; setMatchSettings(st); };
+      label.prepend(cb);
+      const actions = document.createElement("div"); actions.className = "match-row-actions";
+      const resultsBtn = document.createElement("button"); resultsBtn.type = "button"; resultsBtn.className = "secondary"; resultsBtn.textContent = "🔍"; resultsBtn.title = "بحث النتيجة بجوجل";
+      resultsBtn.onclick = () => window.open(resultsSearchUrl(m), "_blank");
+      actions.append(resultsBtn);
+      if (userKeys.has(key)) {
+        const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "×"; del.title = "حذف المباراة";
+        del.onclick = () => { setUserMatches(getUserMatches().filter(x => matchKey(x) !== key)); renderMatchesEverywhere(); window.smartGuardianRefreshTicker?.(); window.smartGuardianRefreshMatches?.(); };
+        actions.append(del);
+      }
+      row.append(label, actions); list.append(row);
+    });
+  }
+
+  (function matchSettingsUi() {
+    const muteAllBox = $("matches-mute-all"), hideTickerBox = $("matches-hide-ticker"), testBtn = $("matches-test");
+    if (!muteAllBox) return;
+    const s = getMatchSettings();
+    muteAllBox.checked = Boolean(s.muteAll);
+    hideTickerBox.checked = Boolean(s.hideTicker);
+    muteAllBox.onchange = () => { const cur = getMatchSettings(); cur.muteAll = muteAllBox.checked; setMatchSettings(cur); };
+    hideTickerBox.onchange = () => { const cur = getMatchSettings(); cur.hideTicker = hideTickerBox.checked; setMatchSettings(cur); };
+    testBtn.onclick = () => { try { whistle(); } catch (_) {} };
+    renderMatchSettingsList();
+  })();
+
+  (function addMatchForm() {
+    const saveBtn = $("add-match-save");
+    if (!saveBtn) return;
+    saveBtn.onclick = () => {
+      const teamA = $("add-match-teamA").value.trim(), teamB = $("add-match-teamB").value.trim(), date = $("add-match-date").value, time = $("add-match-time").value;
+      if (!teamA || !teamB || !date || !time) return status("add-match-status", "عبّي كل الحقول (الفريقين والتاريخ والوقت).");
+      const todayKey = new Date().toISOString().slice(0, 10);
+      if (date < todayKey) return status("add-match-status", "لا يمكن إضافة مباراة بتاريخ فات.");
+      const items = getUserMatches();
+      items.push({ teamA, teamB, date, time, venue: "" });
+      setUserMatches(items);
+      $("add-match-teamA").value = ""; $("add-match-teamB").value = ""; $("add-match-date").value = ""; $("add-match-time").value = "";
+      status("add-match-status", "تمت إضافة المباراة — بتظهر بالشريط تلقائيًا لما يقرب وقتها.");
+      renderMatchesEverywhere();
+      window.smartGuardianRefreshTicker?.();
+      window.smartGuardianRefreshMatches?.();
+    };
+  })();
+
+  (function matchWidgetToggle() {
+    const toggle = $("match-widget-toggle"), popover = $("match-widget-popover");
+    if (!toggle) return;
+    toggle.onclick = event => { event.stopPropagation(); popover.hidden = !popover.hidden; };
+    document.addEventListener("click", event => { if (!popover.hidden && !popover.contains(event.target) && event.target !== toggle) popover.hidden = true; });
+  })();
+
+  (function matchesToday() {
+    const list = $("matches-list"), statusEl = $("matches-status");
+    if (!list) return;
+    function build() {
+      list.replaceChildren();
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const today = allMatchesCombined().filter(m => m.date === todayKey);
+      if (!today.length) { statusEl.textContent = "لا توجد مباريات مجدولة اليوم."; return []; }
+      statusEl.textContent = `عندك ${today.length} مباراة اليوم:`;
+      return today.map(m => {
+        const card = document.createElement("div"); card.className = "match-card";
+        card.innerHTML = `<div class="match-teams"><span>${m.teamA}</span><span>${m.time}</span><span>${m.teamB}</span></div>${m.venue ? `<p class="match-venue">${m.venue}</p>` : ""}<p class="match-countdown"></p>`;
+        list.append(card);
+        return { el: card.querySelector(".match-countdown"), at: new Date(`${m.date}T${m.time}:00+03:00`).getTime(), whistled: false, muted: isMatchMuted(m) };
+      });
+    }
+    let cards = build();
+    function tickMatches() {
+      const now = Date.now();
+      cards.forEach(c => {
+        const diff = c.at - now;
+        if (diff <= 0) { c.el.textContent = "بدأت المباراة الآن"; c.el.classList.add("match-live"); if (!c.whistled && diff > -5000) { c.whistled = true; if (!c.muted) { try { whistle(); } catch (_) {} } } return; }
+        const h = Math.floor(diff / 3600000), m2 = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+        c.el.textContent = `يبدأ خلال ${String(h).padStart(2, "0")}:${String(m2).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+      });
+    }
+    tickMatches(); setInterval(tickMatches, 1000);
+    window.smartGuardianRefreshMatches = () => { cards = build(); tickMatches(); };
+  })();
+
+  (function examReminders() {
+    const typeSelect = $("exam-reminder-type"), customWrap = $("exam-custom-wrap"), list = $("exam-reminders-list");
+    if (!typeSelect) return;
+    typeSelect.addEventListener("change", () => { customWrap.hidden = typeSelect.value !== "custom"; });
+    function loadReminders() { try { return JSON.parse(localStorage.getItem("sgExamReminders") || "[]"); } catch (_) { return []; } }
+    function saveReminders(items) { localStorage.setItem("sgExamReminders", JSON.stringify(items)); }
+    function renderReminders() {
+      const items = loadReminders();
+      list.innerHTML = "";
+      if (!items.length) { list.innerHTML = '<p class="hint">ما فيه تذكيرات محفوظة.</p>'; return; }
+      items.forEach((item, i) => {
+        const row = document.createElement("div"); row.className = "quick-link-row";
+        const span = document.createElement("span"); span.textContent = `${item.name} — تذكير: ${new Date(item.remindAt).toLocaleString("ar-SA")}`;
+        const del = document.createElement("button"); del.type = "button"; del.textContent = "×"; del.setAttribute("aria-label", "حذف التذكير");
+        del.onclick = () => { items.splice(i, 1); saveReminders(items); renderReminders(); };
+        row.append(span, del); list.append(row);
+      });
+    }
+    renderReminders();
+    $("add-exam-reminder").onclick = () => {
+      const name = $("exam-name").value.trim(), date = $("exam-date").value, time = $("exam-time").value || "08:00";
+      if (!name || !date) return status("exam-status", "اكتب اسم الاختبار وتاريخه أولًا.");
+      const examAt = new Date(`${date}T${time}:00`).getTime();
+      let remindAt;
+      if (typeSelect.value === "custom") {
+        const custom = $("exam-custom-datetime").value;
+        if (!custom) return status("exam-status", "حدد تاريخ ووقت بداية المذاكرة.");
+        remindAt = new Date(custom).getTime();
+      } else {
+        remindAt = examAt - Number(typeSelect.value) * 86400000;
+      }
+      if (remindAt <= Date.now()) return status("exam-status", "وقت التذكير هذا فات بالفعل — اختر وقتًا لاحقًا.");
+      const items = loadReminders(); items.push({ name, examAt, remindAt, notified: false }); saveReminders(items);
+      $("exam-name").value = ""; $("exam-date").value = ""; $("exam-time").value = ""; $("exam-custom-datetime").value = "";
+      renderReminders(); status("exam-status", "تم حفظ التذكير.");
+    };
+    setInterval(() => {
+      const items = loadReminders(); let changed = false;
+      items.forEach(item => { if (!item.notified && Date.now() >= item.remindAt) { item.notified = true; changed = true; try { showPrayerToast(`تذكير: اقترب موعد ${item.name}. راجع مذاكرتك من الآن.`); } catch (_) {} } });
+      if (changed) saveReminders(items);
+    }, 60000);
+  })();
+
+  if ($("quick-break")) $("quick-break").onclick = () => {
+    const bank = quotes.filter(q => q[3] !== "verse");
+    const pick = bank[Math.floor(Math.random() * bank.length)];
+    $("quick-break-text").textContent = pick[0] + (pick[1] ? " — " + pick[1] : "");
+    $("quick-break").disabled = true;
+    let left = 60; const original = $("quick-break").textContent;
+    const timer = setInterval(() => { left--; $("quick-break").textContent = `استراحة... ${left} ثانية`; if (left <= 0) { clearInterval(timer); $("quick-break").disabled = false; $("quick-break").textContent = original; try { whistle(); } catch (_) {} } }, 1000);
+  };
+
+  (function matchTicker() {
+    const wrap = $("match-ticker"), teamsEl = $("ticker-teams"), timeEl = $("ticker-time"), fillEl = $("ticker-fill"), markerEl = $("ticker-marker");
+    if (!wrap) return;
+    function groupedMatches() {
+      const map = new Map();
+      allMatchesCombined().forEach(m => {
+        const at = new Date(`${m.date}T${m.time}:00+03:00`).getTime(), key = String(at);
+        if (!map.has(key)) map.set(key, { at, teams: [] });
+        map.get(key).teams.push(`${m.teamA} × ${m.teamB}`);
+      });
+      return [...map.values()].sort((a, b) => a.at - b.at);
+    }
+    let groups = groupedMatches();
+    let nameIndex = 0, lastGroupAt = null, alertedAt = null;
+    function pickGroup() {
+      const now = Date.now();
+      return groups.find(g => g.at > now - 2 * 60000) || null;
+    }
+    function purgeFinishedUserMatches() {
+      const now = Date.now();
+      const items = getUserMatches();
+      const kept = items.filter(m => new Date(`${m.date}T${m.time}:00+03:00`).getTime() > now - 2 * 60000);
+      if (kept.length !== items.length) { setUserMatches(kept); renderMatchesEverywhere?.(); }
+    }
+    function render() {
+      if (getMatchSettings().hideTicker) { wrap.hidden = true; return; }
+      const group = pickGroup();
+      if (!group) { wrap.hidden = true; return; }
+      wrap.hidden = false;
+      if (group.at !== lastGroupAt) { lastGroupAt = group.at; nameIndex = 0; }
+      if (group.teams.length > 1) { teamsEl.textContent = group.teams[nameIndex % group.teams.length]; } else { teamsEl.textContent = group.teams[0]; }
+      const diff = group.at - Date.now();
+      if (diff <= 0) {
+        timeEl.textContent = "بدأت الآن"; fillEl.style.width = "100%"; markerEl.style.right = "100%";
+        if (alertedAt !== group.at) { alertedAt = group.at; try { whistle(); } catch (_) {} try { showPrayerToast(`بدأت مباراة ${group.teams[0]} الآن.`); } catch (_) {} }
+        return;
+      }
+      const days = Math.floor(diff / 86400000);
+      if (days >= 1) { timeEl.textContent = `باقي ${days === 1 ? "يوم" : days === 2 ? "يومين" : days + " أيام"}`; fillEl.style.width = "4%"; markerEl.style.right = "4%"; }
+      else {
+        const h = Math.floor(diff / 3600000), m2 = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+        timeEl.textContent = `${String(h).padStart(2, "0")}:${String(m2).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        const progress = Math.max(4, Math.min(100, (1 - diff / 86400000) * 100));
+        fillEl.style.width = progress + "%"; markerEl.style.right = progress + "%";
+      }
+    }
+    render();
+    setInterval(render, 1000);
+    setInterval(() => { nameIndex++; render(); }, 3500);
+    setInterval(() => { purgeFinishedUserMatches(); groups = groupedMatches(); }, 60000);
+    window.smartGuardianRefreshTicker = () => { groups = groupedMatches(); render(); };
+  })();
+
+  (function classClose() {
+    let classTab = null, timer = null, endAt = Number(localStorage.classCloseEndAt || 0), shareScreenWanted = false;
+    const panel = document.getElementById("class-close-url")?.closest(".panel-sub");
+    if (!panel) return;
+    const urlInput = $("class-close-url"), hours = $("class-close-hours"), minutes = $("class-close-minutes"),
+          seconds = $("class-close-seconds"), countdown = $("class-close-countdown"), info = $("class-close-status"),
+          shareBox = $("class-close-share-screen");
+
+    urlInput.value = localStorage.classCloseUrl || "";
+    const format = value => { const total = Math.max(0, Math.ceil(value / 1000)), h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60; return [h, m, s].map(n => String(n).padStart(2, "0")).join(":"); };
+
+    function notifyBackup() {
+      try { if (Notification && Notification.permission === "granted") new Notification("الحارس الذكي", { body: "انتهى وقت الكلاس — تأكد إن التبويب انسكر فعليًا." }); } catch (_) {}
+      try { whistle(); } catch (_) {}
+      navigator.vibrate?.([200, 100, 200, 100, 200]);
+    }
+    try { if (Notification && Notification.permission === "default") Notification.requestPermission(); } catch (_) {}
+
+    const finish = () => {
+      clearInterval(timer); timer = null; endAt = 0; localStorage.removeItem("classCloseEndAt");
+      let closedOk = false;
+      try { if (classTab && !classTab.closed) { classTab.close(); closedOk = true; } } catch (_) {}
+      countdown.textContent = "00:00:00";
+      info.textContent = closedOk ? "انتهى المؤقت وتم إرسال أمر إغلاق تبويب الكلاس." : "انتهى المؤقت — لو ما انسكر التبويب تلقائيًا (مثلًا بسبب تحديث الصفحة)، أغلقه يدويًا الآن.";
+      notifyBackup();
+    };
+    const tickClose = () => { if (!endAt) return; const left = endAt - Date.now(); if (left <= 0) return finish(); countdown.textContent = format(left); info.textContent = `سيُغلق تبويب الكلاس بعد ${format(left)}.`; };
+    const preview = () => { if (endAt) return; const ms = (Number(hours.value || 0) * 3600 + Number(minutes.value || 0) * 60 + Number(seconds.value || 0)) * 1000; countdown.textContent = format(ms); };
+    [hours, minutes, seconds].forEach(input => input.oninput = preview);
+
+    $("start-class-close").onclick = async () => {
+      let target = urlInput.value.trim();
+      if (!/^https?:\/\//i.test(target)) return info.textContent = "اكتب رابط الكلاس كاملًا ويبدأ بـ https://";
+      const duration = (Number(hours.value || 0) * 3600 + Number(minutes.value || 0) * 60 + Number(seconds.value || 0)) * 1000;
+      if (duration < 1000) return info.textContent = "حدد مدة لا تقل عن ثانية واحدة.";
+      classTab = window.open(target, "smartGuardianClass");
+      if (!classTab) return info.textContent = "اسمح بالنوافذ المنبثقة حتى يفتح الحارس تبويب الكلاس.";
+      localStorage.classCloseUrl = target;
+      endAt = Date.now() + duration; localStorage.classCloseEndAt = String(endAt);
+      clearInterval(timer); timer = setInterval(tickClose, 500); tickClose();
+      if (shareBox.checked) { try { await startScreenMonitor(); } catch (_) {} }
+    };
+    $("cancel-class-close").onclick = () => { clearInterval(timer); timer = null; endAt = 0; localStorage.removeItem("classCloseEndAt"); preview(); info.textContent = "تم إلغاء المؤقت ولن يُغلق التبويب."; };
+
+    if (endAt > Date.now()) { timer = setInterval(tickClose, 500); tickClose(); } else { localStorage.removeItem("classCloseEndAt"); preview(); }
+  })();
+
+  $("open-class-close-from-listening").onclick = () => {
+    const screenPanel = document.querySelector('[data-panel-key="screenMonitor"]');
+    const closePanel = document.getElementById("class-close-url")?.closest(".panel-sub");
+    if (screenPanel) screenPanel.open = true;
+    if (closePanel) closePanel.open = true;
+    closePanel?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => document.getElementById("class-close-url")?.focus(), 450);
+  };
+
+  document.querySelectorAll(".feature-map > .panel").forEach((panel, i) => {
+    const key = panel.querySelector("[data-card-key]")?.dataset.cardKey || `panel-${i}`;
+    if (localStorage.getItem(`sgOpen:${key}`) === "1") panel.open = true;
+    panel.addEventListener("toggle", () => localStorage.setItem(`sgOpen:${key}`, panel.open ? "1" : "0"));
+  });
+  (function accordionBehavior() {
+    const topPanels = [...document.querySelectorAll(".feature-map > .panel")];
+    topPanels.forEach(panel => {
+      panel.addEventListener("toggle", () => {
+        if (panel.open && panel.dataset.pinned !== "1") {
+          topPanels.forEach(other => { if (other !== panel && other.open && other.dataset.pinned !== "1") other.open = false; });
+        }
+      });
+      const summary = panel.querySelector(":scope > summary");
+      if (!summary) return;
+      summary.addEventListener("dblclick", event => {
+        event.preventDefault();
+        const pinned = panel.dataset.pinned === "1";
+        panel.dataset.pinned = pinned ? "0" : "1";
+        panel.classList.toggle("panel-pinned", !pinned);
+        if (!pinned) panel.open = true;
+      });
+    });
+  })();
+  document.querySelectorAll(".panel-sub").forEach((sub, i) => {
+    const key = "sub-" + (sub.querySelector("summary")?.textContent.trim() || i);
+    const stored = localStorage.getItem(`sgOpen:${key}`);
+    if (stored !== null) sub.open = stored === "1";
+    sub.addEventListener("toggle", () => localStorage.setItem(`sgOpen:${key}`, sub.open ? "1" : "0"));
+  });
+
+  function wireDraftAndCounter(textareaId, counterId, draftKey) {
+    const box = $(textareaId), counter = $(counterId);
+    if (!box) return;
+    const updateCounter = () => { if (counter) counter.textContent = `${box.value.length} حرف · ${box.value.trim() ? box.value.trim().split(/\s+/).length : 0} كلمة`; };
+    if (draftKey && !box.value) { const draft = localStorage.getItem(draftKey); if (draft) box.value = draft; }
+    updateCounter();
+    box.addEventListener("input", () => { updateCounter(); if (draftKey) localStorage.setItem(draftKey, box.value); });
+  }
+  wireDraftAndCounter("note", "note-counter", "sgDraft:note");
+  wireDraftAndCounter("idea", "idea-counter", "sgDraft:idea");
+  wireDraftAndCounter("rating-comment", "rating-comment-counter", "sgDraft:ratingComment");
+  document.addEventListener("keydown", event => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s" && document.activeElement === $("note")) { event.preventDefault(); $("save")?.click(); }
+  });
+  ["save", "send-idea", "send-rating"].forEach(id => { const btn = $(id); if (btn) btn.addEventListener("click", () => { const map = { save: "sgDraft:note", "send-idea": "sgDraft:idea", "send-rating": "sgDraft:ratingComment" }; setTimeout(() => localStorage.removeItem(map[id]), 300); }); });
+
+  function renderQuickLinks() {
+    const list = $("quicklinks-list"); if (!list) return;
+    const links = JSON.parse(localStorage.getItem("sgQuickLinks") || "[]");
+    list.innerHTML = "";
+    if (!links.length) { list.innerHTML = '<p class="hint">ما فيه روابط محفوظة بعد.</p>'; return; }
+    links.forEach((link, i) => {
+      const row = document.createElement("div"); row.className = "quick-link-row";
+      const a = document.createElement("a"); a.href = link.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = link.label;
+      const del = document.createElement("button"); del.type = "button"; del.textContent = "×"; del.setAttribute("aria-label", "حذف الرابط");
+      del.onclick = () => { links.splice(i, 1); localStorage.setItem("sgQuickLinks", JSON.stringify(links)); renderQuickLinks(); };
+      row.append(a, del); list.append(row);
+    });
+  }
+  renderQuickLinks();
+  if ($("add-quicklink")) $("add-quicklink").onclick = () => {
+    const label = $("quicklink-label").value.trim(); let url = $("quicklink-url").value.trim();
+    if (!label || !url) return;
+    if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+    const links = JSON.parse(localStorage.getItem("sgQuickLinks") || "[]");
+    links.push({ label, url }); localStorage.setItem("sgQuickLinks", JSON.stringify(links));
+    $("quicklink-label").value = ""; $("quicklink-url").value = ""; renderQuickLinks();
+  };
+
+  (function pomodoro() {
+    const display = $("pomodoro-display"), phase = $("pomodoro-phase"), startBtn = $("pomodoro-start"), resetBtn = $("pomodoro-reset");
+    if (!display) return;
+    let seconds = 25 * 60, isWork = true, timer = null, running = false;
+    const fmt = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    const render = () => { display.textContent = fmt(seconds); };
+    function tickPomodoro() {
+      seconds--; render();
+      if (seconds <= 0) { isWork = !isWork; seconds = (isWork ? 25 : 5) * 60; phase.textContent = isWork ? "وقت التركيز" : "وقت الراحة"; try { new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=").play().catch(() => {}); } catch (_) {} }
+    }
+    startBtn.onclick = () => {
+      if (running) { clearInterval(timer); running = false; startBtn.textContent = "استمرار"; return; }
+      running = true; startBtn.textContent = "إيقاف مؤقت"; phase.textContent = isWork ? "وقت التركيز" : "وقت الراحة";
+      timer = setInterval(tickPomodoro, 1000);
+    };
+    resetBtn.onclick = () => { clearInterval(timer); running = false; isWork = true; seconds = 25 * 60; phase.textContent = "جاهز للبدء"; startBtn.textContent = "ابدأ"; render(); };
+    render();
+  })();
 })();
 
 </script>
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { getDatabase, ref, push, set, get, onChildAdded, onValue, onDisconnect, query, limitToLast, update, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+import { getDatabase, ref, push, set, get, onChildAdded, onValue, onDisconnect, query, limitToLast, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
 const config = {
   apiKey: "AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek",
@@ -636,10 +1240,41 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const ADMIN_EMAIL = "s2shug@gmail.com";
 const googleProvider = new GoogleAuthProvider();
-let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false;
-let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null;
-let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map(), cardTitleSettings = {};
-let visitorRows = 0, visitorAdjustment = 0;
+function logAudit(action, details = "") { const user = auth.currentUser; if (!user) return; push(ref(db, "auditLog"), { by: user.email || user.uid || "غير معروف", action, details: details || "", time: Date.now() }).catch(() => {}); }
+let stopAdminFeedback = null, stopAdminRatings = null, stopOwnFeedback = [], knownReplies = new Map(), selectedRating = 0, adminExpanded = false, grantedAdmin = false, adminPermissions = {}, stopAuditLog = null, stopLiveAlerts = null;
+let stopAdminAllowlist = null, stopAdminRequests = null, stopAdminMembers = null, stopAdminSessions = null, adminSessionRef = null, stopAdminBanned = null, stopGrantWatch = null, stopPrintNumbers = null, stopBannedNumbers = null;
+let adminAllowlist = new Map(), adminRequests = new Map(), adminMembers = new Map(), adminBanned = new Map(), cardConfigSettings = {}, printNumbers = new Map(), bannedNumbers = new Set();
+const defaultCardHints = { attendance: "تابع تحضير أعضائك بدقة بالاسم والتفاصيل.", screenMonitor: "حدّد الجزء المطلوب من الشاشة لتنبيهات فورية.", notes: "ملاحظة سريعة، أو أنشئ/انضم لمجموعة.", pdf: "ارفع كتابك واستخرج النقاط المهمة واحفظها.", ideas: "شاركنا فكرتك أو رأيك بالأداة." };
+const defaultDotColors = { attendance: "#7c6bff", screenMonitor: "#ff5470", notes: "#7c6bff", pdf: "#7c6bff", ideas: "#b8790a" };
+function applyCardConfig(values = {}) {
+  cardConfigSettings = values || {};
+  Object.keys(defaultCardTitles).forEach(key => {
+    const cfg = cardConfigSettings[key] || {};
+    const titleNode = document.querySelector(`[data-card-key="${key}"]`);
+    if (titleNode) titleNode.textContent = cfg.title || defaultCardTitles[key];
+    const hintNode = document.querySelector(`[data-hint-key="${key}"]`);
+    if (hintNode) hintNode.textContent = cfg.hint || defaultCardHints[key];
+    const panelNode = document.querySelector(`[data-panel-key="${key}"]`);
+    if (panelNode) {
+      panelNode.hidden = cfg.visible === false;
+      const dot1 = cfg.dot1 || defaultDotColors[key] || "#7c6bff";
+      panelNode.style.setProperty("--panel-dot", cfg.twoTone && cfg.dot2 ? `linear-gradient(90deg, ${dot1} 50%, ${cfg.dot2} 50%)` : dot1);
+      panelNode.style.setProperty("--panel-dot-soft", dot1 + "26");
+    }
+  });
+  const key = $("card-title-key")?.value;
+  if (key) {
+    const cfg = cardConfigSettings[key] || {};
+    if ($("card-title-value")) $("card-title-value").value = cfg.title || defaultCardTitles[key] || "";
+    if ($("card-hint-value")) $("card-hint-value").value = cfg.hint || defaultCardHints[key] || "";
+    if ($("card-visible-toggle")) $("card-visible-toggle").checked = cfg.visible !== false;
+    if ($("card-dot-color1")) $("card-dot-color1").value = cfg.dot1 || defaultDotColors[key] || "#7c6bff";
+    if ($("card-dot-two-tone")) $("card-dot-two-tone").checked = Boolean(cfg.twoTone);
+    if ($("card-dot-color2-wrap")) $("card-dot-color2-wrap").hidden = !cfg.twoTone;
+    if ($("card-dot-color2")) $("card-dot-color2").value = cfg.dot2 || "#ff5470";
+  }
+}
+let visitorRows = 0, visitorAdjustment = 0, visitCountedThisLoad = false;
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let room = "", stop = null, recognition, listening = false, starting = false, languageIndex = 0, languageTimer = null, lastAlert = 0, latestVersion = "";
 const status = (id, text) => { $(id).textContent = text; };
@@ -647,20 +1282,50 @@ const nickname = () => { const value = $("alias").value.trim(); return value && 
 const isOwner = user => Boolean(user?.email && user.email.toLowerCase() === ADMIN_EMAIL);
 const isAdmin = user => isOwner(user) || grantedAdmin;
 const emailKey = email => btoa(unescape(encodeURIComponent(String(email || "").trim().toLowerCase()))).replace(/[+/=]/g, character => ({ "+": "-", "/": "_", "=": "" })[character]);
-const defaultCardTitles = { attendance: "متابعة التحضير بالاسم", screenMonitor: "⌖ مراقبة المنطقة المطلوبة", groups: "وضع المجموعة", notes: "ملاحظة سريعة", gpa: "حاسبة المعدل", pdf: "تظليل نقاط المحاضرة في PDF", ideas: "اقتراح أو فكرة", rating: "تقييم الأداة" };
-function applyCardTitles(values = {}) { cardTitleSettings = values || {}; Object.entries(defaultCardTitles).forEach(([key, title]) => { const node = document.querySelector(`[data-card-key="${key}"]`); if (node) node.textContent = String(cardTitleSettings[key] || title); }); const key = $("card-title-key")?.value; if (key) $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; }
+const defaultCardTitles = { attendance: "متابعة التحضير بالاسم", screenMonitor: "⌖ مراقبة المنطقة المطلوبة", notes: "ملاحظات ومجموعات", pdf: "تظليل نقاط المحاضرة في PDF", ideas: "اقتراح أو تقييم" };
+
 const adminRoute = new URLSearchParams(location.search).get("admin") === "1";
 const homeRoute = new URLSearchParams(location.search).get("home") === "1";
 const adminSessionId = sessionStorage.smartGuardianAdminSession || (sessionStorage.smartGuardianAdminSession = `session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`);
 function ensureVisitorUi() {
   const footer = document.querySelector(".footer-info"), copyright = footer?.querySelector(".copyright");
-  if (footer && copyright && !$("visitor-count")) { const item = document.createElement("p"); item.className = "visitor-counter"; item.innerHTML = 'المستخدمون: <strong id="visitor-count">0</strong>'; copyright.after(item); }
+  if (footer && copyright && !$("visitor-count")) { const item = document.createElement("p"); item.className = "visitor-counter"; item.innerHTML = 'الزيارات: <strong id="visitor-count">0</strong>'; copyright.after(item); }
   const titlePanel = $("admin-card-titles");
-  if (titlePanel && !$("admin-visitor-panel")) { const panel = document.createElement("details"); panel.id = "admin-visitor-panel"; panel.className = "admin-access-panel"; panel.hidden = true; panel.innerHTML = '<summary>إدارة عداد المستخدمين</summary><div class="admin-access-content"><p>العداد يعتمد على الأجهزة أو المتصفحات الفريدة التي زارت الأداة. اكتب الرقم الذي تريد ظهوره، مثل 0 للتصفير أو رقم أقل للتقليل.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div>'; titlePanel.before(panel); }
+  if (titlePanel && !$("admin-visitor-panel")) { const panel = document.createElement("details"); panel.id = "admin-visitor-panel"; panel.className = "admin-access-panel"; panel.hidden = true; panel.innerHTML = '<summary>إدارة عداد الزيارات</summary><div class="admin-access-content"><p>يُضاف رقم عند كل فتح أو تحديث للصفحة. يمكنك ضبط الرقم الظاهر دون حذف سجل الزيارات.</p><label>الرقم الظاهر<input id="visitor-count-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label><div class="admin-access-actions"><button id="save-visitor-count" type="button">حفظ الرقم</button></div><p id="visitor-count-status"></p></div>'; titlePanel.before(panel); }
+  const existingHelp = $("admin-visitor-panel")?.querySelector(".admin-access-content > p");
+  if (existingHelp) existingHelp.textContent = "يُضاف رقم عند كل فتح أو تحديث للصفحة. يمكنك ضبط الرقم الظاهر دون حذف سجل الزيارات.";
+  const existingSummary = $("admin-visitor-panel")?.querySelector("summary"); if (existingSummary) existingSummary.textContent = "إدارة عداد الزيارات";
 }
 function renderVisitorCount() { const total = Math.max(0, visitorRows + visitorAdjustment); if ($("visitor-count")) $("visitor-count").textContent = total.toLocaleString("ar-SA"); if ($("visitor-count-input") && document.activeElement !== $("visitor-count-input")) $("visitor-count-input").value = total; }
-async function registerVisitor(user) { if (!user?.uid) { try { await signInAnonymously(auth); } catch (_) {} return; } if (localStorage.smartGuardianVisitorCounted) return; try { await set(ref(db, `visitors/${user.uid}`), { firstSeen: Date.now() }); localStorage.smartGuardianVisitorCounted = "1"; } catch (_) {} }
+async function registerVisitor(user) {
+  if (!user?.uid) { try { await signInAnonymously(auth); } catch (_) {} return; }
+  if (visitCountedThisLoad) return; visitCountedThisLoad = true;
+  try {
+    await runTransaction(ref(db, "appSettings/viewCount"), current => Math.max(0, Number(current || 0)) + 1);
+    const uniqueRef = ref(db, `visitors/${user.uid}`), unique = await get(uniqueRef);
+    if (!unique.exists()) await set(uniqueRef, { firstSeen: Date.now() });
+  } catch (_) { visitCountedThisLoad = false; }
+}
 ensureVisitorUi();
+function ensurePrayerAdminUi() {
+  const anchor = $("admin-session-panel"); if (!anchor || $("admin-prayer-panel")) return;
+  const panel = document.createElement("details"); panel.id = "admin-prayer-panel"; panel.className = "admin-access-panel"; panel.hidden = true;
+  panel.innerHTML = '<summary>تنبيه الصلاة العام</summary><div class="admin-access-content"><p>تحكم عام لا يلغي اختيار المستخدم للصوت. التجربة تظهر مرة واحدة لكل جهاز مفتوح الآن.</p><label class="check"><input id="admin-prayer-enabled" type="checkbox" checked> السماح بتنبيهات الصلاة للمستخدمين</label><div class="admin-access-actions"><button id="save-admin-prayer" type="button">حفظ الحالة</button><button id="broadcast-prayer-test" type="button" class="secondary">إرسال تجربة للأجهزة المفتوحة</button></div><p id="admin-prayer-status" class="hint"></p></div>';
+  anchor.before(panel);
+  $("save-admin-prayer").onclick = async () => { if (!isOwner(auth.currentUser)) return; try { await set(ref(db, "appSettings/prayerAlertsEnabled"), $("admin-prayer-enabled").checked); logAudit("تعديل حالة تنبيهات الصلاة", $("admin-prayer-enabled").checked ? "مفعّلة" : "متوقفة"); status("admin-prayer-status", "تم حفظ الحالة."); } catch (_) { status("admin-prayer-status", "تعذر حفظ الحالة."); } };
+  $("broadcast-prayer-test").onclick = async () => { if (!isOwner(auth.currentUser)) return; try { await set(ref(db, "appSettings/prayerTestPulse"), Date.now()); logAudit("إرسال تجربة تنبيه الصلاة"); status("admin-prayer-status", "تم إرسال التجربة للأجهزة المفتوحة."); } catch (_) { status("admin-prayer-status", "تعذر إرسال التجربة."); } };
+}
+ensurePrayerAdminUi();
+function ensureSupervisorPermissionUi() {
+  const duration = $("supervisor-duration"), actions = $("save-supervisor-email")?.closest(".admin-access-actions");
+  if (!duration || !actions || $("supervisor-permissions")) return;
+  [["7776000000", "3 أشهر"], ["15552000000", "6 أشهر"], ["31536000000", "سنة"]].forEach(([value, text]) => { const option = document.createElement("option"); option.value = value; option.textContent = text; duration.append(option); });
+  const box = document.createElement("fieldset"); box.id = "supervisor-permissions"; box.className = "permission-box";
+  box.innerHTML = '<legend>صلاحيات المشرف عند التفعيل</legend><label class="check"><input id="perm-feedback" type="checkbox" checked> إدارة الاقتراحات والردود والحذف</label><label class="check"><input id="perm-ratings" type="checkbox" checked> عرض وإدارة التقييمات</label><label class="check"><input id="perm-live-alerts" type="checkbox"> عرض التنبيهات اللحظية</label>';
+  actions.before(box);
+}
+ensureSupervisorPermissionUi();
+const selectedSupervisorPermissions = () => ({ feedback: Boolean($("perm-feedback")?.checked), ratings: Boolean($("perm-ratings")?.checked), liveAlerts: Boolean($("perm-live-alerts")?.checked) });
 function notifyOwnerAboutUpdate() { const seen = localStorage.mobileAppVersion; if (latestVersion && seen && seen !== latestVersion && isOwner(auth.currentUser) && localStorage.smartGuardianUpdateTelegram !== latestVersion) { window.studyGuardianSendTelegram?.(`تم تنفيذ تحديث جديد للحارس الذكي — الإصدار ${latestVersion}.`); localStorage.smartGuardianUpdateTelegram = latestVersion; } }
 const customArabicBlocked = ["انت كلب", "يا مروح", "يا حيوان", "يا كلب", "يا عفن", "كل تبن", "كل زق", "انطم", "انقلع", "حيوان", "كلب", "عفن", "مروح", "تبن", "زق"];
 const normalizedForModeration = text => String(text || "").toLowerCase().replace(/[\u064B-\u065F\u0670]/g, "").replace(/[إأآ]/g, "ا").replace(/ى/g, "ي");
@@ -696,13 +1361,13 @@ function showAdminFeedback(id, data, announce = false) {
   const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : "";
   const response = document.createElement("textarea"); response.rows = 2; response.placeholder = "اكتب ردك على صاحب الاقتراح"; response.value = data.reply || ""; response.addEventListener("input", () => { const cleaned = cleanText(response.value); if (cleaned !== response.value) { response.value = cleaned; adminStatus("تمت إزالة عبارة غير لائقة من الرد."); } });
   const send = document.createElement("button"); send.type = "button"; send.textContent = "إرسال الرد";
-  send.onclick = async () => { const reply = response.value.trim(); if (!reply || !allowedText(reply, "admin-status")) return; send.disabled = true; try { await update(ref(db, `feedback/${id}`), { reply, repliedAt: Date.now() }); deleteReply.hidden = false; send.textContent = "تم حفظ الرد"; } catch (error) { send.textContent = "تعذر حفظ الرد"; } finally { send.disabled = false; } };
-  const deleteReply = document.createElement("button"); deleteReply.type = "button"; deleteReply.className = "delete-item"; deleteReply.textContent = "حذف الرد"; deleteReply.hidden = !data.reply; deleteReply.onclick = async () => { if (!confirm("حذف رد الإدارة فقط؟")) return; try { await update(ref(db, `feedback/${id}`), { reply: null, repliedAt: null }); response.value = ""; deleteReply.hidden = true; } catch (_) { adminStatus("تعذر حذف الرد."); } };
-  const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف"; del.onclick = async () => { if (!confirm("حذف هذا الاقتراح نهائيًا؟")) return; await remove(ref(db, `feedback/${id}`)); card.remove(); limitAdminItems(); };
+  send.onclick = async () => { const reply = response.value.trim(); if (!reply || !allowedText(reply, "admin-status")) return; send.disabled = true; try { await update(ref(db, `feedback/${id}`), { reply, repliedAt: Date.now() }); logAudit("الرد على اقتراح", id); deleteReply.hidden = false; send.textContent = "تم حفظ الرد"; } catch (error) { send.textContent = "تعذر حفظ الرد"; } finally { send.disabled = false; } };
+  const deleteReply = document.createElement("button"); deleteReply.type = "button"; deleteReply.className = "delete-item"; deleteReply.textContent = "حذف الرد"; deleteReply.hidden = !data.reply; deleteReply.onclick = async () => { if (!confirm("حذف رد الإدارة فقط؟")) return; try { await update(ref(db, `feedback/${id}`), { reply: null, repliedAt: null }); logAudit("حذف رد على اقتراح", id); response.value = ""; deleteReply.hidden = true; } catch (_) { adminStatus("تعذر حذف الرد."); } };
+  const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف"; del.onclick = async () => { if (!confirm("حذف هذا الاقتراح نهائيًا؟")) return; await remove(ref(db, `feedback/${id}`)); logAudit("حذف اقتراح", id); card.remove(); limitAdminItems(); };
   card.append(title, body, time, response, send, deleteReply, del); $("admin-feedback").prepend(card); limitAdminItems();
   if (announce) { addUnreadAdminFeedback(id); adminStatus("وصل اقتراح جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "اقتراح جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); }
 }
-function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "مستخدم"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
+function showAdminRating(id, data, announce = false) { if (moderate(`${data.author || ""} ${data.comment || ""}`)) { remove(ref(db, `ratings/${id}`)).catch(() => {}); return; } const empty = $("admin-feedback").querySelector(".hint"); if (empty) empty.remove(); const card = document.createElement("article"); card.className = "feedback-card rating-admin-card"; const title = document.createElement("strong"); title.textContent = `تقييم ${"★".repeat(Math.max(1, Math.min(5, Number(data.score) || 1)))} — ${data.author || "مستخدم"}`; const body = document.createElement("p"); body.textContent = data.comment || "تم إرسال تقييم بدون تعليق."; const time = document.createElement("small"); time.textContent = data.createdAt ? new Date(data.createdAt).toLocaleString("ar-SA") : ""; const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف التقييم"; del.onclick = async () => { if (!confirm("حذف هذا التقييم؟")) return; await remove(ref(db, `ratings/${id}`)); logAudit("حذف تقييم", id); card.remove(); limitAdminItems(); }; card.append(title, body, time, del); $("admin-feedback").prepend(card); limitAdminItems(); if (announce) { adminStatus("وصل تقييم جديد الآن."); const toast = document.createElement("div"); toast.className = "admin-toast"; toast.textContent = "وصل تقييم جديد"; document.body.append(toast); setTimeout(() => toast.remove(), 6000); } }
 async function subscribeAdminFeedback() {
   stopAdminFeedback?.(); adminExpanded = false; $("admin-feedback").replaceChildren();
   const source = query(ref(db, "feedback"), limitToLast(50)), existing = new Set(), startedAt = Date.now();
@@ -720,23 +1385,333 @@ function subscribeOwnFeedback(user) {
 }
 function accessExpiry(item) { const expiry = Number(item?.expiresAt || 0); return expiry ? `مؤقتة حتى ${new Date(expiry).toLocaleString("ar-SA")}` : "دائمة"; }
 function accessRow(email, note, label, action) { const row = document.createElement("article"), info = document.createElement("div"), title = document.createElement("strong"), small = document.createElement("small"), button = document.createElement("button"); row.className = "admin-access-row"; title.textContent = email || "حساب غير معروف"; small.textContent = note; info.append(title, small); button.type = "button"; button.textContent = label; button.onclick = action; row.append(info, button); return row; }
-function renderAdminAccess() { const requests = $("admin-requests"), members = $("admin-members"); if (!requests || !members) return; requests.replaceChildren(); members.replaceChildren(); const pending = [...adminRequests.entries()].sort((a, b) => Number(b[1].requestedAt || 0) - Number(a[1].requestedAt || 0)); if (!pending.length) requests.innerHTML = '<p class="hint">لا توجد طلبات حاليًا.</p>'; pending.forEach(([uid, request]) => { const policy = adminAllowlist.get(emailKey(request.email)); const text = policy ? `البريد محفوظ — الصلاحية عند التفعيل: ${Number(policy.duration || 0) ? "مؤقتة" : "دائمة"}.` : "غير موجود في قائمة المشرفين الموثوقين."; requests.append(accessRow(request.email, text, policy ? "تفعيل" : "تجاهل", async () => { if (!policy) return remove(ref(db, `adminRequests/${uid}`)); const duration = Number(policy.duration || 0), now = Date.now(); await set(ref(db, `admins/${uid}`), { email: request.email, displayName: request.displayName || "", active: true, grantedAt: now, expiresAt: duration ? now + duration : 0 }); await remove(ref(db, `adminRequests/${uid}`)); status("supervisor-status", "تم تفعيل المشرف بنجاح."); })); }); const active = [...adminMembers.entries()].filter(([, item]) => item?.active && (!item.expiresAt || Number(item.expiresAt) > Date.now())); if (!active.length) members.innerHTML = '<p class="hint">لا يوجد مشرفون إضافيون.</p>'; active.forEach(([uid, member]) => members.append(accessRow(member.email, accessExpiry(member), "إلغاء الصلاحية", async () => { if (!confirm(`إلغاء صلاحية ${member.email}؟`)) return; await remove(ref(db, `admins/${uid}`)); status("supervisor-status", "تم إلغاء صلاحية المشرف."); })));
+function multiActionRow(email, note, actions) { const row = document.createElement("article"), info = document.createElement("div"), title = document.createElement("strong"), small = document.createElement("small"), actionsWrap = document.createElement("div"); row.className = "admin-access-row"; row.style.alignItems = "flex-start"; title.textContent = email || "حساب غير معروف"; small.textContent = note; info.append(title, small); actionsWrap.className = "admin-access-actions"; actionsWrap.style.margin = "0"; actions.forEach(a => { const b = document.createElement("button"); b.type = "button"; b.textContent = a.label; if (a.className) b.className = a.className; b.onclick = a.action; actionsWrap.append(b); }); row.append(info, actionsWrap); return row; }
+function supervisorPermissionEditor(uid, member) {
+  const permissions = member.permissions || { feedback: true, ratings: true, liveAlerts: false }, box = document.createElement("div"); box.className = "supervisor-permission-editor";
+  const items = [["feedback", "الاقتراحات والردود"], ["ratings", "التقييمات"], ["liveAlerts", "التنبيهات اللحظية"]];
+  items.forEach(([key, label]) => { const row = document.createElement("label"), input = document.createElement("input"); row.className = "check"; input.type = "checkbox"; input.dataset.permission = key; input.checked = permissions[key] === true; row.append(input, " " + label); box.append(row); });
+  const save = document.createElement("button"); save.type = "button"; save.className = "secondary"; save.textContent = "حفظ صلاحيات المشرف"; save.onclick = async () => { const next = {}; box.querySelectorAll("[data-permission]").forEach(input => { next[input.dataset.permission] = input.checked; }); await update(ref(db, `admins/${uid}`), { permissions: next }); logAudit("تعديل صلاحيات مشرف", member.email); status("supervisor-status", "تم تحديث صلاحيات المشرف مباشرة."); }; box.append(save); return box;
+}
+function renderAdminAccess() { const requests = $("admin-requests"), members = $("admin-members"), banned = $("admin-banned"); if (!requests || !members) return; requests.replaceChildren(); members.replaceChildren(); const pending = [...adminRequests.entries()].sort((a, b) => Number(b[1].requestedAt || 0) - Number(a[1].requestedAt || 0)); if (!pending.length) requests.innerHTML = '<p class="hint">لا توجد طلبات حاليًا.</p>'; pending.forEach(([uid, request]) => { const policy = adminAllowlist.get(emailKey(request.email)); const bannedNow = adminBanned.has(emailKey(request.email)); const text = bannedNow ? "هذا البريد مشطوب نهائيًا — لن يُفعَّل." : (policy ? `البريد محفوظ — الصلاحية عند التفعيل: ${Number(policy.duration || 0) ? "مؤقتة" : "دائمة"}.` : "غير موجود في قائمة المشرفين الموثوقين."); requests.append(accessRow(request.email, text, (policy && !bannedNow) ? "تفعيل" : "تجاهل", async () => { if (bannedNow || !policy) return remove(ref(db, `adminRequests/${uid}`)); const duration = Number(policy.duration || 0), now = Date.now(); await set(ref(db, `admins/${uid}`), { email: request.email, displayName: request.displayName || "", active: true, grantedAt: now, expiresAt: duration ? now + duration : 0 }); await remove(ref(db, `adminRequests/${uid}`)); logAudit("تفعيل صلاحية مشرف", request.email); status("supervisor-status", "تم تفعيل المشرف بنجاح."); })); });
+  const active = [...adminMembers.entries()].filter(([, item]) => item?.active && (!item.expiresAt || Number(item.expiresAt) > Date.now()));
+  if (!active.length) members.innerHTML = '<p class="hint">لا يوجد مشرفون إضافيون.</p>';
+  active.forEach(([uid, member]) => {
+    const extend = { label: "+٢٤ ساعة", className: "secondary", action: async () => { const base = Math.max(Date.now(), Number(member.expiresAt || 0)); await update(ref(db, `admins/${uid}`), { expiresAt: base + 86400000 }); logAudit("تمديد صلاحية مشرف 24 ساعة", member.email); status("supervisor-status", "تم تمديد الصلاحية 24 ساعة."); } };
+    const revoke = { label: "إلغاء الصلاحية", className: "secondary", action: async () => { if (!confirm(`إلغاء صلاحية ${member.email}؟`)) return; await remove(ref(db, `admins/${uid}`)); logAudit("إلغاء صلاحية مشرف", member.email); status("supervisor-status", "تم إلغاء صلاحية المشرف فورًا — إن كان بجلسة مفتوحة الآن سيُخرَج تلقائيًا."); } };
+    const ban = { label: "شطب نهائي", className: "delete-item", action: async () => { if (!confirm(`شطب ${member.email} نهائيًا؟ لن يقدر يطلب صلاحية مرة ثانية إلا إذا رفعت الحظر يدويًا.`)) return; await remove(ref(db, `admins/${uid}`)); await set(ref(db, `adminAllowlist/${emailKey(member.email)}`), null); await set(ref(db, `bannedEmails/${emailKey(member.email)}`), { email: member.email, bannedAt: Date.now() }); logAudit("شطب نهائي لمشرف", member.email); status("supervisor-status", "تم شطب هذا البريد نهائيًا."); } };
+    const actions = member.expiresAt ? [extend, revoke, ban] : [revoke, ban];
+    members.append(multiActionRow(member.email, accessExpiry(member), actions), supervisorPermissionEditor(uid, member));
+  });
+  if (banned) {
+    banned.replaceChildren();
+    const bannedList = [...adminBanned.entries()];
+    if (!bannedList.length) banned.innerHTML = '<p class="hint">لا يوجد بريد مشطوب.</p>';
+    bannedList.forEach(([key, entry]) => banned.append(accessRow(entry.email, `مشطوب منذ ${entry.bannedAt ? new Date(entry.bannedAt).toLocaleString("ar-SA") : ""}`, "رفع الحظر", async () => { if (!confirm(`رفع الحظر عن ${entry.email}؟`)) return; await remove(ref(db, `bannedEmails/${key}`)); logAudit("رفع حظر نهائي", entry.email); status("supervisor-status", "تم رفع الحظر."); })));
+  }
 }
 function stopAdminPresence() { stopAdminSessions?.(); stopAdminSessions = null; if (adminSessionRef) { remove(adminSessionRef).catch(() => {}); adminSessionRef = null; } const indicator = $("admin-device-status"); indicator.hidden = true; indicator.textContent = ""; }
 async function startAdminPresence(user) { stopAdminPresence(); if (!user?.uid) return; adminSessionRef = ref(db, `adminSessions/${user.uid}/${adminSessionId}`); try { await set(adminSessionRef, { startedAt: Date.now(), lastSeen: Date.now() }); await onDisconnect(adminSessionRef).remove(); stopAdminSessions = onValue(ref(db, `adminSessions/${user.uid}`), snapshot => { const sessions = Object.values(snapshot.val() || {}).filter(item => Number(item?.lastSeen || 0) > Date.now() - 120000); const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = sessions.length > 1 ? `● الحساب الإداري مفتوح الآن من ${sessions.length} أجهزة.` : "● لا يوجد جهاز إداري آخر متصل الآن."; }); } catch (_) { const indicator = $("admin-device-status"); indicator.hidden = false; indicator.textContent = "تعذر التحقق من الأجهزة المتصلة."; } }
-function stopAdminAccess() { stopAdminAllowlist?.(); stopAdminRequests?.(); stopAdminMembers?.(); stopAdminAllowlist = stopAdminRequests = stopAdminMembers = null; adminAllowlist = new Map(); adminRequests = new Map(); adminMembers = new Map(); }
-function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValue(ref(db, "adminAllowlist"), snapshot => { adminAllowlist = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminRequests = onValue(ref(db, "adminRequests"), snapshot => { adminRequests = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminMembers = onValue(ref(db, "admins"), snapshot => { adminMembers = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); }
-async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
-$("save-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return status("supervisor-status", "اكتب بريدًا صحيحًا للمشرف."); try { await set(ref(db, `adminAllowlist/${emailKey(email)}`), { email, duration: Number($("supervisor-duration").value || 0), savedAt: Date.now() }); status("supervisor-status", "تم حفظ البريد. يطلب المشرف الدخول بحسابه Google مرة واحدة ثم فعّله من الطلبات."); } catch (_) { status("supervisor-status", "تعذر حفظ بريد المشرف."); } };
-$("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
-$("card-title-key").onchange = () => { const key = $("card-title-key").value; $("card-title-value").value = cardTitleSettings[key] || defaultCardTitles[key] || ""; };
-$("save-card-title").onclick = async () => { const key = $("card-title-key").value, title = $("card-title-value").value.trim(); if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); if (!title) return status("card-title-status", "اكتب اسمًا للمربع أولًا."); try { await set(ref(db, `appSettings/cardTitles/${key}`), title); status("card-title-status", "تم حفظ الاسم ويظهر للمستخدمين مباشرة."); } catch (_) { status("card-title-status", "تعذر حفظ الاسم."); } };
-$("reset-card-title").onclick = async () => { const key = $("card-title-key").value; if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); try { await remove(ref(db, `appSettings/cardTitles/${key}`)); status("card-title-status", "تمت استعادة الاسم الأصلي."); } catch (_) { status("card-title-status", "تعذر استعادة الاسم."); } };
-onValue(ref(db, "appSettings/cardTitles"), snapshot => applyCardTitles(snapshot.val() || {}));
-onValue(ref(db, "visitors"), snapshot => { visitorRows = snapshot.size; renderVisitorCount(); });
+function stopAdminAccess() { stopAdminAllowlist?.(); stopAdminRequests?.(); stopAdminMembers?.(); stopAdminBanned?.(); stopAdminAllowlist = stopAdminRequests = stopAdminMembers = stopAdminBanned = null; adminAllowlist = new Map(); adminRequests = new Map(); adminMembers = new Map(); adminBanned = new Map(); }
+function subscribeAdminAccess() { stopAdminAccess(); stopAdminAllowlist = onValue(ref(db, "adminAllowlist"), snapshot => { adminAllowlist = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminRequests = onValue(ref(db, "adminRequests"), snapshot => { adminRequests = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminMembers = onValue(ref(db, "admins"), snapshot => { adminMembers = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); stopAdminBanned = onValue(ref(db, "bannedEmails"), snapshot => { adminBanned = new Map(Object.entries(snapshot.val() || {})); renderAdminAccess(); }); }
+function watchOwnGrant(user) {
+  stopGrantWatch?.();
+  if (!user || isOwner(user)) return;
+  stopGrantWatch = onValue(ref(db, `admins/${user.uid}`), snapshot => {
+    const grant = snapshot.val();
+    const stillActive = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now()));
+    if (stillActive) adminPermissions = grant.permissions || { feedback: true, ratings: true, liveAlerts: false };
+    if (stillActive && adminPermissions.liveAlerts) subscribeLiveAlerts(); else if (!isOwner(user)) stopLiveAlertsFeed();
+    if (!stillActive && grantedAdmin) { grantedAdmin = false; adminLoginMessage("انتهت صلاحيتك كمشرف — تم إخراجك من لوحة الإدارة."); syncAdminSession(user); }
+  });
+}
+function stopGrantWatchFeed() { stopGrantWatch?.(); stopGrantWatch = null; }
+async function requestAdminAccess(user) { if (!user?.uid || !user?.email || isOwner(user)) return; if (adminBanned.has(emailKey(user.email))) return; const snap = await get(ref(db, `bannedEmails/${emailKey(user.email)}`)).catch(() => null); if (snap?.exists()) return; await set(ref(db, `adminRequests/${user.uid}`), { email: user.email.toLowerCase(), displayName: user.displayName || "", requestedAt: Date.now() }); }
+$("save-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return status("supervisor-status", "اكتب بريدًا صحيحًا للمشرف."); try { await set(ref(db, `adminAllowlist/${emailKey(email)}`), { email, duration: Number($("supervisor-duration").value || 0), savedAt: Date.now() }); logAudit("إضافة/تحديث بريد مشرف موثوق", email); status("supervisor-status", "تم حفظ البريد. يطلب المشرف الدخول بحسابه Google مرة واحدة ثم فعّله من الطلبات."); } catch (_) { status("supervisor-status", "تعذر حفظ بريد المشرف."); } };
+$("remove-supervisor-email").onclick = async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!email) return status("supervisor-status", "اكتب البريد الذي تريد إزالته."); try { await remove(ref(db, `adminAllowlist/${emailKey(email)}`)); logAudit("إزالة بريد من قائمة المشرفين الموثوقين", email); status("supervisor-status", "تمت إزالة البريد من قائمة المشرفين الموثوقين."); } catch (_) { status("supervisor-status", "تعذر إزالة البريد."); } };
+$("save-supervisor-email").addEventListener("click", async () => { const email = $("supervisor-email").value.trim().toLowerCase(); if (!isOwner(auth.currentUser) || !/^\S+@\S+\.\S+$/.test(email)) return; try { await set(ref(db, `adminPermissionPresets/${emailKey(email)}`), selectedSupervisorPermissions()); } catch (_) {} });
+onChildAdded(ref(db, "admins"), async snapshot => { if (!isOwner(auth.currentUser)) return; const member = snapshot.val(); if (!member?.email || member.permissions) return; try { const preset = await get(ref(db, `adminPermissionPresets/${emailKey(member.email)}`)); await update(ref(db, `admins/${snapshot.key}`), { permissions: preset.val() || { feedback: true, ratings: true, liveAlerts: false } }); } catch (_) {} });
+$("card-title-key").onchange = () => applyCardConfig(cardConfigSettings);
+$("card-dot-two-tone").onchange = () => { $("card-dot-color2-wrap").hidden = !$("card-dot-two-tone").checked; };
+$("save-card-title").onclick = async () => {
+  const key = $("card-title-key").value, title = $("card-title-value").value.trim();
+  if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط.");
+  if (!title) return status("card-title-status", "اكتب اسمًا للمربع أولًا.");
+  const cfg = {
+    title,
+    hint: $("card-hint-value").value.trim() || defaultCardHints[key] || "",
+    visible: $("card-visible-toggle").checked,
+    dot1: $("card-dot-color1").value,
+    twoTone: $("card-dot-two-tone").checked,
+    dot2: $("card-dot-color2").value
+  };
+  try { await set(ref(db, `appSettings/cardConfig/${key}`), cfg); logAudit("تعديل إعدادات مربع", key); status("card-title-status", "تم حفظ كل التعديلات وتظهر للمستخدمين مباشرة."); } catch (_) { status("card-title-status", "تعذر حفظ التعديلات."); }
+};
+$("reset-card-title").onclick = async () => { const key = $("card-title-key").value; if (!isOwner(auth.currentUser)) return status("card-title-status", "هذه الصلاحية لمالك الأداة فقط."); try { await remove(ref(db, `appSettings/cardConfig/${key}`)); logAudit("استعادة إعدادات مربع افتراضية", key); status("card-title-status", "تمت الاستعادة للوضع الافتراضي."); } catch (_) { status("card-title-status", "تعذر الاستعادة."); } };
+onValue(ref(db, "appSettings/cardConfig"), snapshot => applyCardConfig(snapshot.val() || {}));
+onValue(ref(db, "appSettings/viewCount"), snapshot => { visitorRows = Math.max(0, Number(snapshot.val() || 0)); renderVisitorCount(); });
 onValue(ref(db, "appSettings/visitorAdjustment"), snapshot => { visitorAdjustment = Number(snapshot.val() || 0); renderVisitorCount(); });
-$("save-visitor-count").onclick = async () => { if (!isOwner(auth.currentUser)) return status("visitor-count-status", "هذه الصلاحية لمالك الأداة فقط."); const target = Math.max(0, Math.floor(Number($("visitor-count-input").value || 0)); try { await set(ref(db, "appSettings/visitorAdjustment"), target - visitorRows); status("visitor-count-status", "تم حفظ الرقم الظاهر للمستخدمين."); } catch (_) { status("visitor-count-status", "تعذر حفظ الرقم."); } };
+const prayerListenerStartedAt = Date.now();
+onValue(ref(db, "appSettings/prayerAlertsEnabled"), snapshot => { const enabled = snapshot.val() !== false; window.prayerAlertsGloballyEnabled = enabled; if ($("admin-prayer-enabled")) $("admin-prayer-enabled").checked = enabled; });
+onValue(ref(db, "appSettings/prayerTestPulse"), snapshot => { const pulse = Number(snapshot.val() || 0); if (pulse > prayerListenerStartedAt && sessionStorage.sgPrayerTestPulse !== String(pulse)) { sessionStorage.sgPrayerTestPulse = String(pulse); showPrayerToast("تجربة تنبيه الصلاة من إدارة الحارس الذكي."); } });
+$("save-visitor-count").onclick = async () => { if (!isOwner(auth.currentUser)) return status("visitor-count-status", "هذه الصلاحية لمالك الأداة فقط."); const target = Math.max(0, Math.floor(Number($("visitor-count-input").value || 0))); try { await set(ref(db, "appSettings/visitorAdjustment"), target - visitorRows); logAudit("تعديل عداد الزوار الظاهر", String(target)); status("visitor-count-status", "تم حفظ الرقم الظاهر للمستخدمين."); } catch (_) { status("visitor-count-status", "تعذر حفظ الرقم."); } };
+const alertLabels = { name: "🔔 تنبيه اسم", screen: "🖥 تنبيه تغيّر شاشة" };
+function subscribeLiveAlerts() {
+  stopLiveAlerts?.();
+  const list = $("live-alerts-list");
+  if (!list) return;
+  stopLiveAlerts = onValue(query(ref(db, "liveAlerts"), limitToLast(30)), snapshot => {
+    const entries = [];
+    snapshot.forEach(item => entries.push(item.val()));
+    entries.reverse();
+    if (!entries.length) { list.innerHTML = '<p class="hint">لا توجد تنبيهات بعد.</p>'; return; }
+    list.replaceChildren();
+    entries.forEach(entry => {
+      const row = document.createElement("div");
+      row.className = "admin-access-row";
+      const when = entry.time ? new Date(entry.time).toLocaleString("ar-SA") : "";
+      row.innerHTML = `<div><strong></strong><small></small></div>`;
+      row.querySelector("strong").textContent = alertLabels[entry.type] || "تنبيه";
+      row.querySelector("small").textContent = when;
+      list.append(row);
+    });
+  });
+}
+function stopLiveAlertsFeed() { stopLiveAlerts?.(); stopLiveAlerts = null; }
+window.smartGuardianReportAlert = type => { try { push(ref(db, "liveAlerts"), { type, time: Date.now() }); } catch (_) {} };
+function subscribeAuditLog() {
+  stopAuditLog?.();
+  const list = $("audit-log-list");
+  if (!list) return;
+  stopAuditLog = onValue(query(ref(db, "auditLog"), limitToLast(30)), snapshot => {
+    const entries = [];
+    snapshot.forEach(item => entries.push(item.val()));
+    entries.reverse();
+    if (!entries.length) { list.innerHTML = '<p class="hint">لا يوجد نشاط بعد.</p>'; return; }
+    list.replaceChildren();
+    entries.forEach(entry => {
+      const row = document.createElement("div");
+      row.className = "admin-access-row";
+      const when = entry.time ? new Date(entry.time).toLocaleString("ar-SA") : "";
+      row.innerHTML = `<div><strong></strong><small></small></div>`;
+      row.querySelector("strong").textContent = entry.action || "عملية";
+      row.querySelector("small").textContent = `${entry.by || ""}${entry.details ? " — " + entry.details : ""} · ${when}`;
+      list.append(row);
+    });
+  });
+}
+function stopAuditLogFeed() { stopAuditLog?.(); stopAuditLog = null; }
+onValue(ref(db, "appSettings/panicMode"), snapshot => {
+  const active = Boolean(snapshot.val());
+  document.body.classList.toggle("panic-lock", active);
+  const banner = $("panic-banner"); if (banner) banner.hidden = !active;
+  const btn = $("panic-toggle"); if (btn) btn.textContent = active ? "إلغاء وضع الطوارئ" : "تفعيل وضع الطوارئ";
+});
+if ($("panic-toggle")) $("panic-toggle").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  try {
+    const snapshot = await get(ref(db, "appSettings/panicMode"));
+    const next = !snapshot.val();
+    await set(ref(db, "appSettings/panicMode"), next);
+    logAudit(next ? "تفعيل وضع الطوارئ" : "إلغاء وضع الطوارئ");
+    status("panic-status", next ? "تم تفعيل وضع الطوارئ — الواجهة مخفية عن المستخدمين الآن." : "تم إلغاء وضع الطوارئ.");
+  } catch (_) { status("panic-status", "تعذر تغيير الحالة."); }
+};
 function adminLoginMessage(text) { $("admin-login-status").textContent = text; }
+
+let autoLogoutMinutes = 15, autoLogoutTimer = null;
+onValue(ref(db, "appSettings/adminAutoLogoutMinutes"), snapshot => {
+  autoLogoutMinutes = Number(snapshot.val()) || 15;
+  if ($("admin-session-minutes")) $("admin-session-minutes").value = autoLogoutMinutes;
+});
+function resetAutoLogoutTimer() {
+  clearTimeout(autoLogoutTimer);
+  autoLogoutTimer = setTimeout(() => { signOut(auth); }, autoLogoutMinutes * 60000);
+}
+function startAutoLogoutTimer() {
+  stopAutoLogoutTimer();
+  resetAutoLogoutTimer();
+  ["click", "keydown", "mousemove", "touchstart"].forEach(evt => document.addEventListener(evt, resetAutoLogoutTimer));
+}
+function stopAutoLogoutTimer() {
+  clearTimeout(autoLogoutTimer); autoLogoutTimer = null;
+  ["click", "keydown", "mousemove", "touchstart"].forEach(evt => document.removeEventListener(evt, resetAutoLogoutTimer));
+}
+if ($("save-session-minutes")) $("save-session-minutes").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  const minutes = Math.max(1, Math.min(180, Number($("admin-session-minutes").value || 15)));
+  try {
+    await set(ref(db, "appSettings/adminAutoLogoutMinutes"), minutes);
+    logAudit("تعديل مدة الخروج التلقائي", String(minutes));
+    status("admin-session-status", "تم الحفظ — يطبَّق فورًا.");
+    resetAutoLogoutTimer();
+  } catch (_) { status("admin-session-status", "تعذر الحفظ."); }
+};
+
+(function adScreen() {
+  const screenEl = $("ad-screen"), stackEl = $("ad-slides-stack");
+  if (!screenEl) return;
+  let slides = [], rotatingIndex = 0, timer = null, paused = false;
+  function slideBlock(s) {
+    const div = document.createElement("div"); div.className = "ad-slide-item";
+    div.innerHTML = `<div class="ad-slide-media">${s.type === "video" ? `<video src="${s.url}" autoplay muted loop playsinline></video>` : `<img src="${s.url}" alt="">`}</div>${s.caption ? `<p class="ad-slide-caption">${s.caption}</p>` : ""}`;
+    return div;
+  }
+  function renderSlide() {
+    const pinned = slides.filter(s => s.pinned);
+    const rotating = slides.filter(s => !s.pinned);
+    if (!pinned.length && !rotating.length) { screenEl.hidden = true; return; }
+    screenEl.hidden = false;
+    stackEl.replaceChildren();
+    pinned.forEach(s => stackEl.append(slideBlock(s)));
+    if (rotating.length) {
+      if (rotatingIndex >= rotating.length) rotatingIndex = 0;
+      stackEl.append(slideBlock(rotating[rotatingIndex]));
+      clearTimeout(timer);
+      if (!paused && rotating.length > 1) {
+        timer = setTimeout(() => { rotatingIndex = (rotatingIndex + 1) % rotating.length; renderSlide(); }, Math.max(3, Number(rotating[rotatingIndex].duration || 6)) * 1000);
+      }
+    }
+    window.smartGuardianSyncChrome?.();
+  }
+  onValue(ref(db, "appSettings/adSlidesPaused"), snapshot => { paused = Boolean(snapshot.val()); renderSlide(); });
+  onValue(ref(db, "appSettings/adSlides"), snapshot => {
+    const val = snapshot.val() || {};
+    slides = Object.entries(val).map(([id, s]) => ({ id, ...s })).sort((a, b) => (a.order || 0) - (b.order || 0));
+    rotatingIndex = 0; clearTimeout(timer);
+    renderSlide();
+    renderAdAdminList();
+  });
+})();
+
+let editingAdSlideId = null;
+function renderAdAdminList() {
+  const list = $("ad-slides-list");
+  if (!list) return;
+  get(ref(db, "appSettings/adSlides")).then(snapshot => {
+    const val = snapshot.val() || {};
+    const entries = Object.entries(val);
+    list.replaceChildren();
+    if (!entries.length) { list.innerHTML = '<p class="hint">لا توجد شرائح مضافة.</p>'; return; }
+    entries.forEach(([id, s]) => {
+      const row = document.createElement("div"); row.className = "admin-access-row";
+      row.innerHTML = `<div><strong>${s.type === "video" ? "🎬 فيديو" : "🖼 صورة"}${s.pinned ? " · مثبّتة" : ` · ${s.duration || 6} ث`}</strong><small>${s.caption || ""}</small></div>`;
+      const actions = document.createElement("div"); actions.className = "admin-access-actions";
+      const edit = document.createElement("button"); edit.type = "button"; edit.className = "secondary"; edit.textContent = "تعديل";
+      edit.onclick = () => {
+        editingAdSlideId = id;
+        $("ad-slide-url").value = s.url || ""; $("ad-slide-type").value = s.type || "image";
+        $("ad-slide-duration").value = s.duration || 6; $("ad-slide-caption-input").value = s.caption || "";
+        $("ad-slide-pinned").checked = Boolean(s.pinned);
+        $("add-ad-slide").textContent = "حفظ التعديل"; $("cancel-ad-edit").hidden = false;
+        status("ad-slide-status", "تعدّل شريحة موجودة — اضغط «حفظ التعديل».");
+      };
+      const del = document.createElement("button"); del.type = "button"; del.className = "delete-item"; del.textContent = "حذف";
+      del.onclick = async () => { await remove(ref(db, `appSettings/adSlides/${id}`)); logAudit("حذف شريحة إعلان"); renderAdAdminList(); };
+      actions.append(edit, del); row.append(actions); list.append(row);
+    });
+  }).catch(() => {});
+}
+function resetAdSlideForm() {
+  editingAdSlideId = null;
+  $("ad-slide-url").value = ""; $("ad-slide-caption-input").value = ""; $("ad-slide-pinned").checked = false; $("ad-slide-duration").value = 6;
+  $("add-ad-slide").textContent = "إضافة الشريحة"; $("cancel-ad-edit").hidden = true;
+}
+if ($("cancel-ad-edit")) $("cancel-ad-edit").onclick = () => { resetAdSlideForm(); status("ad-slide-status", ""); };
+if ($("ad-slides-paused")) {
+  onValue(ref(db, "appSettings/adSlidesPaused"), snapshot => { $("ad-slides-paused").checked = Boolean(snapshot.val()); });
+  $("ad-slides-paused").onchange = async () => { if (!isOwner(auth.currentUser)) return; try { await set(ref(db, "appSettings/adSlidesPaused"), $("ad-slides-paused").checked); logAudit($("ad-slides-paused").checked ? "إيقاف تدوير الإعلانات" : "تفعيل تدوير الإعلانات"); } catch (_) {} };
+}
+if ($("add-ad-slide")) $("add-ad-slide").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  const url = $("ad-slide-url").value.trim(), type = $("ad-slide-type").value, duration = Number($("ad-slide-duration").value || 6), caption = $("ad-slide-caption-input").value.trim(), pinned = $("ad-slide-pinned").checked;
+  if (!/^https?:\/\//i.test(url)) return status("ad-slide-status", "الصق رابط صورة أو فيديو صحيح يبدأ بـ https://");
+  try {
+    if (editingAdSlideId) {
+      await set(ref(db, `appSettings/adSlides/${editingAdSlideId}`), { url, type, duration, caption, pinned, order: Date.now() });
+      logAudit("تعديل شريحة إعلان", url);
+      status("ad-slide-status", "تم حفظ التعديل.");
+    } else {
+      await push(ref(db, "appSettings/adSlides"), { url, type, duration, caption, pinned, order: Date.now() });
+      logAudit("إضافة شريحة إعلان", url);
+      status("ad-slide-status", "تمت إضافة الشريحة.");
+    }
+    resetAdSlideForm();
+  } catch (_) { status("ad-slide-status", "تعذر حفظ الشريحة."); }
+};
+
+function normalizePrintNumber(n) { return String(n || "").replace(/[^\d]/g, ""); }
+function renderPrintDatalist() {
+  const dl = $("wa-print-numbers"); if (!dl) return;
+  dl.replaceChildren();
+  [...printNumbers.values()].forEach(item => { const opt = document.createElement("option"); opt.value = item.number; opt.label = item.label; dl.append(opt); });
+}
+function renderPrintAdmin() {
+  const list = $("print-numbers-list");
+  if (list) {
+    const entries = [...printNumbers.entries()];
+    list.replaceChildren();
+    if (!entries.length) list.innerHTML = '<p class="hint">لا توجد أرقام مضافة.</p>';
+    entries.forEach(([id, item]) => list.append(accessRow(item.number, item.label || "", "حذف", async () => { await remove(ref(db, `printNumbers/${id}`)); logAudit("حذف رقم طباعة مقترح", `${item.label || ""} ${item.number}`); })));
+  }
+  const banned = $("banned-numbers-list");
+  if (banned) {
+    const entries = [...bannedNumbers];
+    banned.replaceChildren();
+    if (!entries.length) banned.innerHTML = '<p class="hint">لا يوجد رقم محظور.</p>';
+    entries.forEach(num => banned.append(accessRow(num, "محظور من إرسال الطباعة", "رفع الحظر", async () => { await remove(ref(db, `bannedPrintNumbers/${num}`)); logAudit("رفع حظر رقم طباعة", num); })));
+  }
+}
+function subscribePrintNumbers() {
+  stopPrintNumbers?.(); stopBannedNumbers?.();
+  stopPrintNumbers = onValue(ref(db, "printNumbers"), snapshot => { printNumbers = new Map(Object.entries(snapshot.val() || {})); renderPrintDatalist(); renderPrintAdmin(); });
+  stopBannedNumbers = onValue(ref(db, "bannedPrintNumbers"), snapshot => { bannedNumbers = new Set(Object.keys(snapshot.val() || {})); renderPrintAdmin(); });
+}
+subscribePrintNumbers();
+onValue(ref(db, "appSettings/waPrintEnabled"), snapshot => {
+  const enabled = snapshot.val() !== false;
+  document.querySelectorAll(".wa-print").forEach(el => el.hidden = !enabled);
+  const btn = $("wa-feature-toggle"); if (btn) btn.textContent = enabled ? "تعطيل الميزة" : "تفعيل الميزة";
+});
+if ($("wa-feature-toggle")) $("wa-feature-toggle").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  try {
+    const snapshot = await get(ref(db, "appSettings/waPrintEnabled"));
+    const next = snapshot.val() === false;
+    await set(ref(db, "appSettings/waPrintEnabled"), next);
+    logAudit(next ? "تفعيل ميزة الطباعة عبر واتساب" : "تعطيل ميزة الطباعة عبر واتساب");
+  } catch (_) {}
+};
+if ($("add-print-number")) $("add-print-number").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  const label = $("print-number-label").value.trim(), number = normalizePrintNumber($("print-number-value").value);
+  if (!label || number.length < 8) return;
+  await push(ref(db, "printNumbers"), { label, number });
+  logAudit("إضافة رقم طباعة مقترح", `${label} - ${number}`);
+  $("print-number-label").value = ""; $("print-number-value").value = "";
+};
+if ($("add-ban-number")) $("add-ban-number").onclick = async () => {
+  if (!isOwner(auth.currentUser)) return;
+  const number = normalizePrintNumber($("ban-number-value").value);
+  if (number.length < 8) return;
+  await set(ref(db, `bannedPrintNumbers/${number}`), true);
+  logAudit("حظر رقم طباعة", number);
+  $("ban-number-value").value = "";
+};
+function whatsappSendPrint(numberInputId, statusId, triggerDownload) {
+  const number = normalizePrintNumber($(numberInputId).value);
+  if (number.length < 8) return status(statusId, "اكتب رقم واتساب صحيح بصيغة دولية، مثال: 9665xxxxxxxx.");
+  if (bannedNumbers.has(number)) return status(statusId, "هذا الرقم غير مسموح للإرسال.");
+  try { localStorage.setItem("sgWaNumber", number); } catch (_) {}
+  try { triggerDownload(); } catch (_) {}
+  const text = encodeURIComponent("مرفق ملف من Smart Guardian للطباعة، الرجاء التنفيذ.");
+  window.open(`https://wa.me/${number}?text=${text}`, "_blank");
+  status(statusId, "فُتح واتساب لك — أرفق الملف الذي تم تحميله للتو (زر 📎) وأرسله.");
+}
+let savedWaNumber = ""; try { savedWaNumber = localStorage.getItem("sgWaNumber") || ""; } catch (_) {}
+if ($("wa-number-notes")) $("wa-number-notes").value = savedWaNumber;
+if ($("wa-number-pdf")) $("wa-number-pdf").value = savedWaNumber;
+if ($("wa-send-notes")) $("wa-send-notes").onclick = () => whatsappSendPrint("wa-number-notes", "wa-status-notes", () => $("export-notes").click());
+if ($("wa-send-pdf")) $("wa-send-pdf").onclick = () => whatsappSendPrint("wa-number-pdf", "wa-status-pdf", () => $("download-highlighted-pdf").click());
 async function adminLogin() {
   if (!adminRoute) { location.href = "./admin.html"; return; }
   if (isAdmin(auth.currentUser)) { $("admin-panel").hidden = false; $("admin-panel").open = true; $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" }); return; }
@@ -754,9 +1729,9 @@ $("admin-logout").onclick = () => signOut(auth);
 $("admin-more").onclick = () => { adminExpanded = !adminExpanded; limitAdminItems(); };
 $("admin-message-badge").onclick = readAdminMessages;
 async function syncAdminSession(user) {
-  grantedAdmin = false;
+  grantedAdmin = false; adminPermissions = {};
   if (user && !isOwner(user)) {
-    try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; }
+    try { const snapshot = await get(ref(db, `admins/${user.uid}`)), grant = snapshot.val(); grantedAdmin = Boolean(grant?.active && (!grant.expiresAt || Number(grant.expiresAt) > Date.now())); adminPermissions = grantedAdmin ? (grant.permissions || { feedback: true, ratings: true, liveAlerts: false }) : {}; if (!grantedAdmin) await requestAdminAccess(user); } catch (_) { grantedAdmin = false; adminPermissions = {}; }
   }
   const allowed = isAdmin(user), owner = isOwner(user), showAdmin = allowed && !homeRoute;
   $("admin-panel").hidden = !showAdmin; $("admin-logout").hidden = !showAdmin;
@@ -764,9 +1739,17 @@ async function syncAdminSession(user) {
   $("admin-access-panel").hidden = !owner;
   $("admin-visitor-panel").hidden = !owner;
   $("admin-card-titles").hidden = !owner;
+  $("admin-audit-panel").hidden = !owner;
+  $("admin-live-alerts-panel").hidden = !(owner || (allowed && adminPermissions.liveAlerts));
+  $("admin-panic-panel").hidden = !owner;
+  $("admin-print-panel").hidden = !owner;
+  $("admin-ad-panel").hidden = !owner;
+  $("admin-feedback-panel").hidden = !(showAdmin && (owner || adminPermissions.feedback || adminPermissions.ratings));
+  $("admin-session-panel").hidden = !owner;
+  $("admin-prayer-panel").hidden = !owner;
   document.querySelector(".admin-mobile-link").hidden = !owner;
-  if (showAdmin) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); if (owner) subscribeAdminAccess(); else stopAdminAccess(); }
-  else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
+  if (showAdmin) { $("admin-panel").open = true; requestAnimationFrame(() => $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" })); startAdminPresence(user); notifyOwnerAboutUpdate(); updateAdminMessageBadge(); adminStatus(`مرحبًا ${user.displayName || "مدير الأداة"} — الاقتراحات والتقييمات تُحدّث مباشرة.`); subscribeAdminFeedback(); subscribeAdminRatings(); logAudit(owner ? "تسجيل دخول المالك" : "تسجيل دخول مشرف مؤقت"); if (owner) { subscribeAdminAccess(); subscribeAuditLog(); subscribeLiveAlerts(); stopGrantWatchFeed(); } else { stopAdminAccess(); stopAuditLogFeed(); stopLiveAlertsFeed(); watchOwnGrant(user); } startAutoLogoutTimer(); }
+  else { stopAdminPresence(); $("admin-message-badge").hidden = true; stopAdminFeedback?.(); stopAdminFeedback = null; stopAdminRatings?.(); stopAdminRatings = null; stopAdminAccess(); stopAuditLogFeed(); stopLiveAlertsFeed(); stopGrantWatchFeed(); stopAutoLogoutTimer(); subscribeOwnFeedback(user); if (user?.email) adminLoginMessage(`تم الدخول بالبريد ${user.email}. هذا الحساب يحتاج تفعيل المشرف الرئيسي.`); }
 }
 getRedirectResult(auth).then(result => { if (result?.user) return syncAdminSession(result.user); if (location.protocol !== "file:") adminLoginMessage(""); }).catch(error => { const messages = { "auth/operation-not-allowed": "فعّل Google من Firebase أولًا.", "auth/unauthorized-domain": "افتح الرابط المنشور للحارس الذكي ثم حاول." }; adminLoginMessage(messages[error.code] || "تعذر إكمال تسجيل Google."); });
 onAuthStateChanged(auth, user => { registerVisitor(user); syncAdminSession(user); });

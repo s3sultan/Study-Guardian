@@ -3,6 +3,7 @@
     "groups": { "$groupId": { ".read": "auth != null", ".write": "auth != null" } },
     "pdfSync": { "$syncCode": { ".read": "auth != null", ".write": "auth != null" } },
     "adminAllowlist": { ".read": "auth != null && auth.token.email == 's2shug@gmail.com'", ".write": "auth != null && auth.token.email == 's2shug@gmail.com'" },
+    "adminPermissionPresets": { ".read": "auth != null && auth.token.email == 's2shug@gmail.com'", ".write": "auth != null && auth.token.email == 's2shug@gmail.com'" },
     "adminRequests": {
       ".read": "auth != null && auth.token.email == 's2shug@gmail.com'",
       "$uid": { ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (auth.uid == $uid && newData.child('email').val() == auth.token.email && newData.child('requestedAt').isNumber()))" }
@@ -21,24 +22,51 @@
     },
     "appSettings": {
       ".read": true,
-      ".write": "auth != null && auth.token.email == 's2shug@gmail.com'"
+      "viewCount": {
+        ".write": "auth != null",
+        ".validate": "newData.isNumber() && newData.val() >= 0"
+      },
+      "$setting": {
+        ".write": "auth != null && auth.token.email == 's2shug@gmail.com'"
+      }
+    },
+    "supervisorNotices": {
+      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
+      "$noticeId": {
+        ".write": "auth != null && auth.token.email == 's2shug@gmail.com'",
+        "acks": {
+          "$uid": {
+            ".write": "auth != null && auth.uid == $uid && root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)"
+          }
+        }
+      }
     },
     "visitors": {
       ".read": true,
       "$uid": { ".write": "auth != null && auth.uid == $uid && !data.exists() && newData.child('firstSeen').isNumber()" }
     },
+    "visitEvents": {
+      ".read": true,
+      "$eventId": {
+        ".write": "auth != null && !data.exists() && newData.child('uid').val() == auth.uid && newData.child('at').isNumber()"
+      }
+    },
     "feedback": {
-      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
+      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && root.child('admins').child(auth.uid).child('permissions').child('feedback').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
       "$feedbackId": {
         ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)) || data.child('ownerUid').val() == auth.uid)",
-        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)) || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('text').isString() && newData.child('text').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
+        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && root.child('admins').child(auth.uid).child('permissions').child('feedback').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)) || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('text').isString() && newData.child('text').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
       }
     },
     "ratings": {
-      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
+      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && root.child('admins').child(auth.uid).child('permissions').child('ratings').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
       "$ratingId": {
-        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)) || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('score').isNumber() && newData.child('score').val() >= 1 && newData.child('score').val() <= 5 && newData.child('comment').isString() && newData.child('comment').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
+        ".write": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && root.child('admins').child(auth.uid).child('permissions').child('ratings').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)) || (!data.exists() && newData.child('ownerUid').val() == auth.uid && newData.child('score').isNumber() && newData.child('score').val() >= 1 && newData.child('score').val() <= 5 && newData.child('comment').isString() && newData.child('comment').val().length <= 1000 && newData.child('author').isString() && newData.child('author').val().length <= 30 && newData.child('createdAt').isNumber()))"
       }
+    },
+    "liveAlerts": {
+      ".read": "auth != null && (auth.token.email == 's2shug@gmail.com' || (root.child('admins').child(auth.uid).child('active').val() == true && root.child('admins').child(auth.uid).child('permissions').child('liveAlerts').val() == true && (root.child('admins').child(auth.uid).child('expiresAt').val() == 0 || root.child('admins').child(auth.uid).child('expiresAt').val() > now)))",
+      "$alertId": { ".write": "auth != null && !data.exists() && newData.child('type').isString() && newData.child('time').isNumber()" }
     }
   }
 }

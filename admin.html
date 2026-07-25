@@ -2,13 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>إدارة الحارس الذكي</title>
-  <style>body{margin:0;min-height:100vh;background:#eef4ff;font-family:Tahoma,Arial,sans-serif;color:#102a5c}.page-head{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#102a5c;color:#fff}.home{display:grid;width:36px;height:36px;place-items:center;border-radius:9px;background:#ffffff18;color:#fff;text-decoration:none;font-size:21px}.page-head strong{font-size:16px}.gate{width:min(390px,calc(100% - 40px));margin:clamp(45px,12vh,100px) auto;padding:28px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 14px 38px #102a5c22}.gate img{width:min(280px,100%)}button{width:100%;margin-top:22px;padding:13px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-size:16px;font-weight:800;cursor:pointer}p{min-height:22px;color:#64748b;font-size:13px;line-height:1.7}#dashboard{height:calc(100vh - 60px)}iframe{display:block;width:100%;height:100%;border:0}</style>
+  <title>إدارة الحارس الذكي — Smart Guardian</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlNtYXJ0IEd1YXJkaWFuIG1hcmsiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzZy1iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNTBmMmMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMGEwNzE0Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzZy1hdXJvcmEiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjN2M2YmZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMzNlMGZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmNWZhZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ic2ctZ2xvdyIgY3g9IjUwJSIgY3k9IjM4JSIgcj0iNjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMzNlMGZmIiBzdG9wLW9wYWNpdHk9Ii4zNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzM2UwZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9Ijk4IiBoZWlnaHQ9Ijk4IiByeD0iMjQiIGZpbGw9InVybCgjc2ctYmcpIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI0MiIgcj0iMzQiIGZpbGw9InVybCgjc2ctZ2xvdykiLz4KICA8cGF0aCBkPSJNNTAgMTggTDc2IDI5IFY1MCBDNzYgNjcgNjUgNzggNTAgODQgQzM1IDc4IDI0IDY3IDI0IDUwIFYyOSBaIgogICAgICAgIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNzZy1hdXJvcmEpIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8ZyBzdHJva2U9InVybCgjc2ctYXVyb3JhKSIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIuOCI+CiAgICA8cGF0aCBkPSJNMzcgNTcgTDUwIDQ1IEw2NCA0MCIvPgogIDwvZz4KICA8Y2lyY2xlIGN4PSIzNyIgY3k9IjU3IiByPSI0LjIiIGZpbGw9IiMwYTA3MTQiIHN0cm9rZT0iIzMzZTBmZiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjQ1IiByPSIzLjQiIGZpbGw9IiMwYTA3MTQiIHN0cm9rZT0iIzdjNmJmZiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz4KICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjQwIiByPSI0LjYiIGZpbGw9IiMwYTA3MTQiIHN0cm9rZT0iI2ZmNWZhZSIgc3Ryb2tlLXdpZHRoPSIyLjQiLz4KICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjQwIiByPSIxLjYiIGZpbGw9IiNmZjVmYWUiLz4KPC9zdmc+Cg==">
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0a0714;--bg-soft:#0e0a1e;--surface:#150f2c;--surface-2:#1c1442;--border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.2);--ink:#f3f1fb;--ink-dim:#c7c1e6;--muted:#8c85ad;--v:#7c6bff;--c:#33e0ff;--m:#ff5fae;--aurora:linear-gradient(120deg,#7c6bff,#33e0ff 55%,#ff5fae)}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(1100px 640px at 12% -12%,rgba(124,107,255,.22),transparent 60%),radial-gradient(900px 560px at 100% 112%,rgba(51,224,255,.16),transparent 60%),var(--bg);font-family:'Tajawal',Tahoma,Arial,sans-serif;color:var(--ink)}
+    .page-head{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--bg-soft);color:var(--ink);border-bottom:1px solid var(--border);box-shadow:0 6px 18px rgba(3,2,10,.4)}
+    .home{display:grid;width:38px;height:38px;place-items:center;border-radius:10px;background:var(--surface-2);color:var(--ink);text-decoration:none;font-size:19px;transition:border-color .15s;border:1px solid var(--border)}
+    .home:hover{border-color:var(--c);color:var(--c)}
+    .page-head strong{font-family:'Almarai',sans-serif;font-size:16px;font-weight:800;background:var(--aurora);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .gate{width:min(400px,calc(100% - 40px));margin:clamp(45px,12vh,100px) auto;padding:34px 30px;border-radius:26px;background:var(--surface);text-align:center;box-shadow:0 30px 70px rgba(2,1,8,.6);border:1px solid var(--border)}
+    .gate img{width:min(260px,100%);border-radius:18px}
+    .gate h1{font-family:'Almarai',sans-serif;font-size:20px;margin:20px 0 4px;color:var(--ink)}
+    button{width:100%;margin-top:22px;padding:13px;border:0;border-radius:14px;background:var(--aurora);color:#0a0714;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 0 0 1px rgba(124,107,255,.35),0 14px 32px rgba(124,107,255,.22);transition:filter .15s,transform .1s}
+    button:hover{filter:brightness(1.08)}
+    button:active{transform:scale(.98)}
+    p{min-height:22px;color:var(--muted);font-size:13px;line-height:1.7}
+    #dashboard{height:calc(100vh - 62px)}
+    iframe{display:block;width:100%;height:100%;border:0}
+  </style>
 </head>
 <body>
   <script>if (location.protocol === "file:") location.replace("https://study-guardian-groups.web.app/admin.html");</script>
   <header class="page-head"><a class="home" href="./index.html?home=1" aria-label="العودة للرئيسية">⌂</a><strong id="page-title">إدارة الحارس الذكي</strong></header>
-  <main id="gate" class="gate"><img src="smart-guardian-logo.svg" alt="Smart Guardian — الحارس الذكي"><h1 id="gate-title">إدارة الحارس الذكي</h1><p id="status">سجّل بحساب Google الخاص بالإدارة.</p><button id="login" type="button">دخول الإدارة</button></main>
+  <main id="gate" class="gate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-labelledby="sg-title sg-desc">
+  <title id="sg-title">Smart Guardian - الحارس الذكي</title>
+  <desc id="sg-desc">شعار درع شبكي بتدرج بنفسجي-سماوي-وردي على خلفية داكنة</desc>
+  <defs>
+    <linearGradient id="lg-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#150f2c"/>
+      <stop offset="1" stop-color="#0a0714"/>
+    </linearGradient>
+    <linearGradient id="lg-aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c6bff"/>
+      <stop offset=".55" stop-color="#33e0ff"/>
+      <stop offset="1" stop-color="#ff5fae"/>
+    </linearGradient>
+    <radialGradient id="lg-glow" cx="16%" cy="30%" r="55%">
+      <stop offset="0" stop-color="#33e0ff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#33e0ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="636" height="156" rx="28" fill="url(#lg-bg)"/>
+  <circle cx="95" cy="60" r="70" fill="url(#lg-glow)"/>
+
+  <g transform="translate(38,28)">
+    <path d="M50 0 L94 15 V46 C94 68 79 84 50 94 C21 84 6 68 6 46 V15 Z"
+          fill="none" stroke="url(#lg-aurora)" stroke-width="4.4" stroke-linejoin="round"/>
+    <g stroke="url(#lg-aurora)" stroke-width="2" opacity=".85">
+      <path d="M27 55 L50 42 L73 36"/>
+    </g>
+    <circle cx="27" cy="55" r="4.4" fill="#0a0714" stroke="#33e0ff" stroke-width="2.6"/>
+    <circle cx="50" cy="42" r="3.6" fill="#0a0714" stroke="#7c6bff" stroke-width="2.6"/>
+    <circle cx="73" cy="36" r="4.8" fill="#0a0714" stroke="#ff5fae" stroke-width="2.6"/>
+    <circle cx="73" cy="36" r="1.7" fill="#ff5fae"/>
+  </g>
+
+  <text x="168" y="70" fill="#f3f1fb" font-family="Segoe UI, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing=".3">Smart Guardian</text>
+  <text x="170" y="104" fill="#b6aee0" font-family="Tahoma, Arial, sans-serif" font-size="26" font-weight="600">الحارس الذكي</text>
+  <text x="170" y="130" fill="#6b6483" font-family="Segoe UI, Arial, sans-serif" font-size="12">© sultan alharbi</text>
+</svg><h1 id="gate-title">إدارة الحارس الذكي</h1><p id="status">سجّل بحساب Google الخاص بالإدارة.</p><button id="login" type="button">دخول الإدارة</button></main>
   <section id="dashboard" hidden><iframe title="لوحة إدارة الحارس الذكي" src="./?admin=1&embedded=1"></iframe></section>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
