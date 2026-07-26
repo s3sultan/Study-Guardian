@@ -42,7 +42,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
-const app=initializeApp({apiKey:"AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek",authDomain:"study-guardian-groups.web.app",databaseURL:"https://study-guardian-groups-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"study-guardian-groups",appId:"1:499313905189:web:589c4dfade509c853779cc"});
+const app=initializeApp({apiKey:"AIzaSyAUjRlZmePLlKKRDS8JdM4i9r0eCXcnoek",authDomain:"study-guardian-groups.firebaseapp.com",databaseURL:"https://study-guardian-groups-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"study-guardian-groups",appId:"1:499313905189:web:589c4dfade509c853779cc"});
 const auth=getAuth(app),db=getDatabase(app),provider=new GoogleAuthProvider();
 await setPersistence(auth,browserLocalPersistence).catch(()=>{});
 provider.setCustomParameters({prompt:"select_account"});
@@ -71,14 +71,12 @@ if(redirectUser)await finish(redirectUser);
 onAuthStateChanged(auth,user=>{if(!redirectUser)finish(user);});
 login.onclick=async()=>{
   login.disabled=true;statusEl.textContent="جاري فتح Google…";
-  const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   try{
     if(auth.currentUser?.isAnonymous)await signOut(auth);
-    if(isiOS){localStorage.setItem(PENDING,"1");await signInWithRedirect(auth,provider);return;}
     const result=await signInWithPopup(auth,provider);await finish(result.user);
   }catch(error){
     const fallback=["auth/popup-blocked","auth/cancelled-popup-request","auth/operation-not-supported-in-this-environment"];
-    if(fallback.includes(error?.code)){localStorage.setItem(PENDING,"1");try{await signInWithRedirect(auth,provider);return;}catch(_){}}
+    if(fallback.includes(error?.code)){login.disabled=false;statusEl.textContent="اسمح بالنوافذ المنبثقة لهذا الموقع، ثم اضغط دخول الإدارة مرة أخرى.";return;}
     login.disabled=false;statusEl.textContent=error?.code==="auth/popup-closed-by-user"?"أُغلقت نافذة Google قبل اكتمال الدخول.":"تعذر فتح Google. حاول مرة أخرى.";
   }
 };
