@@ -141,14 +141,14 @@ main{width:min(100%,1080px);min-height:100vh;margin:auto;padding:14px 24px 0}
 .quote-nav-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px;margin:0;padding:9px 14px 15px;background:var(--bg-soft);border-radius:0 0 var(--r-lg) var(--r-lg)}
 .ticker-spacer{flex:1}
 .quote-nav{display:flex;justify-content:center;gap:8px;flex:none}.quote-nav button{width:30px;height:28px;padding:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font-size:15px}.quote-nav button:hover{border-color:var(--c);color:var(--c);box-shadow:var(--glow-c)}
-.match-ticker{display:flex;align-items:center;gap:10px;min-width:0}
+.match-ticker{display:flex;align-items:center;gap:10px;min-width:0;min-height:40px;padding:7px 11px;border:1px solid rgba(124,107,255,.28);border-radius:13px;background:linear-gradient(135deg,#15102b,#0b1224);box-shadow:0 8px 20px rgba(8,6,20,.2)}
 .match-ticker.is-secondary{justify-content:flex-end}
-.ticker-teams{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.ticker-teams{font-size:12.5px;font-weight:800;color:#f5f4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
 .ticker-time{font-family:var(--font-mono);font-size:11.5px;color:var(--gold);white-space:nowrap;flex:none}
 .ticker-track{position:relative;flex:1;height:5px;min-width:60px;border-radius:999px;background:var(--surface-2);overflow:visible}
 .ticker-fill{position:absolute;inset:0;border-radius:999px;background:var(--aurora);width:0%}
 .ticker-marker{position:absolute;top:50%;right:0;width:20px;height:20px;border-radius:50%;transform:translate(50%,-50%);box-shadow:0 0 0 2px var(--bg-soft),0 2px 6px rgba(0,0,0,.3);transition:right .8s linear}
-@media (max-width:719px){.quote-nav-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:7px;padding:9px 8px 13px}.ticker-spacer{display:none}.match-ticker{margin-top:4px;gap:5px}.ticker-teams{max-width:74px;font-size:10px}.ticker-time{font-size:9px}.ticker-track{min-width:34px}}
+@media (max-width:719px){.quote-nav-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:7px;padding:9px 8px 13px}.ticker-spacer{display:none}.match-ticker{margin-top:4px;gap:5px;min-height:35px;padding:5px 7px;border-radius:11px}.ticker-teams{max-width:74px;font-size:10px}.ticker-time{font-size:9px}.ticker-track{min-width:34px}}
 
 /* ---------- شبكة المزايا — Bento غير متماثلة ---------- */
 .feature-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0 26px;align-items:start}
